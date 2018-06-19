@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" minHeight="420.0" minWidth="300.0" prefHeight="420.0" prefWidth="340.0" style="-fx-border-insets: 1; -fx-border-color: #505050;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+   <children>
+      <Pane opacity="0.95" prefHeight="420.0" prefWidth="340.0" style="-fx-background-color: #383738;">
+         <children>
+            <ImageView fitHeight="570.0" fitWidth="560.0" layoutX="-70.0" layoutY="-22.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/global-network.png" />
+               </image>
+            </ImageView>
+            <Text fill="#bfbdbd" layoutX="135.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Log In">
+               <font>
+                  <Font name="Segoe UI Semibold" size="22.0" />
+               </font>
+            </Text>
+            <Text fill="#da9898" layoutX="115.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot Password" underline="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <JFXButton fx:id="logInButton" layoutX="57.0" layoutY="306.0" onMousePressed="#logIn" prefHeight="25.0" prefWidth="227.0" style="-fx-background-color: #0893A5;" text="Log In" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXPasswordField fx:id="password" layoutX="57.0" layoutY="245.0" prefHeight="37.0" prefWidth="227.0" promptText="Password" stylesheets="@../res/jfx-password-field-login.css">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXPasswordField>
+            <JFXTextField fx:id="userNameText" focusColor="WHITE" layoutX="57.0" layoutY="191.0" prefHeight="25.0" prefWidth="227.0" promptText="User Name" stylesheets="@../res/jfx-text-field-login.css" unFocusColor="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="79.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/nsbm-logo.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="closeButtonPane" layoutX="308.0" layoutY="2.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="30.0" prefWidth="30.0">
+               <children>
+                  <ImageView fx:id="closeButton" fitHeight="30.0" fitWidth="30.0" onMousePressed="#exitFromLoginPanel" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/log-out.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Text fx:id="errorMessage" fill="#ff3f3f" layoutX="54.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Incorrect username and/or password" visible="false" wrappingWidth="233.9999971613288">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SubjectController">
+   <children>
+      <AnchorPane fx:id="subjectHomeAnchorPane" prefHeight="650.0" prefWidth="1156.0">
+         <children>
+            <Pane fx:id="businessPane" maxWidth="683.0" onMousePressed="#selectBusinessTab" prefHeight="50.0" prefWidth="385.33" style="-fx-background-color: #2B6CB7;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text fx:id="businessText" fill="WHITE" layoutX="103.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="School of Business">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="computingPane" layoutX="385.0" maxWidth="683.0" onMousePressed="#selectComputingTab" prefHeight="50.0" prefWidth="385.33" style="-fx-background-color: #E2E6EF;">
+               <children>
+                  <Text fx:id="computingText" fill="#7c7474" layoutX="90.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="School of Computing">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="engineeringPane" layoutX="771.0" maxWidth="683.0" onMousePressed="#selectEngineeringTab" prefHeight="50.0" prefWidth="385.33" style="-fx-background-color: #E2E6EF;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text fx:id="engineeringText" fill="#7c7474" layoutX="87.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="School of Engineering">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <AnchorPane fx:id="businessAnchorPane" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <TableView fx:id="businessTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="computingAnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <TableView fx:id="computingTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="engineeringAnchorPane" layoutX="20.0" layoutY="20.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <TableView fx:id="engineeringTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="addNewSubjectAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;">
+               <children>
+                  <Text fill="#505050" layoutX="457.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a New Subject">
+                     <font>
+                        <Font name="Segoe UI Semibold" size="28.0" />
+                     </font>
+                  </Text>
+                  <Pane layoutX="10.0" layoutY="2.0" prefHeight="45.0" prefWidth="45.0">
+                     <children>
+                        <ImageView fx:id="backFromAddSubject" fitHeight="30.0" fitWidth="30.0" layoutX="8.0" layoutY="8.0" onMousePressed="#backToSubjectButtonPressed" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/back.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="timeAllocationAnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="650.0" prefWidth="1156.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;">
+               <children>
+                  <Text fill="#505050" layoutX="457.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Allocation">
+                     <font>
+                        <Font name="Segoe UI Semibold" size="28.0" />
+                     </font>
+                  </Text>
+                  <Pane layoutX="10.0" layoutY="2.0" prefHeight="45.0" prefWidth="45.0">
+                     <children>
+                        <ImageView fx:id="backFromTimeAllocation" fitHeight="30.0" fitWidth="30.0" layoutX="8.0" layoutY="8.0" onMousePressed="#backToSubjectButtonPressed" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/back.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <JFXButton fx:id="addSubjectButton" onMousePressed="#addNewSubjectButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #FF3838;" text="Add a New Subject" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="273.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="timeAllocateButton" onMousePressed="#timeAllocateButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Time Allocate" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="483.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="subjectRemoveButton" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Remove" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="273.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

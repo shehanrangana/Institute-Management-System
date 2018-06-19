@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="583.0" prefWidth="1000.0" style="-fx-background-color: #E2E6EF; -fx-border-color: #505050; -fx-border-insets: 1;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+   <children>
+      <Pane layoutX="2.0" layoutY="28.0" prefHeight="194.0" prefWidth="998.0" style="-fx-background-color: #E2E6EF;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ImageView fitHeight="180.0" fitWidth="360.0" layoutX="319.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/nsbm-logo-2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="2.0" layoutY="237.0" prefHeight="360.0" prefWidth="1000.0" style="-fx-background-color: #59AAF5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Pane fx:id="subjectPane" layoutX="180.0" layoutY="195.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#goToSubjectInterface" prefHeight="130.0" prefWidth="180.0" style="-fx-background-color: #E2E6EF; -fx-background-radius: 5;">
+               <children>
+                  <ImageView fitHeight="78.0" fitWidth="78.0" layoutX="51.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/subject.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#3899ee" layoutX="57.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children></Pane>
+            <Pane fx:id="staffPane" layoutX="410.0" layoutY="37.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#goToStaffInterface" prefHeight="130.0" prefWidth="180.0" style="-fx-background-color: #E2E6EF; -fx-background-radius: 5;">
+               <children>
+                  <ImageView fitHeight="78.0" fitWidth="78.0" layoutX="51.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/staff.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#3899ee" layoutX="70.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Staff">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children></Pane>
+            <Pane fx:id="resultPane" layoutX="410.0" layoutY="194.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#goToResultInterface" prefHeight="130.0" prefWidth="180.0" style="-fx-background-color: #E2E6EF; -fx-background-radius: 5;">
+               <children>
+                  <ImageView fitHeight="78.0" fitWidth="78.0" layoutX="51.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/result.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#3899ee" layoutX="63.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Result">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children></Pane>
+            <Pane fx:id="coursePane" layoutX="640.0" layoutY="38.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#goToCourseInterface" prefHeight="130.0" prefWidth="180.0" style="-fx-background-color: #E2E6EF; -fx-background-radius: 5;">
+               <children>
+                  <ImageView fitHeight="78.0" fitWidth="78.0" layoutX="51.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/course.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#3899ee" layoutX="59.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children></Pane>
+            <Pane fx:id="paymentPane" layoutX="640.0" layoutY="195.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#goToPaymentInterface" prefHeight="130.0" prefWidth="180.0" style="-fx-background-color: #E2E6EF; -fx-background-radius: 5;">
+               <children>
+                  <ImageView fitHeight="78.0" fitWidth="78.0" layoutX="51.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/payment.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#3899ee" layoutX="52.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children></Pane>
+            <Pane fx:id="studentPane" layoutX="180.0" layoutY="35.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#goToStudentInterface" prefHeight="130.0" prefWidth="180.0" style="-fx-background-color: #E2E6EF; -fx-background-radius: 5; -fx-border-radius: 5;">
+               <children>
+                  <ImageView fitHeight="78.0" fitWidth="78.0" layoutX="51.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/student.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#3899ee" layoutX="55.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <Pane fx:id="logoutButton" layoutX="961.0" layoutY="4.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#logoutFromSystem" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #E2E6EF;" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/log-out.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="minimizeButton" layoutX="935.0" layoutY="2.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#minimizeWindow" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #E2E6EF;" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="2.0">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/minimize.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
