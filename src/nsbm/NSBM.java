@@ -14,7 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import controllers.LoginController;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 public class NSBM extends Application {
     
@@ -57,6 +58,16 @@ public class NSBM extends Application {
         }else{
             pane.setBackground(new Background(new BackgroundFill(Color.valueOf("#E2E6EF"), CornerRadii.EMPTY, Insets.EMPTY)));
         } 
+    }
+    
+    // Change color of tabs when pressed mouse
+    public static void changeTabColors(Pane pane1, Pane pane2, Text text1, Text text2, AnchorPane anchorPane1, AnchorPane anchorPane2){
+        pane1.setBackground(new Background(new BackgroundFill(Color.valueOf("#2B6CB7"), CornerRadii.EMPTY, Insets.EMPTY)));
+        pane2.setBackground(new Background(new BackgroundFill(Color.valueOf("#E2E6EF"), CornerRadii.EMPTY, Insets.EMPTY)));
+        text1.setFill(Color.valueOf("#FFFFFF"));
+        text2.setFill(Color.valueOf("#7c7474"));
+        anchorPane1.setVisible(true);
+        anchorPane2.setVisible(false);
     }
     
     // This function for move undecorated windows

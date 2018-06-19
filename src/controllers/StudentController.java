@@ -44,6 +44,8 @@ import models.AlResult;
 import models.PostgraduateStudent;
 import models.Qualifications;
 import models.UndergraduateStudent;
+import nsbm.NSBM;
+import static nsbm.NSBM.changeTabColors;
 
 public class StudentController implements Initializable {
     
@@ -85,12 +87,7 @@ public class StudentController implements Initializable {
     public ObservableList<UndergraduateStudent> getUgStudents(){
         
         ObservableList<UndergraduateStudent> ugStudentList = FXCollections.observableArrayList();
-        //Connection con = null;
-        try {
-            con = dbConnection.getConnection();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         String query = "SELECT student_id, initials, first_name, last_name, address_line_1, address_line_2, address_line_3, birthday, gender, email, nic,"
                        + "mobile, fixed, faculty_name, course_name FROM undergraduate";
         
@@ -121,12 +118,7 @@ public class StudentController implements Initializable {
     public ObservableList<PostgraduateStudent> getPgStudents(){
         
         ObservableList<PostgraduateStudent> pgStudentList = FXCollections.observableArrayList();
-        //Connection con = null;
-        try {
-            con = dbConnection.getConnection();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         String query = "SELECT student_id, initials, first_name, last_name, address_line_1, address_line_2, address_line_3, birthday, gender, email, nic,"
                        + "mobile, fixed, faculty_name, course_name FROM postgraduate";
         
@@ -157,11 +149,7 @@ public class StudentController implements Initializable {
     public ObservableList<AlResult> getAlResult(){
         
         ObservableList<AlResult> alResultList = FXCollections.observableArrayList();
-        try {
-            con = dbConnection.getConnection();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         String query = "SELECT stream, subject_1, result_1, subject_2, result_2, subject_3, result_3, rank, z_score FROM al_results";
         
         Statement st;
@@ -190,11 +178,7 @@ public class StudentController implements Initializable {
     public ObservableList<Qualifications> getQualifcationDetails(){
         
         ObservableList<Qualifications> qualificationDetails = FXCollections.observableArrayList();
-        try {
-            con = dbConnection.getConnection();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         String query = "SELECT qualification_type, institute, completion_year FROM qualifications";
         
         Statement st;
@@ -249,12 +233,7 @@ public class StudentController implements Initializable {
         // load the data into the undergraduate table
         undergraduateTable.setItems(getUgStudents());
         
-        undergraduatePane.setBackground(new Background(new BackgroundFill(Color.valueOf("#2B6CB7"), CornerRadii.EMPTY, Insets.EMPTY)));
-        postgraduatePane.setBackground(new Background(new BackgroundFill(Color.valueOf("#E2E6EF"), CornerRadii.EMPTY, Insets.EMPTY)));
-        undergraduateText.setFill(Color.valueOf("#FFFFFF"));
-        postgraduateText.setFill(Color.valueOf("#7c7474"));
-        ugAnchorPane.setVisible(true);
-        pgAnchorPane.setVisible(false);
+        changeTabColors(undergraduatePane, postgraduatePane, undergraduateText, postgraduateText, ugAnchorPane, pgAnchorPane); 
     }
     
     // Load postgraduates' details
@@ -272,12 +251,7 @@ public class StudentController implements Initializable {
         // load the data into the postgraduate table
         postgraduateTable.setItems(getPgStudents());
         
-        postgraduatePane.setBackground(new Background(new BackgroundFill(Color.valueOf("#2B6CB7"), CornerRadii.EMPTY, Insets.EMPTY)));
-        undergraduatePane.setBackground(new Background(new BackgroundFill(Color.valueOf("#E2E6EF"), CornerRadii.EMPTY, Insets.EMPTY)));
-        postgraduateText.setFill(Color.valueOf("#FFFFFF"));
-        undergraduateText.setFill(Color.valueOf("#7c7474"));
-        pgAnchorPane.setVisible(true);
-        ugAnchorPane.setVisible(false);
+        changeTabColors(postgraduatePane, undergraduatePane, postgraduateText, undergraduateText, pgAnchorPane, ugAnchorPane);
     }
     
     // Go to student registration form
@@ -311,14 +285,14 @@ public class StudentController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please select a row");
+                alert.setContentText("Please Select a Record");
                 alert.showAndWait();
             }else{
                  // Confirmation message
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Are you sure?");
+                alert.setContentText("Are You Sure?");
                 alert.showAndWait();
                 
                 if(alert.getResult().getText().equals("OK")){
@@ -532,7 +506,7 @@ public class StudentController implements Initializable {
         try {
             con = dbConnection.getConnection();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentRegistrationController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Default view is undergraduate

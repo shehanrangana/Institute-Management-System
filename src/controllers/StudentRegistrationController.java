@@ -217,17 +217,19 @@ public class StudentRegistrationController implements Initializable {
     }
     
     // Fill faculty ComboBox with database values
-    public void fillComboBoxWithFacultyNames(){
+    public void fillComboBoxWithFacultyNames(JFXComboBox cBox){
         //facultyComboBox.getItems().clear();
         try {
             String query = "SELECT faculty_name FROM faculty";
-            PreparedStatement ps = (PreparedStatement)con.prepareStatement(query);
+            PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 String fName = rs.getString("faculty_name");
-                facultyComboBox.getItems().addAll(fName);
+                cBox.getItems().addAll(fName);
+                System.out.println(fName);
             }
+            
         }catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -331,7 +333,7 @@ public class StudentRegistrationController implements Initializable {
         streamComboBox.getItems().addAll("Maths", "Bio", "Commerce", "Art");
         
         // Call two functions for fill the combo boxes
-        fillComboBoxWithFacultyNames();
+        fillComboBoxWithFacultyNames(facultyComboBox);
         fillComboBoxWithCourseNames();
     }     
 }
