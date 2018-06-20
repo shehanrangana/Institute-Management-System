@@ -1,7 +1,5 @@
 package models;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public class PostgraduateStudent extends UndergraduateStudent{
     
     public PostgraduateStudent(String studentId, String initials, String firstName, String lastName, String addressLine1, String addressLine2, String addressLine3,

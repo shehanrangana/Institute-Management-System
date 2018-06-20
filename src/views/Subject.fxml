@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -42,19 +45,46 @@
             </Pane>
             <AnchorPane fx:id="businessAnchorPane" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="businessTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                  <TableView fx:id="subjectTable" editable="true" layoutY="28.0" prefHeight="522.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                     <columns>
+                        <TableColumn fx:id="subjectCodeColumn" prefWidth="106.39074325561523" text="Subject Code" />
+                        <TableColumn fx:id="subjectNameColumn" prefWidth="257.17505645751953" text="Subject Name" />
+                        <TableColumn fx:id="alloTimeColumn" prefWidth="112.15164184570312" text="Allocated Time (H)" />
+                        <TableColumn fx:id="feeColumn" prefWidth="82.14022827148438" text="Fee" />
+                        <TableColumn fx:id="creditColumn" prefWidth="58.55059814453125" text="Credit" />
+                        <TableColumn fx:id="durationColumn" prefWidth="86.64105224609375" text="Duration (H)" />
+                        <TableColumn fx:id="locationColumn" prefWidth="92.48138427734375" text="Location" />
+                        <TableColumn fx:id="courseColumn" prefWidth="231.64990234375" text="Course" />
+                        <TableColumn fx:id="lecturerIdColumn" prefWidth="128.9696044921875" text="Lecturer ID" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy></TableView>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="computingAnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="computingTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                  <TableView fx:id="computingTable" editable="true" prefHeight="550.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="engineeringAnchorPane" layoutX="20.0" layoutY="20.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="engineeringTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                  <TableView fx:id="engineeringTable" editable="true" prefHeight="550.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
                </children>
             </AnchorPane>
+            <JFXRadioButton layoutX="937.0" layoutY="611.0" selected="true" text="Bachelor">
+               <toggleGroup>
+                  <ToggleGroup fx:id="courseType" />
+               </toggleGroup>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXRadioButton>
+            <JFXRadioButton layoutX="1052.0" layoutY="611.0" text="Master" toggleGroup="$courseType">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXRadioButton>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="addNewSubjectAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">

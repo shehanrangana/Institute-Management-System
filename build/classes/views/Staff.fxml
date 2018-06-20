@@ -34,7 +34,7 @@
             </Pane>
             <AnchorPane fx:id="lecturerAnchorPane" layoutY="50.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="lecturerTable" editable="true" fixedCellSize="100.0" prefHeight="550.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                  <TableView fx:id="lecturerTable" editable="true" prefHeight="550.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                      <columns>
                         <TableColumn fx:id="lecturerIdColumn" resizable="false" text="Lectuter ID" />
                         <TableColumn fx:id="lNameColumn" prefWidth="220.0" resizable="false" text="Name" />
@@ -58,7 +58,7 @@
                         <TableColumn fx:id="instructorIdColumn" resizable="false" text="Instructor ID" />
                         <TableColumn fx:id="iNameColumn" prefWidth="220.0" resizable="false" text="Name" />
                         <TableColumn fx:id="iMobileColumn" prefWidth="108.0" resizable="false" text="Mobile" />
-                        <TableColumn fx:id="iEmaiColumn" prefWidth="138.0" resizable="false" text="Email" />
+                        <TableColumn fx:id="iEmailColumn" prefWidth="138.0" resizable="false" text="Email" />
                         <TableColumn fx:id="iRoomColumn" prefWidth="89.0" resizable="false" text="Room" />
                         <TableColumn fx:id="iAddressLine1Column" prefWidth="133.0" text="Address Line 1" />
                         <TableColumn fx:id="iAddressLine2Column" prefWidth="182.0" resizable="false" text="Address Line 2" />
@@ -72,7 +72,7 @@
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="deleteButton" layoutX="483.0" layoutY="610.0" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="483.0">
+            <JFXButton fx:id="removeMember" layoutX="483.0" layoutY="610.0" onAction="#removeMemberButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="483.0">
                <font>
                   <Font size="15.0" />
                </font>

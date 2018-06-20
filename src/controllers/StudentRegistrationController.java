@@ -28,6 +28,7 @@ import javafx.scene.layout.Pane;
 
 public class StudentRegistrationController implements Initializable {
     
+    // Initialize variable for connection
     Connection con;
 
     @FXML AnchorPane stdRegAnchorPane;

@@ -24,7 +24,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -34,20 +33,21 @@ import static nsbm.NSBM.changeTabColors;
 
 public class CourseController implements Initializable {
     
+    // Initialize variable for connection
     Connection con;
 
     @FXML AnchorPane bachelorAnchorPane, masterAnchorPane, courseHomeAnchorPane, addNewCourseAnchorPane;
     @FXML Pane bachelorPane, masterPane;
     @FXML Text bachelorText, masterText;
     
-    // Bachelor view components
+    // Bachelor table components
     @FXML TableView<BachelorCourses> bachelorTable;
     @FXML TableColumn<BachelorCourses, String> bCourseNameColumn;
     @FXML TableColumn<BachelorCourses, Integer> bDurationColumn;
     @FXML TableColumn<BachelorCourses, Integer> bCreditLimitColumn;
     @FXML TableColumn<BachelorCourses, String> bFacultyColumn;
     
-    // Master view components
+    // Master table components
     @FXML TableView<MasterCourses> masterTable;
     @FXML TableColumn<MasterCourses, String> mCourseNameColumn;
     @FXML TableColumn<MasterCourses, Integer> mDurationColumn;
@@ -206,7 +206,7 @@ public class CourseController implements Initializable {
     }
     
     // Delete a record
-    public void removeCourseButtonPressed(ActionEvent event) throws SQLException{
+    public void removeCourseButtonPressed() throws SQLException{
         PreparedStatement ps = null;
         String course_name = null;
         try{

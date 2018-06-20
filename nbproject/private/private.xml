@@ -5,7 +5,8 @@
         <group>
             <file>file:/C:/Users/Shehan/Documents/NetBeansProjects/NSBM/src/nsbm/NSBM.java</file>
             <file>file:/C:/Users/Shehan/Documents/NetBeansProjects/NSBM/src/controllers/StaffController.java</file>
-            <file>file:/C:/Users/Shehan/Documents/NetBeansProjects/NSBM/src/controllers/StudentController.java</file>
+            <file>file:/C:/Users/Shehan/Documents/NetBeansProjects/NSBM/src/controllers/CourseController.java</file>
+            <file>file:/C:/Users/Shehan/Documents/NetBeansProjects/NSBM/src/models/Lecturer.java</file>
         </group>
     </open-files>
 </project-private>
