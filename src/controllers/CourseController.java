@@ -185,7 +185,6 @@ public class CourseController implements Initializable {
             }else if(toogleValue.equals("Master")){
                 ps = con.prepareStatement("INSERT INTO master(course_name, duration, credit_limit, faculty)" + "VALUES(?,?,?,?)");
             }
-            
             // Get values for graduate table
             ps.setString(1, courseNameTextField.getText());
             ps.setInt(2, Integer.parseInt(durationTextField.getText()));
@@ -193,8 +192,16 @@ public class CourseController implements Initializable {
             ps.setString(4, facultyComboBox.getValue().toString());
             
             ps.executeUpdate();
+            
+            // Back to courses view
+            backToCourseButtonPressed();
         }catch(Exception e){
-            e.printStackTrace();
+             // Error message
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all the fileds");
+            alert.showAndWait();
         } 
     }
     
@@ -247,7 +254,7 @@ public class CourseController implements Initializable {
     }
     
     // Back to courses pane
-    public void backToCourseButtonPressed(MouseEvent event){
+    public void backToCourseButtonPressed(){
         courseHomeAnchorPane.setVisible(true);
         addNewCourseAnchorPane.setVisible(false);
     }

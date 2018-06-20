@@ -114,7 +114,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXRadioButton fx:id="bachelorRadioButton" layoutX="320.0" layoutY="275.0" text="Bachelor">
+                  <JFXRadioButton fx:id="bachelorRadioButton" layoutX="320.0" layoutY="275.0" selected="true" text="Bachelor">
                      <font>
                         <Font size="15.0" />
                      </font>
