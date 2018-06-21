@@ -275,6 +275,50 @@ public class SubjectController implements Initializable {
         subjectHomeAnchorPane.setVisible(false);
     }
     
+    // Remove a subject from the system
+    public void subjectRemoveButtonPressed(){
+        PreparedStatement ps = null;
+        String subjectCode = null;
+        try{
+            // Check whether subject which is going to be deleted belong to 
+            ps = con.prepareStatement("DELETE FROM subject WHERE subject_code = ?");
+            subjectCode = subjectCodeColumn.getCellData(subjectTable.getSelectionModel().getSelectedItem());
+
+            if(subjectCode == null){
+                // Inform message
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please Select a Record");
+                alert.showAndWait();
+            }else{
+                 // Confirmation message
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are You Sure?");
+                alert.showAndWait();
+                
+                if(alert.getResult().getText().equals("OK")){
+                    ps.setString(1, subjectCode);
+                    ps.executeUpdate();
+                    fillColumns();
+                }else{
+                    ps.setString(1, null);
+                    ps.executeUpdate();
+                }
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace(); 
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Cannot remove selected course.\nSome students are currently following this course.");
+            alert.showAndWait();
+        }
+    }
+    
     // Back to subjects pane
     public void backToSubjectButtonPressed(MouseEvent event){
         subjectHomeAnchorPane.setVisible(true);
