@@ -1,10 +1,14 @@
 package controllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import database.dbConnection;
 import models.Subjects;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Toggle;
@@ -38,7 +43,7 @@ public class SubjectController implements Initializable {
     char school = 'b';
     String toogleValue = "Bachelor";
 
-    @FXML AnchorPane businessAnchorPane, computingAnchorPane, engineeringAnchorPane, subjectHomeAnchorPane, addNewSubjectAnchorPane, timeAllocationAnchorPane;
+    @FXML AnchorPane subjectHomeAnchorPane, addNewSubjectAnchorPane, timeAllocationAnchorPane;
     @FXML Pane businessPane, computingPane, engineeringPane;
     @FXML ImageView backFromAddSubject, backFromTimeAllocation;
     @FXML Text businessText, computingText, engineeringText;
@@ -57,6 +62,10 @@ public class SubjectController implements Initializable {
     @FXML TableColumn<Subjects, String> courseColumn;
     @FXML TableColumn<Subjects, String> lecturerIdColumn;
     
+    // Add new subject components
+    @FXML JFXTextField subCodeTextField, subNameTextField, alloTimeTextField, feeTextField, creditTextField, durationTextField, locationTextField;
+    @FXML JFXComboBox subTypeComboBox, semIdComboBox, courseComboBox, lecturerComboBox;
+    
     // This method will return an ObservableList lecturers
     public ObservableList<Subjects> getSubjectList(){
         String query = null;
@@ -65,7 +74,7 @@ public class SubjectController implements Initializable {
         switch (school) {
             case 'b':
                 if(toogleValue.equals("Bachelor")){
-                    query = "SELECT * FROM subject INNER JOIN bachelor ON subject.b_course_name = bachelor.course_name WHERE bachelor.faculty = 'School of Business'";
+                    query = "SELECT *, CONCAT('', b_course_name, m_course_name) AS course_name FROM subject INNER JOIN bachelor ON subject.b_course_name = bachelor.course_name WHERE bachelor.faculty = 'School of Business'";
                 }else if(toogleValue.equals("Master")){
                     query = "SELECT * FROM subject INNER JOIN master ON subject.m_course_name = master.course_name WHERE master.faculty = 'School of Business'";
                 }   
@@ -99,7 +108,7 @@ public class SubjectController implements Initializable {
             
             while(rs.next()){
                 subject = new Subjects(rs.getString("subject_code"), rs.getString("subject_name"), rs.getDouble("allocated_time"), rs.getDouble("fee"),
-                rs.getInt("credit"), rs.getDouble("duration"), rs.getString("location"), rs.getString("b_course_name"), rs.getString("lecturer_id")); 
+                rs.getInt("credit"), rs.getDouble("duration"), rs.getString("location"), rs.getString("course_name"), rs.getString("lecturer_id")); 
                 subjectList.add(subject);
             }
             
@@ -131,7 +140,7 @@ public class SubjectController implements Initializable {
         school = 'b';
         fillColumns();
         
-        changeTabColors(businessPane, computingPane, engineeringPane, businessText, computingText, engineeringText, businessAnchorPane, computingAnchorPane, engineeringAnchorPane);
+        changeTabColors(businessPane, computingPane, engineeringPane, businessText, computingText, engineeringText);
     }
     
     // Handle school of computing tab
@@ -139,7 +148,7 @@ public class SubjectController implements Initializable {
         school = 'c';
         fillColumns();
         
-        changeTabColors(computingPane, businessPane, engineeringPane, computingText, businessText, engineeringText, computingAnchorPane, businessAnchorPane, engineeringAnchorPane);
+        changeTabColors(computingPane, businessPane, engineeringPane, computingText, businessText, engineeringText);
     }
     
     // Handle school of engineering tab
@@ -147,13 +156,117 @@ public class SubjectController implements Initializable {
         school = 'e';
         fillColumns();
 
-        changeTabColors(engineeringPane, businessPane, computingPane, engineeringText, businessText, computingText, engineeringAnchorPane, businessAnchorPane, computingAnchorPane);
+        changeTabColors(engineeringPane, businessPane, computingPane, engineeringText, businessText, computingText);
+    }
+    
+    // Fill course ComboBox with database values
+    public void fillComboBoxWithCoursesNames(){
+        // Check the subject type using subTypeComboBox
+        subTypeComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            String query = "";
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newStdValue) {
+                try {
+                    courseComboBox.getItems().clear();
+                    if(newStdValue.equals("Bachelor Subject")){
+                        query = "SELECT course_name FROM bachelor";
+                    }else if(newStdValue.equals("Master Subject")){
+                        query = "SELECT course_name FROM master";
+                    }
+                    PreparedStatement ps = con.prepareStatement(query);
+                    ResultSet rs = ps.executeQuery();
+                    
+                    while (rs.next()) {
+                        String courseName = rs.getString("course_name");
+                        courseComboBox.getItems().addAll(courseName);
+                    }   
+                } catch (SQLException ex) {
+                    Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        }); 
+    }
+    
+    // Fill semester ComboBox with database values
+    public void fillComboBoxWithSemId(){
+        semIdComboBox.getItems().clear();
+        try {
+            String query = "SELECT semester_id FROM semester";
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                String semester = rs.getString("semester_id");
+                semIdComboBox.getItems().addAll(semester); 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Fill lecture ComboBox with database values
+    public void fillComboBoxWithLecturerId(){
+        lecturerComboBox.getItems().clear();
+        try {
+            String query = "SELECT lecturer_id FROM lecturer";
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                String lectuter = rs.getString("lecturer_id");
+                lecturerComboBox.getItems().addAll(lectuter); 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     // Switch to the add new subject pane
     public void addNewSubjectButtonPressed(){
+        fillComboBoxWithSemId();
+        fillComboBoxWithLecturerId();
+        
         addNewSubjectAnchorPane.setVisible(true);
         subjectHomeAnchorPane.setVisible(false);
+    }
+    
+    // Insert new subject to the database
+    public void addButtonPressed(){
+        PreparedStatement ps = null;
+        try{
+            if(subTypeComboBox.getValue().toString() == "Bachelor Subject"){
+                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, allocated_time, fee, credit, duration, location, semester_id, b_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?)");
+            }else if(subTypeComboBox.getValue().toString() == "Master Subject"){
+                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, allocated_time, fee, credit, duration, location, semester_id, m_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?)");
+            }
+            // Get values for subject table
+            ps.setString(1, subCodeTextField.getText());
+            ps.setString(2, subNameTextField.getText());
+            ps.setDouble(3, Double.parseDouble(alloTimeTextField.getText()));
+            ps.setDouble(4, Double.parseDouble(feeTextField.getText()));
+            ps.setInt(5, Integer.parseInt(creditTextField.getText()));
+            ps.setDouble(6, Double.parseDouble(durationTextField.getText()));
+            ps.setString(7, locationTextField.getText());
+            ps.setString(8, semIdComboBox.getValue().toString());
+            ps.setString(9, courseComboBox.getValue().toString());
+            ps.setString(10, lecturerComboBox.getValue().toString());
+            
+            ps.executeUpdate();
+            
+            // Back to courses view
+            fillColumns();
+            subjectHomeAnchorPane.setVisible(true);
+            addNewSubjectAnchorPane.setVisible(false);
+            
+        }catch(Exception e){
+             // Error message
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all the fileds");
+            alert.showAndWait();
+        }
     }
     
     // Switch to the time allocate pane
@@ -197,6 +310,10 @@ public class SubjectController implements Initializable {
                 }
             }
         });
+        
+        // Initialize items for combo boxes
+        subTypeComboBox.getItems().addAll("Bachelor Subject", "Master Subject");
+        fillComboBoxWithCoursesNames();
         
     }    
     

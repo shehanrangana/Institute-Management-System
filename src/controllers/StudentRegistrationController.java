@@ -218,7 +218,7 @@ public class StudentRegistrationController implements Initializable {
     }
     
     // Fill faculty ComboBox with database values
-    public void fillComboBoxWithFacultyNames(JFXComboBox cBox){
+    public void fillComboBoxWithFacultyNames(){
         //facultyComboBox.getItems().clear();
         try {
             String query = "SELECT faculty_name FROM faculty";
@@ -227,7 +227,7 @@ public class StudentRegistrationController implements Initializable {
 
             while (rs.next()) {
                 String fName = rs.getString("faculty_name");
-                cBox.getItems().addAll(fName);
+                facultyComboBox.getItems().addAll(fName);
                 System.out.println(fName);
             }
             
@@ -239,7 +239,7 @@ public class StudentRegistrationController implements Initializable {
     // Fill courses ComboBox with database values
     String coursesQuery = "";
     int stdTypeIndex = 0;
-    public void fillComboBoxWithCourseNames(){
+    public void fillComboBoxWithCoursesNames(){
         
         // Check the student type using stdTypeComboBox
         stdTypeComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -334,7 +334,7 @@ public class StudentRegistrationController implements Initializable {
         streamComboBox.getItems().addAll("Maths", "Bio", "Commerce", "Art");
         
         // Call two functions for fill the combo boxes
-        fillComboBoxWithFacultyNames(facultyComboBox);
-        fillComboBoxWithCourseNames();
+        fillComboBoxWithFacultyNames();
+        fillComboBoxWithCoursesNames();
     }     
 }
