@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -116,12 +117,13 @@
             </Pane>
             <Pane layoutX="284.0" layoutY="116.0" prefHeight="60.0" prefWidth="589.0" style="-fx-background-color: #99CC99;">
                <children>
-                  <Text fontSmoothingType="LCD" layoutX="113.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add as a" textAlignment="CENTER">
+                  <Text fontSmoothingType="LCD" layoutX="37.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add as a" textAlignment="CENTER">
                      <font>
                         <Font name="System Italic" size="17.0" />
                      </font>
                   </Text>
-                  <JFXComboBox fx:id="subTypeComboBox" layoutX="201.0" layoutY="15.0" prefHeight="31.0" prefWidth="275.0" promptText="Subject Type" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="2" />
+                  <JFXComboBox fx:id="subTypeComboBox" layoutX="125.0" layoutY="12.0" prefHeight="31.0" prefWidth="275.0" promptText="Subject Type" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="2" />
+                  <JFXCheckBox fx:id="compulsoryCheckBox" layoutX="466.0" layoutY="19.0" text="Compulsory" />
                </children>
             </Pane>
             <JFXTextField fx:id="subCodeTextField" layoutX="284.0" layoutY="210.0" prefHeight="31.0" prefWidth="275.0" promptText="Subject Code" AnchorPane.topAnchor="210.0">

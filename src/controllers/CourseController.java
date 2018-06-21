@@ -231,7 +231,7 @@ public class CourseController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Are You Sure?");
+                alert.setContentText("If there are some subjects related to this course will be deleted.\nDo you proceed ?");
                 alert.showAndWait();
                 
                 if(alert.getResult().getText().equals("OK")){

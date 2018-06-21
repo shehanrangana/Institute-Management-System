@@ -481,12 +481,12 @@ public class StudentController implements Initializable {
         }  
     }
     
-    // Save choosed subjects in the database
-    public void saveSubjects(){
-        // data save process code here
-        studentHomeAnchorPane.setVisible(true);
-        chooseSubjectsAnchorPane.setVisible(false);
-    }
+//    // Save choosed subjects in the database
+//    public void saveSubjects(){
+//        // data save process code here
+//        studentHomeAnchorPane.setVisible(true);
+//        chooseSubjectsAnchorPane.setVisible(false);
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

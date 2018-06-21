@@ -1,6 +1,7 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
@@ -65,6 +66,7 @@ public class SubjectController implements Initializable {
     // Add new subject components
     @FXML JFXTextField subCodeTextField, subNameTextField, alloTimeTextField, feeTextField, creditTextField, durationTextField, locationTextField;
     @FXML JFXComboBox subTypeComboBox, semIdComboBox, courseComboBox, lecturerComboBox;
+    @FXML JFXCheckBox compulsoryCheckBox;
     
     // This method will return an ObservableList lecturers
     public ObservableList<Subjects> getSubjectList(){
@@ -233,24 +235,31 @@ public class SubjectController implements Initializable {
     
     // Insert new subject to the database
     public void addButtonPressed(){
+        byte compulsory = 0;
+        System.out.println(compulsoryCheckBox.isSelected());
+        if(compulsoryCheckBox.isSelected()){
+            compulsory = 1;
+        }
+        
         PreparedStatement ps = null;
         try{
             if(subTypeComboBox.getValue().toString() == "Bachelor Subject"){
-                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, allocated_time, fee, credit, duration, location, semester_id, b_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?)");
+                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, compulsory, allocated_time, fee, credit, duration, location, semester_id, b_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             }else if(subTypeComboBox.getValue().toString() == "Master Subject"){
-                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, allocated_time, fee, credit, duration, location, semester_id, m_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?)");
+                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, compulsory, allocated_time, fee, credit, duration, location, semester_id, m_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             }
             // Get values for subject table
             ps.setString(1, subCodeTextField.getText());
             ps.setString(2, subNameTextField.getText());
-            ps.setDouble(3, Double.parseDouble(alloTimeTextField.getText()));
-            ps.setDouble(4, Double.parseDouble(feeTextField.getText()));
-            ps.setInt(5, Integer.parseInt(creditTextField.getText()));
-            ps.setDouble(6, Double.parseDouble(durationTextField.getText()));
-            ps.setString(7, locationTextField.getText());
-            ps.setString(8, semIdComboBox.getValue().toString());
-            ps.setString(9, courseComboBox.getValue().toString());
-            ps.setString(10, lecturerComboBox.getValue().toString());
+            ps.setByte(3, compulsory);
+            ps.setDouble(4, Double.parseDouble(alloTimeTextField.getText()));
+            ps.setDouble(5, Double.parseDouble(feeTextField.getText()));
+            ps.setInt(6, Integer.parseInt(creditTextField.getText()));
+            ps.setDouble(7, Double.parseDouble(durationTextField.getText()));
+            ps.setString(8, locationTextField.getText());
+            ps.setString(9, semIdComboBox.getValue().toString());
+            ps.setString(10, courseComboBox.getValue().toString());
+            ps.setString(11, lecturerComboBox.getValue().toString());
             
             ps.executeUpdate();
             
@@ -260,6 +269,7 @@ public class SubjectController implements Initializable {
             addNewSubjectAnchorPane.setVisible(false);
             
         }catch(Exception e){
+            e.printStackTrace();
              // Error message
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Message");
