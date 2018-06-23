@@ -32,7 +32,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pgAnchorPane" layoutX="10.0" layoutY="60.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+            <AnchorPane fx:id="pgAnchorPane" layoutX="10.0" layoutY="60.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
                   <TableView fx:id="postgraduateTable" layoutY="6.0" prefHeight="544.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                      <columns>
@@ -105,6 +105,7 @@
                         </ImageView>
                      </children>
                   </Pane>
+                  <Text fx:id="studentIdText" layoutX="162.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                </children>
             </Pane>
             <Pane layoutX="44.0" layoutY="79.0" prefHeight="575.0" prefWidth="563.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0">
@@ -118,25 +119,10 @@
                         </Text>
                      </children>
                   </Pane>
-                  <JFXTextField layoutX="111.0" layoutY="38.0" prefHeight="25.0" prefWidth="341.0" stylesheets="@../res/jfx-text-field-update-details.css">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextField layoutX="111.0" layoutY="78.0" prefHeight="25.0" prefWidth="341.0" stylesheets="@../res/jfx-text-field-update-details.css">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextField layoutX="111.0" layoutY="117.0" prefHeight="25.0" prefWidth="341.0" stylesheets="@../res/jfx-text-field-update-details.css">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXComboBox layoutX="111.0" layoutY="162.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
-                  <JFXComboBox layoutX="111.0" layoutY="212.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
-                  <JFXComboBox layoutX="111.0" layoutY="262.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
-                  <JFXComboBox layoutX="111.0" layoutY="312.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 4" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s01OpSubject1" layoutX="111.0" layoutY="174.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s01OpSubject2" layoutX="111.0" layoutY="221.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s01OpSubject3" layoutX="111.0" layoutY="268.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s01OpSubject4" layoutX="111.0" layoutY="315.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 4" stylesheets="@../res/jfx-combo-box-add-course.css" />
                   <Pane layoutX="14.0" layoutY="387.0" prefHeight="120.0" prefWidth="262.0" style="-fx-background-color: #CCCCCC;">
                      <children>
                         <Text fill="#19448a" layoutX="69.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL CREDITS">
@@ -144,7 +130,7 @@
                               <Font name="Segoe UI Semibold" size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="totalCredits" fill="#19448a" layoutX="104.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15">
+                        <Text fx:id="s01TotalCredits" fill="#19448a" layoutX="90.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="85.52736103534698">
                            <font>
                               <Font size="50.0" />
                            </font>
@@ -158,20 +144,23 @@
                               <Font name="Segoe UI Semibold" size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="amount" fill="#e84e4e" layoutX="20.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12000.00" textAlignment="CENTER" wrappingWidth="222.19140565395355">
+                        <Text fx:id="s01Amount" fill="#e84e4e" layoutX="20.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00" textAlignment="CENTER" wrappingWidth="222.19140565395355">
                            <font>
                               <Font size="50.0" />
                            </font>
                         </Text>
                      </children>
                   </Pane>
-                  <JFXButton layoutX="14.0" layoutY="515.0" prefHeight="37.0" prefWidth="535.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="CONFIRM" textFill="WHITE">
+                  <JFXButton fx:id="s01Confirm" layoutX="14.0" layoutY="515.0" onAction="#confirmButtonPressed" prefHeight="37.0" prefWidth="535.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="CONFIRM" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>
                   </JFXButton>
+                  <JFXComboBox fx:id="s01CompSubject1" layoutX="111.0" layoutY="33.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s01CompSubject2" layoutX="111.0" layoutY="80.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s01CompSubject3" layoutX="111.0" layoutY="127.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
                </children></Pane>
-            <Pane layoutX="578.0" layoutY="80.0" prefHeight="575.0" prefWidth="563.0" style="-fx-background-color: #eee;" AnchorPane.rightAnchor="10.0">
+            <Pane layoutX="587.0" layoutY="80.0" prefHeight="575.0" prefWidth="563.0" style="-fx-background-color: #eee;" AnchorPane.rightAnchor="10.0">
                <children>
                   <Pane layoutX="195.0" layoutY="-22.0" prefHeight="45.0" prefWidth="173.0" style="-fx-background-color: #99CC99;">
                      <children>
@@ -182,25 +171,10 @@
                         </Text>
                      </children>
                   </Pane>
-                  <JFXTextField layoutX="111.0" layoutY="38.0" prefHeight="25.0" prefWidth="341.0" stylesheets="@../res/jfx-text-field-update-details.css">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextField layoutX="111.0" layoutY="78.0" prefHeight="25.0" prefWidth="341.0" stylesheets="@../res/jfx-text-field-update-details.css">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextField layoutX="111.0" layoutY="117.0" prefHeight="25.0" prefWidth="341.0" stylesheets="@../res/jfx-text-field-update-details.css">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXComboBox layoutX="111.0" layoutY="162.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
-                  <JFXComboBox layoutX="111.0" layoutY="212.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
-                  <JFXComboBox layoutX="111.0" layoutY="262.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
-                  <JFXComboBox layoutX="111.0" layoutY="312.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 4" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s02OpSubject1" layoutX="111.0" layoutY="174.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s02OpSubject2" layoutX="111.0" layoutY="221.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s02OpSubject3" layoutX="111.0" layoutY="268.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s02OpSubject4" layoutX="111.0" layoutY="315.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 4" stylesheets="@../res/jfx-combo-box-add-course.css" />
                   <Pane layoutX="14.0" layoutY="387.0" prefHeight="120.0" prefWidth="262.0" style="-fx-background-color: #CCCCCC;">
                      <children>
                         <Text fill="#19448a" layoutX="69.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL CREDITS">
@@ -208,7 +182,7 @@
                               <Font name="Segoe UI Semibold" size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="totalCredits1" fill="#19448a" layoutX="104.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15">
+                        <Text fx:id="s02TotalCredits" fill="#19448a" layoutX="101.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="64.87207674980164">
                            <font>
                               <Font size="50.0" />
                            </font>
@@ -222,18 +196,21 @@
                               <Font name="Segoe UI Semibold" size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="amount1" fill="#e84e4e" layoutX="20.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12000.00" textAlignment="CENTER" wrappingWidth="222.19140565395355">
+                        <Text fx:id="s02Amount" fill="#e84e4e" layoutX="20.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00" textAlignment="CENTER" wrappingWidth="222.19140565395355">
                            <font>
                               <Font size="50.0" />
                            </font>
                         </Text>
                      </children>
                   </Pane>
-                  <JFXButton layoutX="14.0" layoutY="515.0" prefHeight="37.0" prefWidth="535.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="CONFIRM" textFill="WHITE">
+                  <JFXButton fx:id="s02Confirm" layoutX="14.0" layoutY="515.0" onAction="#confirmButtonPressed" prefHeight="37.0" prefWidth="535.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="CONFIRM" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>
                   </JFXButton>
+                  <JFXComboBox fx:id="s02CompSubject1" layoutX="111.0" layoutY="33.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s02CompSubject2" layoutX="111.0" layoutY="80.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
+                  <JFXComboBox fx:id="s02CompSubject3" layoutX="111.0" layoutY="127.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
                </children>
             </Pane>
          </children>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:id="chooseSubjectsAnchorPane" prefHeight="650.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SubjectSelectionController">
+   <children>
+      <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;">
+         <children>
+            <Text fill="#505050" layoutX="420.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose/Change Subjects">
+               <font>
+                  <Font name="Segoe UI Semibold" size="28.0" />
+               </font>
+            </Text>
+            <Pane layoutX="10.0" layoutY="3.0" prefHeight="45.0" prefWidth="45.0">
+               <children>
+                  <ImageView fx:id="backFromSubjects" fitHeight="30.0" fitWidth="30.0" layoutX="8.0" layoutY="8.0" onMousePressed="#backToStudent" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/back.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Text fx:id="studentIdText" layoutX="162.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+         </children>
+      </Pane>
+      <Pane layoutX="44.0" layoutY="79.0" prefHeight="575.0" prefWidth="563.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0">
+         <children>
+            <Pane layoutX="195.0" layoutY="-22.0" prefHeight="45.0" prefWidth="173.0" style="-fx-background-color: #99CC99;">
+               <children>
+                  <Text fill="WHITE" layoutX="32.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SEMESTER 1" textAlignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <JFXComboBox fx:id="s01OpSubject1" layoutX="111.0" layoutY="174.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s01OpSubject2" layoutX="111.0" layoutY="221.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s01OpSubject3" layoutX="111.0" layoutY="268.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s01OpSubject4" layoutX="111.0" layoutY="315.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 4" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <Pane layoutX="14.0" layoutY="387.0" prefHeight="120.0" prefWidth="262.0" style="-fx-background-color: #CCCCCC;">
+               <children>
+                  <Text fill="#19448a" layoutX="69.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL CREDITS">
+                     <font>
+                        <Font name="Segoe UI Semibold" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="s01TotalCredits" fill="#19448a" layoutX="90.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="85.52736103534698">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="287.0" layoutY="387.0" prefHeight="120.0" prefWidth="262.0" style="-fx-background-color: #CCCCCC;">
+               <children>
+                  <Text fill="#e84e4e" layoutX="46.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AMOUNT IN RUPEES">
+                     <font>
+                        <Font name="Segoe UI Semibold" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="s01Amount" fill="#e84e4e" layoutX="20.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00" textAlignment="CENTER" wrappingWidth="222.19140565395355">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <JFXButton fx:id="s01Confirm" layoutX="14.0" layoutY="515.0" onAction="#confirmButtonPressed" prefHeight="37.0" prefWidth="535.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="CONFIRM" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Semibold" size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXComboBox fx:id="s01CompSubject1" layoutX="111.0" layoutY="33.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s01CompSubject2" layoutX="111.0" layoutY="80.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s01CompSubject3" layoutX="111.0" layoutY="127.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
+         </children>
+      </Pane>
+      <Pane layoutX="587.0" layoutY="80.0" prefHeight="575.0" prefWidth="563.0" style="-fx-background-color: #eee;" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Pane layoutX="195.0" layoutY="-22.0" prefHeight="45.0" prefWidth="173.0" style="-fx-background-color: #99CC99;">
+               <children>
+                  <Text fill="WHITE" layoutX="32.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SEMESTER 2" textAlignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <JFXComboBox fx:id="s02OpSubject1" layoutX="111.0" layoutY="174.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s02OpSubject2" layoutX="111.0" layoutY="221.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s02OpSubject3" layoutX="111.0" layoutY="268.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s02OpSubject4" layoutX="111.0" layoutY="315.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 4" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <Pane layoutX="14.0" layoutY="387.0" prefHeight="120.0" prefWidth="262.0" style="-fx-background-color: #CCCCCC;">
+               <children>
+                  <Text fill="#19448a" layoutX="69.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL CREDITS">
+                     <font>
+                        <Font name="Segoe UI Semibold" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="s02TotalCredits" fill="#19448a" layoutX="101.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="64.87207674980164">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="287.0" layoutY="387.0" prefHeight="120.0" prefWidth="262.0" style="-fx-background-color: #CCCCCC;">
+               <children>
+                  <Text fill="#e84e4e" layoutX="46.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AMOUNT IN RUPEES">
+                     <font>
+                        <Font name="Segoe UI Semibold" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="s02Amount" fill="#e84e4e" layoutX="20.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00" textAlignment="CENTER" wrappingWidth="222.19140565395355">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <JFXButton fx:id="s02Confirm" layoutX="14.0" layoutY="515.0" onAction="#confirmButtonPressed" prefHeight="37.0" prefWidth="535.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="CONFIRM" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Semibold" size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXComboBox fx:id="s02CompSubject1" layoutX="111.0" layoutY="33.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s02CompSubject2" layoutX="111.0" layoutY="80.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXComboBox fx:id="s02CompSubject3" layoutX="111.0" layoutY="127.0" prefHeight="25.0" prefWidth="341.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

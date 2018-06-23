@@ -1,5 +1,7 @@
 package controllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import database.dbConnection;
 import java.io.IOException;
@@ -9,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +43,8 @@ public class StudentController implements Initializable {
     // Initialize variable for connection
     Connection con;
     
+    char student = 'u';
+    
     @FXML Pane undergraduatePane, postgraduatePane;
     @FXML AnchorPane ugAnchorPane, pgAnchorPane, stdRegAnchorPane, chooseSubjectsAnchorPane, studentHomeAnchorPane, detailsAndUpdateAnchorPane, studentAnchorPane;
     @FXML ImageView backFromSubjects, backFromMoreDetails, backFromStdRegistration;
@@ -63,6 +69,12 @@ public class StudentController implements Initializable {
     @FXML TableColumn<PostgraduateStudent, String> pEmailColumn;
     @FXML TableColumn<PostgraduateStudent, String> pNicColumn;
     @FXML TableColumn<PostgraduateStudent, String> pMobileColumn;
+    
+    // Subject select view componenets
+    @FXML JFXComboBox s01CompSubject1, s01CompSubject2, s01CompSubject3, s01OpSubject1, s01OpSubject2, s01OpSubject3, s01OpSubject4;
+    @FXML JFXComboBox s02CompSubject1, s02CompSubject2, s02CompSubject3, s02OpSubject1, s02OpSubject2, s02OpSubject3, s02OpSubject4;
+    @FXML Text studentIdText;
+    @FXML JFXButton s01Confirm, s02Confirm;
     
     // More details components
     @FXML Label studentIdLabel;
@@ -208,6 +220,7 @@ public class StudentController implements Initializable {
     
     // Load undergraduates' details
     public void selectTabU(){
+        student = 'u';
         
         // setup columns in the undergarduate table
         idColumn.setCellValueFactory(new PropertyValueFactory<UndergraduateStudent, String> ("studentId"));
@@ -226,6 +239,7 @@ public class StudentController implements Initializable {
     
     // Load postgraduates' details
     public void selectTabP(){
+        student = 'p';
         
         // setup columns in the postgraduate table
         pIdColumn.setCellValueFactory(new PropertyValueFactory<PostgraduateStudent, String> ("studentId"));
@@ -250,8 +264,200 @@ public class StudentController implements Initializable {
 
     // Switch to the choose/change subject pane
     public void chooseSubjects(){
-        chooseSubjectsAnchorPane.setVisible(true);
-        studentHomeAnchorPane.setVisible(false);
+        try{
+            if(student == 'u'){
+                index = undergraduateTable.getSelectionModel().selectedIndexProperty().get();
+                studentIdText.setText(getUgStudents().get(index).getStudentId());
+            }else if(student == 'p'){
+                index = postgraduateTable.getSelectionModel().selectedIndexProperty().get();
+                studentIdText.setText(getPgStudents().get(index).getStudentId());
+            }
+            fillCompulsory();
+            fillOptional();
+            chooseSubjectsAnchorPane.setVisible(true);
+            studentHomeAnchorPane.setVisible(false);
+        }catch(ArrayIndexOutOfBoundsException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a student");
+            alert.showAndWait();
+        }
+    }
+    
+    // Fill compulsory subjects with database values
+    PreparedStatement psS01, psS02;
+    ResultSet rsS01, rsS02;
+    String subject;
+    public void fillCompulsory(){
+        s01CompSubject1.getItems().clear();
+        s01CompSubject2.getItems().clear();
+        s01CompSubject3.getItems().clear();
+        s02CompSubject1.getItems().clear();
+        s02CompSubject2.getItems().clear();
+        s02CompSubject3.getItems().clear();
+
+        try {
+            if(student == 'u'){
+                psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND semester_id LIKE '%S01' AND student_id=?");
+                psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND semester_id LIKE '%S02' AND student_id=?");
+                psS01.setString(1, getUgStudents().get(index).getStudentId());
+                psS02.setString(1, getUgStudents().get(index).getStudentId());
+                
+                rsS01 = psS01.executeQuery();
+                rsS02 = psS02.executeQuery();
+                while (rsS01.next()) {
+                    subject = rsS01.getString("subject_name");
+                    s01CompSubject1.getItems().addAll(subject);
+                    s01CompSubject2.getItems().addAll(subject);
+                    s01CompSubject3.getItems().addAll(subject);
+                }
+                while (rsS02.next()) {
+                    subject = rsS02.getString("subject_name");
+                    s02CompSubject1.getItems().addAll(subject);
+                    s02CompSubject2.getItems().addAll(subject);
+                    s02CompSubject3.getItems().addAll(subject);
+                }
+            }else if(student == 'p'){
+                psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND semester_id LIKE '%S01' AND student_id=?");
+                psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND semester_id LIKE '%S02' AND student_id=?");
+                psS01.setString(1, getPgStudents().get(index).getStudentId());
+                psS02.setString(1, getPgStudents().get(index).getStudentId());
+
+                rsS01 = psS01.executeQuery();
+                rsS02 = psS02.executeQuery();
+                while (rsS01.next()) {
+                    subject = rsS01.getString("subject_name");
+                    s01CompSubject1.getItems().addAll(subject);
+                    s01CompSubject2.getItems().addAll(subject);
+                    s01CompSubject3.getItems().addAll(subject);
+                }
+                while (rsS02.next()) {
+                    subject = rsS02.getString("subject_name");
+                    s02CompSubject1.getItems().addAll(subject);
+                    s02CompSubject2.getItems().addAll(subject);
+                    s02CompSubject3.getItems().addAll(subject);
+                }
+            } 
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    // Fill optional subjects with database values
+    public void fillOptional(){
+        s01OpSubject1.getItems().clear();
+        s01OpSubject2.getItems().clear();
+        s01OpSubject3.getItems().clear();
+        s01OpSubject4.getItems().clear();
+        s02OpSubject1.getItems().clear();
+        s02OpSubject2.getItems().clear();
+        s02OpSubject3.getItems().clear();
+        s02OpSubject4.getItems().clear();
+        
+        try {
+            if(student == 'u'){
+                psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=0 AND semester_id LIKE '%S01' AND student_id=?");
+                psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=0 AND semester_id LIKE '%S02' AND student_id=?");
+                psS01.setString(1, getUgStudents().get(index).getStudentId());
+                psS02.setString(1, getUgStudents().get(index).getStudentId());
+                
+                rsS01 = psS01.executeQuery();
+                rsS02 = psS02.executeQuery();
+                while (rsS01.next()) {
+                    subject = rsS01.getString("subject_name");
+                    s01OpSubject1.getItems().addAll(subject);
+                    s01OpSubject2.getItems().addAll(subject);
+                    s01OpSubject3.getItems().addAll(subject);
+                    s01OpSubject4.getItems().addAll(subject);
+                }
+                while (rsS02.next()) {
+                    subject = rsS02.getString("subject_name");
+                    s02OpSubject1.getItems().addAll(subject);
+                    s02OpSubject2.getItems().addAll(subject);
+                    s02OpSubject3.getItems().addAll(subject);
+                    s02OpSubject4.getItems().addAll(subject);
+                }
+            }else if(student == 'p'){
+                psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=0 AND semester_id LIKE '%S01' AND student_id=?");
+                psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=0 AND semester_id LIKE '%S02' AND student_id=?");
+                psS01.setString(1, getPgStudents().get(index).getStudentId());
+                psS02.setString(1, getPgStudents().get(index).getStudentId());
+                
+                rsS01 = psS01.executeQuery();
+                rsS02 = psS02.executeQuery();
+                while (rsS01.next()) {
+                    subject = rsS01.getString("subject_name");
+                    s01OpSubject1.getItems().addAll(subject);
+                    s01OpSubject2.getItems().addAll(subject);
+                    s01OpSubject3.getItems().addAll(subject);
+                    s01OpSubject4.getItems().addAll(subject);
+                }
+                while (rsS02.next()) {
+                    subject = rsS02.getString("subject_name");
+                    s02OpSubject1.getItems().addAll(subject);
+                    s02OpSubject2.getItems().addAll(subject);
+                    s02OpSubject3.getItems().addAll(subject);
+                    s02OpSubject4.getItems().addAll(subject);
+                }
+            }
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    // Assign subjects
+    public void confirmButtonPressed(ActionEvent event){
+        String subjectCode = null;
+        List subjects = new ArrayList();
+        
+        // Store selected subject names in a list
+        if(event.getTarget() == s01Confirm){
+            
+            subjects.add(s01CompSubject1.getValue().toString());
+            subjects.add(s01CompSubject2.getValue().toString());
+            subjects.add(s01CompSubject3.getValue().toString());
+            subjects.add(s01OpSubject1.getValue().toString());
+            subjects.add(s01OpSubject2.getValue().toString());
+            subjects.add(s01OpSubject3.getValue().toString());
+            subjects.add(s01OpSubject4.getValue().toString());
+        }else if(event.getTarget() == s02Confirm){
+            
+            subjects.add(s02CompSubject1.getValue().toString());
+            subjects.add(s02CompSubject2.getValue().toString());
+            subjects.add(s02CompSubject3.getValue().toString());
+            subjects.add(s02OpSubject1.getValue().toString());
+            subjects.add(s02OpSubject2.getValue().toString());
+            subjects.add(s02OpSubject3.getValue().toString());
+            subjects.add(s02OpSubject4.getValue().toString());
+        }
+        
+        try {
+            PreparedStatement selectSubCode = null;
+            PreparedStatement ps = null;
+            
+            selectSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+            for(int i=0; i<subjects.size(); i++){
+                selectSubCode.setString(1, subjects.get(i).toString());
+                ResultSet rs = selectSubCode.executeQuery();
+            
+                while(rs.next()){
+                    subjectCode = rs.getString("subject_code");
+                }
+                
+                if(student == 'u'){
+                    ps = con.prepareStatement("INSERT INTO undergraduate_subject(student_id, subject_code)" + "VALUES(?,?)");
+                }else if(student == 'p'){
+                    ps = con.prepareStatement("INSERT INTO postgraduate_subject(student_id, subject_code)" + "VALUES(?,?)");
+                }
+                ps.setString(1, studentIdText.getText());
+                ps.setString(2, subjectCode);  
+                ps.executeUpdate();
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     // Delete a record

@@ -236,7 +236,6 @@ public class SubjectController implements Initializable {
     // Insert new subject to the database
     public void addButtonPressed(){
         byte compulsory = 0;
-        System.out.println(compulsoryCheckBox.isSelected());
         if(compulsoryCheckBox.isSelected()){
             compulsory = 1;
         }
