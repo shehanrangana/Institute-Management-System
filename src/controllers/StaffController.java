@@ -32,6 +32,7 @@ import models.BachelorCourses;
 import models.Instructor;
 import models.Lecturer;
 import models.MasterCourses;
+import static nsbm.NSBM.alerts;
 import static nsbm.NSBM.changeTabColors;
 
 public class StaffController implements Initializable {
@@ -171,11 +172,7 @@ public class StaffController implements Initializable {
             
             if(memberId == null){
                 // Inform message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please Select a Record");
-                alert.showAndWait();
+                alerts('I', "Message", null, "Please select a record");
             }else{
                  // Confirmation message
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

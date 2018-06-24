@@ -18,7 +18,7 @@ public class UndergraduateStudent {
     private SimpleStringProperty fixed;
     private SimpleStringProperty facultyName;
     private SimpleStringProperty courseName;  
-    
+
     // Constructor
     public UndergraduateStudent(String studentId, String initials, String firstName, String lastName, String addressLine1, String addressLine2, String addressLine3,
             String birthday, String gender, String email, String nic, String mobile, String fixed, String facultyName, String courseName){
@@ -100,6 +100,5 @@ public class UndergraduateStudent {
     public String getCourseName() {
         return courseName.get();
     }
-    
     
 }

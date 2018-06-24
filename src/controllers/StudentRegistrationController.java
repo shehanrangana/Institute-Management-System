@@ -25,6 +25,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import static nsbm.NSBM.alerts;
 
 public class StudentRegistrationController implements Initializable {
     
@@ -185,29 +186,15 @@ public class StudentRegistrationController implements Initializable {
                 }
                 
                 // Successfully data entered message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Data Inserted");
-                alert.showAndWait();
-                
+                alerts('I', "Message", null, "Data inserted");   
                 backToStudent();
                 
             } catch (SQLException ex) {
-                Logger.getLogger(StudentRegistrationController.class.getName()).log(Level.SEVERE, null, ex);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Entered ID already in database");
-                alert.showAndWait();    
+                alerts('I', "Message", null, "Entered ID already in database");   
             }
             
         }else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("One or more fields are empty");
-            alert.showAndWait();
+            alerts('I', "Message", null, "One or more fields are empty");
         }
     }
     

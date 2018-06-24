@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,6 +39,7 @@ import models.PostgraduateStudent;
 import models.Qualifications;
 import models.UndergraduateStudent;
 import static nsbm.NSBM.changeTabColors;
+import static nsbm.NSBM.alerts;
 
 public class StudentController implements Initializable {
     
@@ -71,10 +74,12 @@ public class StudentController implements Initializable {
     @FXML TableColumn<PostgraduateStudent, String> pMobileColumn;
     
     // Subject select view componenets
-    @FXML JFXComboBox s01CompSubject1, s01CompSubject2, s01CompSubject3, s01OpSubject1, s01OpSubject2, s01OpSubject3, s01OpSubject4;
-    @FXML JFXComboBox s02CompSubject1, s02CompSubject2, s02CompSubject3, s02OpSubject1, s02OpSubject2, s02OpSubject3, s02OpSubject4;
-    @FXML Text studentIdText;
-    @FXML JFXButton s01Confirm, s02Confirm;
+    @FXML JFXComboBox s01CompSubject1, s01CompSubject2, s01CompSubject3, s01OpSubject1, s01OpSubject2, s01OpSubject3, s01OpSubject4, semIdComboBox1;
+    @FXML JFXComboBox s02CompSubject1, s02CompSubject2, s02CompSubject3, s02OpSubject1, s02OpSubject2, s02OpSubject3, s02OpSubject4, semIdComboBox2;
+    @FXML Text studentIdText, s01TotalCreditText, s01Amount, s02Amount;
+    @FXML JFXButton s01ConfirmButton, s02ConfirmButton;
+    int s01TotalCredit = 0;
+    int s01TotalFee = 0;
     
     // More details components
     @FXML Label studentIdLabel;
@@ -264,6 +269,10 @@ public class StudentController implements Initializable {
 
     // Switch to the choose/change subject pane
     public void chooseSubjects(){
+        s01TotalCredit = 0;
+        s01TotalFee = 0;
+        s01TotalCreditText.setText("0");
+        s01Amount.setText("00.00");
         try{
             if(student == 'u'){
                 index = undergraduateTable.getSelectionModel().selectedIndexProperty().get();
@@ -272,16 +281,31 @@ public class StudentController implements Initializable {
                 index = postgraduateTable.getSelectionModel().selectedIndexProperty().get();
                 studentIdText.setText(getPgStudents().get(index).getStudentId());
             }
+            fillSemester();
             fillCompulsory();
             fillOptional();
             chooseSubjectsAnchorPane.setVisible(true);
             studentHomeAnchorPane.setVisible(false);
         }catch(ArrayIndexOutOfBoundsException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a student");
-            alert.showAndWait();
+            alerts('E', "Message", null, "Please select a student");
+        }
+    }
+    
+    // Fill semester combo boxes
+    public void fillSemester(){
+        semIdComboBox1.getItems().clear();
+        semIdComboBox2.getItems().clear();
+        
+        try{
+            PreparedStatement ps = con.prepareStatement("SELECT semester_id FROM semester");
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                semIdComboBox1.getItems().addAll(rs.getString("semester_id"));
+                semIdComboBox2.getItems().addAll(rs.getString("semester_id"));
+            }
+        }catch(SQLException ex){
+            ex.printStackTrace();
         }
     }
     
@@ -406,57 +430,121 @@ public class StudentController implements Initializable {
         }
     }
     
+
+    public void creditListenerBody(String newValue){
+        
+        PreparedStatement psSubCode = null;
+        ResultSet rsSubCode = null;
+        ResultSet rs = null;
+            try { 
+                psSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+                psSubCode.setString(1, newValue);
+                rsSubCode = psSubCode.executeQuery();
+                
+                while(rsSubCode.next()){
+                    System.out.println(rsSubCode.getString("subject_code"));
+                        
+                    PreparedStatement psCredit = con.prepareStatement("SELECT credit, fee FROM subject WHERE subject_code=?");
+                    psCredit.setString(1, rsSubCode.getString("subject_code"));
+                    
+                    rs = psCredit.executeQuery();
+                    
+                    while (rs.next()) {
+                        int credit = rs.getInt("credit");
+                        int fee = rs.getInt("fee");
+                        s01TotalCredit += credit;
+                        s01TotalFee += fee;
+                        s01TotalCreditText.setText(Integer.toString(s01TotalCredit));
+                        s01Amount.setText(Integer.toString(s01TotalFee));
+                    }       
+                }   
+                
+            }catch (SQLException ex) {
+                Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    //
+    public void s01ResetButtonPressed(){
+        chooseSubjects();
+    }
+
     // Assign subjects
     public void confirmButtonPressed(ActionEvent event){
         String subjectCode = null;
         List subjects = new ArrayList();
+        List semesters = new ArrayList();
+        List fees = new ArrayList();
         
-        // Store selected subject names in a list
-        if(event.getTarget() == s01Confirm){
-            
-            subjects.add(s01CompSubject1.getValue().toString());
-            subjects.add(s01CompSubject2.getValue().toString());
-            subjects.add(s01CompSubject3.getValue().toString());
-            subjects.add(s01OpSubject1.getValue().toString());
-            subjects.add(s01OpSubject2.getValue().toString());
-            subjects.add(s01OpSubject3.getValue().toString());
-            subjects.add(s01OpSubject4.getValue().toString());
-        }else if(event.getTarget() == s02Confirm){
-            
-            subjects.add(s02CompSubject1.getValue().toString());
-            subjects.add(s02CompSubject2.getValue().toString());
-            subjects.add(s02CompSubject3.getValue().toString());
-            subjects.add(s02OpSubject1.getValue().toString());
-            subjects.add(s02OpSubject2.getValue().toString());
-            subjects.add(s02OpSubject3.getValue().toString());
-            subjects.add(s02OpSubject4.getValue().toString());
-        }
+        PreparedStatement psSubCode = null;
+        PreparedStatement psInsert1 = null;
+        PreparedStatement psInsert2 = null;
         
-        try {
-            PreparedStatement selectSubCode = null;
-            PreparedStatement ps = null;
-            
-            selectSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+        try{
+            // Store selected subject names in a list
+            if(event.getTarget() == s01ConfirmButton){
+                if(semIdComboBox1.getValue() != null){
+                    semesters.add(semIdComboBox1.getValue().toString());
+                    fees.add(s01Amount.getText());
+                    subjects.add(s01CompSubject1.getValue().toString());
+                    subjects.add(s01CompSubject2.getValue().toString());
+                    subjects.add(s01CompSubject3.getValue().toString());
+                    subjects.add(s01OpSubject1.getValue().toString());
+                    subjects.add(s01OpSubject2.getValue().toString());
+                    subjects.add(s01OpSubject3.getValue().toString());
+                    subjects.add(s01OpSubject4.getValue().toString());
+                }else{
+                    alerts('E', "Message", null, "Please select a semester");
+                }
+            }else if(event.getTarget() == s02ConfirmButton){  
+                if(semIdComboBox2.getValue() != null){
+                    semesters.add(semIdComboBox2.getValue().toString());
+                    fees.add(s02Amount.getText());
+                    subjects.add(s02CompSubject1.getValue().toString());
+                    subjects.add(s02CompSubject2.getValue().toString());
+                    subjects.add(s02CompSubject3.getValue().toString());
+                    subjects.add(s02OpSubject1.getValue().toString());
+                    subjects.add(s02OpSubject2.getValue().toString());
+                    subjects.add(s02OpSubject3.getValue().toString());
+                    subjects.add(s02OpSubject4.getValue().toString());
+                }else{
+                    alerts('E', "Message", null, "Please select a semester");
+                }
+            }
+
+            psSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
             for(int i=0; i<subjects.size(); i++){
-                selectSubCode.setString(1, subjects.get(i).toString());
-                ResultSet rs = selectSubCode.executeQuery();
-            
+                psSubCode.setString(1, subjects.get(i).toString());
+                ResultSet rs = psSubCode.executeQuery();
+
                 while(rs.next()){
                     subjectCode = rs.getString("subject_code");
                 }
-                
+
                 if(student == 'u'){
-                    ps = con.prepareStatement("INSERT INTO undergraduate_subject(student_id, subject_code)" + "VALUES(?,?)");
+                    psInsert1 = con.prepareStatement("INSERT INTO undergraduate_subject(student_id, subject_code)" + "VALUES(?,?)");                               
                 }else if(student == 'p'){
-                    ps = con.prepareStatement("INSERT INTO postgraduate_subject(student_id, subject_code)" + "VALUES(?,?)");
+                    psInsert1 = con.prepareStatement("INSERT INTO postgraduate_subject(student_id, subject_code)" + "VALUES(?,?)");             
                 }
-                ps.setString(1, studentIdText.getText());
-                ps.setString(2, subjectCode);  
-                ps.executeUpdate();
+                psInsert1.setString(1, studentIdText.getText());
+                psInsert1.setString(2, subjectCode);
+                psInsert1.executeUpdate();
             }
-            
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            for(int i=0; i<semesters.size(); i++){
+                if(student == 'u'){
+                    psInsert2 = con.prepareStatement("INSERT INTO undergraduate_semester(semester_id, student_id, amount)" + "VALUES(?,?,?)");
+                }else if(student == 'p'){
+                    psInsert2 = con.prepareStatement("INSERT INTO postgraduate_semester(semester_id, student_id, amount)" + "VALUES(?,?,?)");
+                }
+                psInsert2.setString(1, semesters.get(i).toString());
+                psInsert2.setString(2, studentIdText.getText());
+                psInsert2.setDouble(3, Double.parseDouble(fees.get(i).toString()));
+                System.out.println(Double.parseDouble(fees.get(i).toString()));
+                psInsert2.executeUpdate();
+            }
+        } catch (NumberFormatException | SQLException ex) {
+             // Error message
+            alerts('E', "Message", null, "Please fill all the fields correctly");
         }
     }
     
@@ -475,12 +563,8 @@ public class StudentController implements Initializable {
             }
             
             if(student_id == null){
-                // Inform message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please Select a Record");
-                alert.showAndWait();
+                // Information message
+                alerts('I', "Message", null, "Please Select a Record");
             }else{
                  // Confirmation message
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -583,11 +667,7 @@ public class StudentController implements Initializable {
 
                 fillTextFields();
             }catch(Exception e){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please select a student");
-                alert.showAndWait();
+                alerts('E', "Message", null, "Please select a student");
             }
         }  
     }
@@ -667,11 +747,7 @@ public class StudentController implements Initializable {
         
         if(editbuttonClicked == 1){
             editbuttonClicked = 0;
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Details Updated Successfully");
-            alert.showAndWait();
+            alerts('I', "Message", null, "Details updated successfully");
         }   
     }
     
@@ -686,13 +762,6 @@ public class StudentController implements Initializable {
             detailsAndUpdateAnchorPane.setVisible(false);
         }  
     }
-    
-//    // Save choosed subjects in the database
-//    public void saveSubjects(){
-//        // data save process code here
-//        studentHomeAnchorPane.setVisible(true);
-//        chooseSubjectsAnchorPane.setVisible(false);
-//    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -702,8 +771,60 @@ public class StudentController implements Initializable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         // Default view is undergraduate
         selectTabU();
+
+        s01CompSubject1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                creditListenerBody(newValue);
+                System.out.println(newValue);
+            }
+            
+        });        
+        s01CompSubject2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                creditListenerBody(newValue);
+                System.out.println(newValue);
+            } 
+        });
+        s01CompSubject3.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                creditListenerBody(newValue);
+                System.out.println(newValue);
+            } 
+        });
+        s01OpSubject1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                creditListenerBody(newValue);
+                System.out.println(newValue);
+            } 
+        });
+        s01OpSubject2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                creditListenerBody(newValue);
+                System.out.println(newValue);
+            } 
+        });
+        s01OpSubject3.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                creditListenerBody(newValue);
+                System.out.println(newValue);
+            } 
+        });
+        s01OpSubject4.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                creditListenerBody(newValue);
+                System.out.println(newValue);
+            } 
+        });
+        
     }
 }

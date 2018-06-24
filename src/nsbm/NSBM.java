@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -99,6 +100,26 @@ public class NSBM extends Application {
                 stage.setY(event.getScreenY() - yOffset);
             }
         });
+    }
+    
+    // Alert messeges 
+    public static void alerts(char alertType, String message, String header, String content){
+        Alert alert = null;
+        if(alertType == 'C'){
+           alert = new Alert(Alert.AlertType.CONFIRMATION); 
+        }else if(alertType == 'E'){
+            alert = new Alert(Alert.AlertType.ERROR); 
+        }else if(alertType == 'I'){
+            alert = new Alert(Alert.AlertType.INFORMATION); 
+        }else if(alertType == 'N'){
+            alert = new Alert(Alert.AlertType.NONE); 
+        }else if(alertType == 'W'){
+            alert = new Alert(Alert.AlertType.WARNING); 
+        } 
+        alert.setTitle(message);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     public static void main(String[] args) throws ClassNotFoundException {

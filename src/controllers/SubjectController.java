@@ -1,6 +1,5 @@
 package controllers;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
@@ -33,6 +32,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import static nsbm.NSBM.alerts;
 import static nsbm.NSBM.changeTabColors;
 
 public class SubjectController implements Initializable {
@@ -268,13 +268,8 @@ public class SubjectController implements Initializable {
             addNewSubjectAnchorPane.setVisible(false);
             
         }catch(Exception e){
-            e.printStackTrace();
-             // Error message
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Please fill all the fileds");
-            alert.showAndWait();
+            // Error message
+            alerts('E', "Message", null, "Please fill all the fields");
         }
     }
     
@@ -295,11 +290,7 @@ public class SubjectController implements Initializable {
 
             if(subjectCode == null){
                 // Inform message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please Select a Record");
-                alert.showAndWait();
+                alerts('I', "Message", null, "Please select a record");
             }else{
                  // Confirmation message
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -319,12 +310,7 @@ public class SubjectController implements Initializable {
             }
 
         }catch(SQLException e){
-            e.printStackTrace(); 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Cannot remove selected course.\nSome students are currently following this course.");
-            alert.showAndWait();
+            alerts('E', "Message", null, "Cannot remove selected subject.\nSome students are currently studying this subject.");
         }
     }
     
