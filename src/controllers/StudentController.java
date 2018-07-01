@@ -626,6 +626,7 @@ public class StudentController implements Initializable {
 
         ResultSet rs1 = ps1.executeQuery();
         ResultSet rs2 = ps2.executeQuery();
+        
         while(rs1.next()){
             subjectCodes.add(rs1.getString("subject_name"));
         }
