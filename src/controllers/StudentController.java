@@ -38,6 +38,7 @@ import models.AlResult;
 import models.PostgraduateStudent;
 import models.Qualifications;
 import models.UndergraduateStudent;
+import models.Undergraduate_Subjects;
 import static nsbm.NSBM.changeTabColors;
 import static nsbm.NSBM.alerts;
 
@@ -184,9 +185,7 @@ public class StudentController implements Initializable {
     public ObservableList<Qualifications> getQualifcationDetails(){
         
         ObservableList<Qualifications> qualificationDetails = FXCollections.observableArrayList();
-
         String query = "SELECT qualification_type, institute, completion_year FROM qualifications";
-        
         Statement st;
         ResultSet rs;
         
@@ -197,7 +196,6 @@ public class StudentController implements Initializable {
             
             while(rs.next()){
                 qualifications = new Qualifications(rs.getString("qualification_type"), rs.getString("institute"), rs.getString("completion_year"));
-                
                 qualificationDetails.add(qualifications);
             }
             
@@ -207,7 +205,6 @@ public class StudentController implements Initializable {
 
         return qualificationDetails;
     }
-    
     
 //    // Update tables
 //    public void updateTables(ObservableList oList){
@@ -267,6 +264,20 @@ public class StudentController implements Initializable {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/views/StudentRegistration.fxml"));
         studentAnchorPane.getChildren().setAll(pane);
     }
+    
+    // Enable combo boxes for selections
+    public void enableComboBoxes(boolean x){
+        semIdComboBox1.setMouseTransparent(x);
+        semIdComboBox2.setMouseTransparent(x);
+        s01OpSubject1.setMouseTransparent(x);
+        s01OpSubject2.setMouseTransparent(x);
+        s01OpSubject3.setMouseTransparent(x);
+        s01OpSubject4.setMouseTransparent(x);
+        s02OpSubject1.setMouseTransparent(x);
+        s02OpSubject2.setMouseTransparent(x);
+        s02OpSubject3.setMouseTransparent(x);
+        s02OpSubject4.setMouseTransparent(x);
+    }
 
     // Switch to the choose/change subject pane
     public void chooseSubjects(){
@@ -290,11 +301,15 @@ public class StudentController implements Initializable {
             fillSemester();
             fillCompulsory();
             fillOptional();
+            showMySubjects();
             chooseSubjectsAnchorPane.setVisible(true);
             studentHomeAnchorPane.setVisible(false);
         }catch(ArrayIndexOutOfBoundsException e){
             alerts('E', "Message", null, "Please select a student");
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        enableComboBoxes(false);
     }
     
     // Fill semester combo boxes
@@ -320,6 +335,13 @@ public class StudentController implements Initializable {
     ResultSet rsS01, rsS02;
     String subject;
     public void fillCompulsory(){
+        s01CompSubject1.clear();
+        s01CompSubject2.clear();
+        s01CompSubject3.clear();
+        s02CompSubject1.clear();
+        s02CompSubject2.clear();
+        s02CompSubject3.clear();
+        
         ArrayList<String> s01CompSubList = new ArrayList<String>();
         ArrayList<String> s02CompSubList = new ArrayList<String>();
         try {
@@ -371,8 +393,9 @@ public class StudentController implements Initializable {
                 s02CompSubject2.setText(s02CompSubList.get(1));
                 s02CompSubject3.setText(s02CompSubList.get(2));
             } 
-        }catch (SQLException ex) {
-            ex.printStackTrace();
+        }catch (Exception ex) {
+            //ex.printStackTrace();
+            alerts('E', "Message", null, "Compulsory subjects are not found");
         }
     }
     
@@ -435,6 +458,7 @@ public class StudentController implements Initializable {
             }
         }catch (SQLException ex) {
             ex.printStackTrace();
+            //System.out.println("optional");
         }
     }
     
@@ -450,7 +474,7 @@ public class StudentController implements Initializable {
                 rsSubCode = psSubCode.executeQuery();
                 
                 while(rsSubCode.next()){
-                    System.out.println(rsSubCode.getString("subject_code"));
+                    //System.out.println(rsSubCode.getString("subject_code"));
                         
                     PreparedStatement psCredit = con.prepareStatement("SELECT credit, fee FROM subject WHERE subject_code=?");
                     psCredit.setString(1, rsSubCode.getString("subject_code"));
@@ -480,16 +504,10 @@ public class StudentController implements Initializable {
     }
     
     // Reset subject selection form
-    public void s01ResetButtonPressed(){
-        chooseSubjects();   
-        s01OpSubject1.setMouseTransparent(false);
-        s01OpSubject2.setMouseTransparent(false);
-        s01OpSubject3.setMouseTransparent(false);
-        s01OpSubject4.setMouseTransparent(false);
-        s02OpSubject1.setMouseTransparent(false);
-        s02OpSubject2.setMouseTransparent(false);
-        s02OpSubject3.setMouseTransparent(false);
-        s02OpSubject4.setMouseTransparent(false);
+    public void s01ResetButtonPressed() throws SQLException{
+        
+//        chooseSubjects();   
+//        enableComboBoxes();
 
 //        List<Object> objects = new ArrayList<Object>();
 //        objects.add(s01OpSubject1);
@@ -585,6 +603,56 @@ public class StudentController implements Initializable {
         }
     }
     
+    // Show details about choosed subjects 
+    public void showMySubjects() throws SQLException{
+        ArrayList<String> subjectCodes = new ArrayList<String>();
+        ArrayList<String> semesters = new ArrayList<String>();
+        String studentId;
+        studentId = studentIdText.getText();
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
+        
+        if(student == 'u'){
+            ps1 = con.prepareStatement("SELECT subject_name FROM subject INNER JOIN undergraduate_subject ON subject.subject_code = undergraduate_subject.subject_code WHERE undergraduate_subject.student_id=?");
+            ps2 = con.prepareStatement("SELECT semester_id FROM undergraduate_semester WHERE student_id=?");
+            ps1.setString(1, studentId);
+            ps2.setString(1, studentId);
+        }else if(student == 'p'){
+            ps1 = con.prepareStatement("SELECT subject_name FROM subject INNER JOIN postgraduate_subject ON subject.subject_code = postgraduate_subject.subject_code WHERE postgraduate_subject.student_id=?");
+            ps2 = con.prepareStatement("SELECT semester_id FROM postgraduate_semester WHERE student_id=?");
+            ps1.setString(1, studentId);
+            ps2.setString(1, studentId);
+        }
+
+        ResultSet rs1 = ps1.executeQuery();
+        ResultSet rs2 = ps2.executeQuery();
+        while(rs1.next()){
+            subjectCodes.add(rs1.getString("subject_name"));
+        }
+        while(rs2.next()){
+            semesters.add(rs2.getString("semester_id"));
+            System.out.println(rs2.getString("semester_id"));
+        }
+        try{
+            semIdComboBox1.setValue(semesters.get(0));
+            s01OpSubject1.setValue(subjectCodes.get(3));
+            s01OpSubject2.setValue(subjectCodes.get(4));
+            s01OpSubject3.setValue(subjectCodes.get(5));
+            s01OpSubject4.setValue(subjectCodes.get(6));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        try{
+            semIdComboBox2.setValue(semesters.get(1));
+            s02OpSubject1.setValue(subjectCodes.get(10));
+            s02OpSubject2.setValue(subjectCodes.get(11));
+            s02OpSubject3.setValue(subjectCodes.get(12));
+            s02OpSubject4.setValue(subjectCodes.get(13));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    
     // Delete a record
     public void deleteButtonPressed(ActionEvent event) throws SQLException{
         PreparedStatement ps = null;
@@ -668,11 +736,7 @@ public class StudentController implements Initializable {
             
                 fillTextFields();
             }catch(Exception e){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please select a student");
-                alert.showAndWait();
+                alerts('E', "Message", null, "Please select a student");
             }
             
         }else if(pgAnchorPane.isVisible()){
@@ -709,7 +773,7 @@ public class StudentController implements Initializable {
         }  
     }
   
-    // Fill text fields with data
+    // Fill text fields
     public void fillTextFields(){
 
         studentIdLabel.setText(id);
