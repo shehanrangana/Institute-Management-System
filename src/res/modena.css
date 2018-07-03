@@ -607,6 +607,10 @@ is being used to size a border should also be in pixels.
     -fx-background-insets: 0, 1;
     -fx-padding: 1;
 }
+.list-view{
+	-fx-background-color: -fx-control-inner-background;  /*modified*/
+}
+
 .scroll-pane:focused,
 .split-pane:focused,
 .list-view:focused,
@@ -2275,6 +2279,7 @@ is being used to size a border should also be in pixels.
     -fx-background: -fx-control-inner-background;
     -fx-background-color: -fx-background;
     -fx-text-fill: -fx-text-background-color;
+    -fx-font-size: 11pt; /* modified */
 }
 /* Selected rows */
 .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
@@ -2314,10 +2319,11 @@ is being used to size a border should also be in pixels.
  ******************************************************************************/
 
 .list-cell {
+	-fx-background: #F4F4F4; /* modified */
     -fx-padding: 0.25em 0.583em 0.25em 0.583em; /* 3 7 3 7 */
 }
 .list-cell:odd {
-    -fx-background: -fx-control-inner-background-alt;
+    -fx-background: /*-fx-control-inner-background-alt*/  #F4F4F4;
 }
 
 /*******************************************************************************

@@ -1,6 +1,8 @@
 package controllers;
 
+import com.jfoenix.controls.JFXListView;
 import database.dbConnection;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,9 +15,11 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,6 +30,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import models.BachelorCourses;
@@ -40,8 +45,8 @@ public class StaffController implements Initializable {
     // Initialize variable for connection
     Connection con;
     
-    @FXML AnchorPane staffHomeAnchorPane, addNewStaffAnchorPane, detailsAndUpdateAnchorPane, lecturerAnchorPane, instructorAnchorPane;
     @FXML Pane lecturerPane, instructorPane;
+    @FXML AnchorPane addNewStaffAnchorPane, staffAnchorPane, staffHomeAnchorPane, detailsAndUpdateAnchorPane, lecturerAnchorPane, instructorAnchorPane;
     @FXML ImageView backFromStaffReg, backFromDetails;
     @FXML Text lecturerText, instructorText;
     
@@ -67,6 +72,9 @@ public class StaffController implements Initializable {
     @FXML TableColumn<Instructor, String> iAddressLine2Column;
     @FXML TableColumn<Instructor, String> iAddressLine3Column;
     
+    // Moew Details
+    @FXML ListView subjectListView;
+    
     // This method will return an ObservableList lecturers
     public ObservableList<Lecturer> getLecturerList(){
         ObservableList<Lecturer> lecturerList = FXCollections.observableArrayList();
@@ -89,7 +97,6 @@ public class StaffController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return lecturerList;
     }
     
@@ -156,6 +163,12 @@ public class StaffController implements Initializable {
         changeTabColors(instructorPane, lecturerPane, instructorText, lecturerText, instructorAnchorPane, lecturerAnchorPane);
     }
     
+    // Switch to add new staff member pane
+    public void addMemberButtonPressed() throws IOException{
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/views/StaffRegistration.fxml"));
+        staffAnchorPane.getChildren().setAll(pane); 
+    }
+    
     // Remove staff member from system
     public void removeMemberButtonPressed(){
         PreparedStatement ps = null;
@@ -195,28 +208,36 @@ public class StaffController implements Initializable {
         }
     }
     
-    // Switch to add new staff member pane
-    public void newStaffMemberButtonPressed(){
-        addNewStaffAnchorPane.setVisible(true);
-        staffHomeAnchorPane.setVisible(false);
-    }
-    
     // Switch to the more details/update pane
-    public void moreDetailsButtonPressed(){
+    public void moreDetailsButtonPressed() throws SQLException{
+        String id = null;
+        subjectListView.getItems().clear();
+        PreparedStatement ps = null;
+        ResultSet rs;
+        
+        if(lecturerAnchorPane.isVisible()){
+            id = lecturerTable.getSelectionModel().getSelectedItem().getStaffId();
+            ps = con.prepareStatement("SELECT subject_name FROM subject WHERE lecturer_id=?");
+        }else if(instructorAnchorPane.isVisible()){
+            id = instructorTable.getSelectionModel().getSelectedItem().getStaffId();
+            ps = con.prepareStatement("SELECT subject_name FROM subject WHERE lecturer_id=?");
+        }
+        ps.setString(1, id);
+        
+        rs = ps.executeQuery();
+        while(rs.next()){
+            subjectListView.getItems().add(rs.getString("subject_name"));
+            System.out.println(rs.getString("subject_name"));
+        }
+        
         detailsAndUpdateAnchorPane.setVisible(true);
         staffHomeAnchorPane.setVisible(false);
     }
     
     // Back to staff pane
-    public void backToStaffButtonPressed(MouseEvent event){
+    public void backToStaffButtonPressed(){
         staffHomeAnchorPane.setVisible(true);
-        
-        // Identify which pane going to be invisible
-        if(event.getTarget() == backFromStaffReg){
-            addNewStaffAnchorPane.setVisible(false);
-        }else if(event.getTarget() == backFromDetails){
-            detailsAndUpdateAnchorPane.setVisible(false);
-        } 
+        detailsAndUpdateAnchorPane.setVisible(false);
     }
     
     // Update staff members' details

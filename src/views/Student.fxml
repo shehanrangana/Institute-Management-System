@@ -19,7 +19,7 @@
          <children>
             <AnchorPane fx:id="ugAnchorPane" layoutY="50.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="undergraduateTable" editable="true" prefHeight="550.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                  <TableView fx:id="undergraduateTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                     <columns>
                       <TableColumn fx:id="idColumn" editable="false" prefWidth="150.0" resizable="false" text="Student-ID" />
                       <TableColumn fx:id="fNameColumn" editable="false" prefWidth="220.0" resizable="false" text="Name" />
@@ -34,7 +34,7 @@
             </AnchorPane>
             <AnchorPane fx:id="pgAnchorPane" layoutX="10.0" layoutY="60.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="postgraduateTable" layoutY="6.0" prefHeight="544.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                  <TableView fx:id="postgraduateTable" layoutY="6.0" prefHeight="544.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                      <columns>
                         <TableColumn fx:id="pIdColumn" editable="false" prefWidth="150.0" resizable="false" text="Student-ID" />
                         <TableColumn fx:id="pfNameColumn" editable="false" prefWidth="220.0" resizable="false" text="Name" />
@@ -165,7 +165,7 @@
                         </Text>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="s01ResetButton" layoutX="14.0" layoutY="515.0" onAction="#s01ResetButtonPressed" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="RESET" textFill="WHITE">
+                  <JFXButton fx:id="s01UpdateButton" layoutX="14.0" layoutY="515.0" onAction="#s01UpdateButtonPressed" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>
@@ -235,7 +235,7 @@
                         </Text>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="s02ResetButton" layoutX="14.0" layoutY="515.0" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="RESET" textFill="WHITE">
+                  <JFXButton fx:id="s02ResetButton" layoutX="14.0" layoutY="515.0" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>

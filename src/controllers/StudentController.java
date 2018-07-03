@@ -504,7 +504,7 @@ public class StudentController implements Initializable {
     }
     
     // Reset subject selection form
-    public void s01ResetButtonPressed() throws SQLException{
+    public void s01UpdateButtonPressed() throws SQLException{
         
 //        chooseSubjects();   
 //        enableComboBoxes();
@@ -533,7 +533,6 @@ public class StudentController implements Initializable {
             // Store selected subject names in a list
             if(event.getTarget() == s01ConfirmButton){
                 if(semIdComboBox1.getValue() != null){
-                    System.out.println("1");
                     semesters.add(semIdComboBox1.getValue().toString());
                     fees.add(s01Amount.getText());
                     subjects.add(s01CompSubject1.getText());
@@ -641,7 +640,7 @@ public class StudentController implements Initializable {
             s01OpSubject3.setValue(subjectCodes.get(5));
             s01OpSubject4.setValue(subjectCodes.get(6));
         }catch(Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         try{
             semIdComboBox2.setValue(semesters.get(1));
@@ -650,7 +649,7 @@ public class StudentController implements Initializable {
             s02OpSubject3.setValue(subjectCodes.get(12));
             s02OpSubject4.setValue(subjectCodes.get(13));
         }catch(Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
     

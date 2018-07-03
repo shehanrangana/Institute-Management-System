@@ -20,7 +20,7 @@
          <children>
             <AnchorPane fx:id="bachelorAnchorPane" layoutY="50.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="bachelorTable" editable="true" prefHeight="550.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                  <TableView fx:id="bachelorTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                      <columns>
                         <TableColumn fx:id="bCourseNameColumn" prefWidth="75.0" text="Course Name" />
                         <TableColumn fx:id="bDurationColumn" prefWidth="75.0" text="Duration (Years)" />
@@ -34,7 +34,7 @@
             </AnchorPane>
             <AnchorPane fx:id="masterAnchorPane" layoutX="10.0" layoutY="60.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="masterTable" layoutY="6.0" prefHeight="544.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                  <TableView fx:id="masterTable" layoutY="6.0" prefHeight="544.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                      <columns>
                         <TableColumn fx:id="mCourseNameColumn" prefWidth="75.0" text="Course Name" />
                         <TableColumn fx:id="mDurationColumn" prefWidth="75.0" text="Duration (Years)" />

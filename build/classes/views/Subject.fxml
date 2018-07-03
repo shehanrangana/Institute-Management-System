@@ -48,7 +48,7 @@
             </Pane>
             <AnchorPane fx:id="subjectTableAnchorPane" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="subjectTable" editable="true" layoutY="28.0" prefHeight="522.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                  <TableView fx:id="subjectTable" editable="true" layoutY="28.0" prefHeight="522.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                      <columns>
                         <TableColumn fx:id="subjectCodeColumn" prefWidth="106.39074325561523" text="Subject Code" />
                         <TableColumn fx:id="subjectNameColumn" prefWidth="257.17505645751953" text="Subject Name" />
