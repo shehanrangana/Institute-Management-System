@@ -171,7 +171,7 @@ public class PaymentController implements Initializable {
         
         alerts('I', "Message", null, "Database Updated");
         fillUgTable();
-        fillUgTable();
+        fillPgTable();
     }
 
     @Override
