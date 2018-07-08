@@ -1,6 +1,7 @@
 package controllers;
 
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextField;
 import database.dbConnection;
 import java.io.IOException;
 import java.net.URL;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,8 +74,10 @@ public class StaffController implements Initializable {
     @FXML TableColumn<Instructor, String> iAddressLine2Column;
     @FXML TableColumn<Instructor, String> iAddressLine3Column;
     
-    // Moew Details
+    // More details view componenets
+    @FXML JFXTextField idTextField, nameTextField, mobileTextField, emailTextField, addressLine1TextField, addressLine2TextField, addressLine3TextField, roomTextField;
     @FXML ListView subjectListView;
+    String id, name, mobile, email, addressLine1, addressLine2, addressLine3, room;
     
     // This method will return an ObservableList lecturers
     public ObservableList<Lecturer> getLecturerList(){
@@ -209,40 +213,114 @@ public class StaffController implements Initializable {
     }
     
     // Switch to the more details/update pane
-    public void moreDetailsButtonPressed() throws SQLException{
-        String id = null;
-        subjectListView.getItems().clear();
+    public void moreDetailsButtonPressed(){
+        subjectListView.getItems().clear();   
         PreparedStatement ps = null;
         ResultSet rs;
         
-        if(lecturerAnchorPane.isVisible()){
-            id = lecturerTable.getSelectionModel().getSelectedItem().getStaffId();
-            ps = con.prepareStatement("SELECT subject_name FROM subject WHERE lecturer_id=?");
-        }else if(instructorAnchorPane.isVisible()){
-            id = instructorTable.getSelectionModel().getSelectedItem().getStaffId();
-            ps = con.prepareStatement("SELECT subject_name FROM subject WHERE lecturer_id=?");
+        try{
+            if(lecturerAnchorPane.isVisible()){
+                id = lecturerTable.getSelectionModel().getSelectedItem().getStaffId();
+                name = lecturerTable.getSelectionModel().getSelectedItem().getName();
+                mobile = lecturerTable.getSelectionModel().getSelectedItem().getMobile();
+                email = lecturerTable.getSelectionModel().getSelectedItem().getEmail();
+                addressLine1 = lecturerTable.getSelectionModel().getSelectedItem().getAddressLine1();
+                addressLine2 = lecturerTable.getSelectionModel().getSelectedItem().getAddressLine2();
+                addressLine3 = lecturerTable.getSelectionModel().getSelectedItem().getAddressLine3();
+                room = lecturerTable.getSelectionModel().getSelectedItem().getRoom();
+
+                ps = con.prepareStatement("SELECT subject_name FROM subject WHERE lecturer_id=?");
+            }else if(instructorAnchorPane.isVisible()){
+                id = instructorTable.getSelectionModel().getSelectedItem().getStaffId();
+                name = instructorTable.getSelectionModel().getSelectedItem().getName();
+                mobile = instructorTable.getSelectionModel().getSelectedItem().getMobile();
+                email = instructorTable.getSelectionModel().getSelectedItem().getEmail();
+                addressLine1 = instructorTable.getSelectionModel().getSelectedItem().getAddressLine1();
+                addressLine2 = instructorTable.getSelectionModel().getSelectedItem().getAddressLine2();
+                addressLine3 = instructorTable.getSelectionModel().getSelectedItem().getAddressLine3();
+                room = instructorTable.getSelectionModel().getSelectedItem().getRoom();
+
+                ps = con.prepareStatement("SELECT subject_name FROM subject INNER JOIN instructor_subject ON subject.subject_code=instructor_subject.subject_code WHERE instructor_id=?");
+            }
+            ps.setString(1, id);
+
+            rs = ps.executeQuery();
+            while(rs.next()){
+                subjectListView.getItems().add(rs.getString("subject_name"));
+            }
+            // Fill text fields
+            fillTextFields();
+
+            detailsAndUpdateAnchorPane.setVisible(true);
+            staffHomeAnchorPane.setVisible(false);
+        }catch(Exception ex){
+            //ex.printStackTrace();
+            alerts('E', "Message", null, "Please select a member");
         }
-        ps.setString(1, id);
-        
-        rs = ps.executeQuery();
-        while(rs.next()){
-            subjectListView.getItems().add(rs.getString("subject_name"));
-            System.out.println(rs.getString("subject_name"));
-        }
-        
-        detailsAndUpdateAnchorPane.setVisible(true);
-        staffHomeAnchorPane.setVisible(false);
+    }
+
+    // Fill text fields
+    public void fillTextFields(){
+        idTextField.setText(id);
+        nameTextField.setText(name);
+        mobileTextField.setText(mobile);
+        emailTextField.setText(email);
+        addressLine1TextField.setText(addressLine1);
+        addressLine2TextField.setText(addressLine2);
+        addressLine3TextField.setText(addressLine3);
+        roomTextField.setText(room);
+    }
+    
+    // Allow/Not Allow to edit text fields
+    public void enableOrDisableTextFields(boolean value){
+        mobileTextField.setEditable(value);
+        emailTextField.setEditable(value);
+        addressLine1TextField.setEditable(value);
+        addressLine2TextField.setEditable(value);
+        addressLine3TextField.setEditable(value);
+        roomTextField.setEditable(value);
     }
     
     // Back to staff pane
     public void backToStaffButtonPressed(){
+        enableOrDisableTextFields(false);
         staffHomeAnchorPane.setVisible(true);
         detailsAndUpdateAnchorPane.setVisible(false);
     }
     
+    // Update details of staff members
+    byte editbuttonClicked = 0;
+    public void editButtonPressed(){
+        enableOrDisableTextFields(true);
+        editbuttonClicked = 1;
+    }
+    
     // Update staff members' details
-    public void updateDetailsButtonPressed(){
-        // data update process code here
+    public void updateButtonPressed() throws SQLException{
+        PreparedStatement ps;
+        String query = null;
+        
+        if(editbuttonClicked == 1){
+            if(lecturerAnchorPane.isVisible()){
+                query = "UPDATE lecturer SET mobile = ?, email = ?, address_line_1 = ?, address_line_2 = ?, address_line_3 = ?, room = ? WHERE lecturer_id = ?";
+            }else if(instructorAnchorPane.isVisible()){
+                query = "UPDATE instructor SET mobile = ?, email = ?, address_line_1 = ?, address_line_2 = ?, address_line_3 = ?, room = ? WHERE instructor_id = ?";   
+            }
+            ps = con.prepareStatement(query);
+
+            ps.setString(1, mobileTextField.getText());
+            ps.setString(2, emailTextField.getText());
+            ps.setString(3, addressLine1TextField.getText());
+            ps.setString(4, addressLine2TextField.getText());
+            ps.setString(5, addressLine3TextField.getText());
+            ps.setString(6, roomTextField.getText());
+            ps.setString(7, idTextField.getText());
+            ps.executeUpdate();
+            
+            editbuttonClicked = 0;
+            alerts('I', "Message", null, "Details updated successfully");
+        }
+        enableOrDisableTextFields(false);
         staffHomeAnchorPane.setVisible(true);
         detailsAndUpdateAnchorPane.setVisible(false);
     }

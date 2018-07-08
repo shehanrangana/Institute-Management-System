@@ -38,7 +38,6 @@ import models.AlResult;
 import models.PostgraduateStudent;
 import models.Qualifications;
 import models.UndergraduateStudent;
-import models.Undergraduate_Subjects;
 import static nsbm.NSBM.changeTabColors;
 import static nsbm.NSBM.alerts;
 
@@ -802,7 +801,7 @@ public class StudentController implements Initializable {
         compYearTextField.setText(compYear);
     }
     
-    // Allow to edit text fields
+    // Allow/Not Allow to edit text fields
     public void enableOrDisableTextFields(boolean value){
         addressLine1TextField.setEditable(value);
         addressLine2TextField.setEditable(value);
@@ -825,31 +824,29 @@ public class StudentController implements Initializable {
         PreparedStatement ps;
         String query = null;
         
-        if(ugAnchorPane.isVisible()){
-            query = "UPDATE undergraduate SET address_line_1 = ?, address_line_2 = ?, address_line_3 = ?, email = ?, mobile = ?, fixed = ? WHERE student_id = ?";
-        }else if(pgAnchorPane.isVisible()){
-            query = "UPDATE postgraduate SET address_line_1 = ?, address_line_2 = ?, address_line_3 = ?, email = ?, mobile = ?, fixed = ? WHERE student_id = ?";   
-        }
-        ps = con.prepareStatement(query);
-        
-        ps.setString(1, addressLine1TextField.getText());
-        ps.setString(2, addressLine2TextField.getText());
-        ps.setString(3, addressLine3TextField.getText());
-        ps.setString(4, emailTextField.getText());
-        ps.setString(5, mobileTextField.getText());
-        ps.setString(6, fixedTextField.getText());
-        ps.setString(7, studentIdLabel.getText());
-        
-        ps.executeUpdate();
-        
-        studentHomeAnchorPane.setVisible(true);
-        detailsAndUpdateAnchorPane.setVisible(false);
-        enableOrDisableTextFields(false);
-        
         if(editbuttonClicked == 1){
+            if(ugAnchorPane.isVisible()){
+                query = "UPDATE undergraduate SET address_line_1 = ?, address_line_2 = ?, address_line_3 = ?, email = ?, mobile = ?, fixed = ? WHERE student_id = ?";
+            }else if(pgAnchorPane.isVisible()){
+                query = "UPDATE postgraduate SET address_line_1 = ?, address_line_2 = ?, address_line_3 = ?, email = ?, mobile = ?, fixed = ? WHERE student_id = ?";   
+            }
+            ps = con.prepareStatement(query);
+
+            ps.setString(1, addressLine1TextField.getText());
+            ps.setString(2, addressLine2TextField.getText());
+            ps.setString(3, addressLine3TextField.getText());
+            ps.setString(4, emailTextField.getText());
+            ps.setString(5, mobileTextField.getText());
+            ps.setString(6, fixedTextField.getText());
+            ps.setString(7, studentIdLabel.getText());
+            ps.executeUpdate();
+
             editbuttonClicked = 0;
             alerts('I', "Message", null, "Details updated successfully");
-        }   
+        }
+        studentHomeAnchorPane.setVisible(true);
+        detailsAndUpdateAnchorPane.setVisible(false);
+        enableOrDisableTextFields(false);  
     }
     
     // Back to student pane
