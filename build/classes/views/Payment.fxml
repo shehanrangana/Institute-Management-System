@@ -2,33 +2,118 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<StackPane prefHeight="650.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaymentController">
+<AnchorPane fx:id="paymentAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaymentController">
    <children>
-      <HBox alignment="TOP_CENTER" fillHeight="false" prefHeight="50.0" prefWidth="1156.0">
+      <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <StackPane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
+            <Pane layoutX="10.0" layoutY="2.0" prefHeight="45.0" prefWidth="45.0">
                <children>
-                  <JFXTextField fx:id="searchBox" maxHeight="35.0" maxWidth="200.0" promptText="Search" StackPane.alignment="CENTER">
-                     <StackPane.margin>
-                        <Insets right="150.0" />
-                     </StackPane.margin>
-                  </JFXTextField>
-                  <JFXButton fx:id="searchButton" onAction="#searchButtonPressed" prefHeight="30.0" style="-fx-background-color: #AFEFDD;" text="Search">
-                     <StackPane.margin>
-                        <Insets left="150.0" />
-                     </StackPane.margin>
-                  </JFXButton>
+                  <ImageView fx:id="backFromPayment" fitHeight="30.0" fitWidth="30.0" layoutX="8.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/back.png" />
+                     </image>
+                  </ImageView>
                </children>
-            </StackPane>
+            </Pane>
+            <Text fill="#505050" layoutX="110.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PAYMENT CENTER">
+               <font>
+                  <Font name="Segoe UI Semibold" size="28.0" />
+               </font>
+            </Text>
+         </children></Pane>
+      <TableView fx:id="uTable" layoutX="925.0" layoutY="75.0" onMouseClicked="#clickRowActionPerformed" prefHeight="290.0" prefWidth="700.0" stylesheets="@../res/modena.css" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="55.0">
+        <columns>
+            <TableColumn fx:id="uSemIdColumn" prefWidth="75.0" text="Semester ID" />
+          <TableColumn fx:id="uStudentIdColumn" prefWidth="75.0" text="Student ID" />
+          <TableColumn fx:id="uAmountColumn" prefWidth="75.0" text="Amount" />
+            <TableColumn fx:id="uStatusColumn" prefWidth="75.0" text="Status" />
+            <TableColumn fx:id="uPayDateColumn" prefWidth="75.0" text="Pay Date" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TableView fx:id="pTable" layoutX="446.0" layoutY="343.0" onMouseClicked="#clickRowActionPerformed" prefHeight="290.0" prefWidth="700.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <columns>
+            <TableColumn fx:id="pSemIdColumn" prefWidth="75.0" text="Semester ID" />
+            <TableColumn fx:id="pStudentIdColumn" prefWidth="75.0" text="Student ID" />
+            <TableColumn fx:id="pAmountColumn" prefWidth="75.0" text="Amount" />
+            <TableColumn fx:id="pStatusColumn" prefWidth="75.0" text="Status" />
+            <TableColumn fx:id="pPayDateColumn" prefWidth="75.0" text="Pay Date" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Pane layoutX="35.0" layoutY="56.0" prefHeight="253.0" prefWidth="428.0" style="-fx-border-color: #ebebeb;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="720.0" AnchorPane.topAnchor="55.0">
+         <children>
+            <JFXTextField fx:id="searchBar" layoutX="20.0" layoutY="20.0" prefHeight="37.0" prefWidth="386.0" promptText="Search" unFocusColor="#468ac9">
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font>
+            </JFXTextField>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="376.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/search.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+            <ImageView fitHeight="96.0" fitWidth="96.0" layoutX="165.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/profile-picture-large.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="studentIdText" fill="#468ac9" layoutX="150.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="STUDENT ID" textAlignment="CENTER" wrappingWidth="125.99999225139618">
+               <font>
+                  <Font name="Segoe UI Semibold" size="20.0" />
+               </font>
+            </Text>
+            <JFXButton fx:id="payButton" layoutX="71.0" layoutY="508.0" onAction="#payButtonPressed" prefHeight="37.0" prefWidth="284.0" style="-fx-background-color: #468ac9;" text="PAY" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <Pane layoutX="71.0" layoutY="243.0" prefHeight="120.0" prefWidth="284.0" style="-fx-background-color: #E3E3E3;">
+               <children>
+                  <Text fx:id="semIdText" fill="#505050" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="256.2392578125">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#468ac9" layoutX="101.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SEMESTER">
+                     <font>
+                        <Font name="Segoe UI Symbol" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="71.0" layoutY="375.0" prefHeight="120.0" prefWidth="284.0" style="-fx-background-color: #E3E3E3;">
+               <children>
+                  <Text fx:id="amountText" fill="#505050" layoutX="13.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="256.2392391562462">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#468ac9" layoutX="103.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AMOUNT">
+                     <font>
+                        <Font name="Segoe UI Symbol" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
          </children>
-      </HBox>
+      </Pane>
    </children>
-</StackPane>
+</AnchorPane>
