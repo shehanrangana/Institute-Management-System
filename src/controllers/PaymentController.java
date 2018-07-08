@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -160,13 +161,16 @@ public class PaymentController implements Initializable {
     public void payButtonPressed() throws SQLException{
         PreparedStatement ps = null;
         if(table == 'u'){
-            ps = con.prepareStatement("UPDATE undergraduate_semester SET status = 'Payed' WHERE semester_id = ? AND student_id = ?");
+            ps = con.prepareStatement("UPDATE undergraduate_semester SET status = 'Payed', pay_date = ? WHERE semester_id = ? AND student_id = ?");
         }else if(table == 'p'){
-            ps = con.prepareStatement("UPDATE postgraduate_semester SET status = 'Payed' WHERE semester_id = ? AND student_id = ?");
+            ps = con.prepareStatement("UPDATE postgraduate_semester SET status = 'Payed', pay_date = ?  WHERE semester_id = ? AND student_id = ?");
         }
         
-        ps.setString(1, semIdText.getText());
-        ps.setString(2, studentIdText.getText());
+        LocalDateTime localDate = LocalDateTime.now();
+        
+        ps.setString(1, localDate.toLocalDate().toString());
+        ps.setString(2, semIdText.getText());
+        ps.setString(3, studentIdText.getText());
         ps.executeUpdate();
         
         alerts('I', "Message", null, "Database Updated");
