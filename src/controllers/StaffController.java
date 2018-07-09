@@ -68,7 +68,7 @@ public class StaffController implements Initializable {
     @FXML ListView subjectListView;
     String id, name, mobile, email, addressLine1, addressLine2, addressLine3, room;
     
-    // This method will return an ObservableList lecturers
+    // This method will return an ObservableList of lecturers
     public ObservableList<Lecturer> getLecturerList(){
         ObservableList<Lecturer> lecturerList = FXCollections.observableArrayList();
         String query = "SELECT lecturer_id, name, mobile, email, room, address_line_1, address_line_2, address_line_3 FROM lecturer";

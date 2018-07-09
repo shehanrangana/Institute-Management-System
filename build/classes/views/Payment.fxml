@@ -75,7 +75,7 @@
                   <Image url="@../icons/profile-picture-large.png" />
                </image>
             </ImageView>
-            <Text fx:id="studentIdText" fill="#468ac9" layoutX="150.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="STUDENT ID" textAlignment="CENTER" wrappingWidth="125.99999225139618">
+            <Text fx:id="studentIdText" fill="#468ac9" layoutX="150.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="125.99999225139618">
                <font>
                   <Font name="Segoe UI Semibold" size="20.0" />
                </font>

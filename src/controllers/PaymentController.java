@@ -176,6 +176,8 @@ public class PaymentController implements Initializable {
         alerts('I', "Message", null, "Database Updated");
         fillUgTable();
         fillPgTable();
+
+
     }
 
     @Override
@@ -224,18 +226,18 @@ public class PaymentController implements Initializable {
                 }
                 return false;
             });
+            
+            // Wrap the FilteredList in a SortedList. 
+            SortedList<Undergraduate_Semester> uSortedData = new SortedList<>(uFilteredData);
+            SortedList<Postgraduate_Semester> pSortedData = new SortedList<>(pFilteredData);
+
+            // Bind the SortedList comparator to the TableView comparator.
+            uSortedData.comparatorProperty().bind(uTable.comparatorProperty());
+            pSortedData.comparatorProperty().bind(pTable.comparatorProperty());
+
+            // Add sorted data to the table.
+            uTable.setItems(uSortedData);
+            pTable.setItems(pSortedData);
         });
-        
-        // Wrap the FilteredList in a SortedList. 
-        SortedList<Undergraduate_Semester> uSortedData = new SortedList<>(uFilteredData);
-        SortedList<Postgraduate_Semester> pSortedData = new SortedList<>(pFilteredData);
-        
-        // Bind the SortedList comparator to the TableView comparator.
-        uSortedData.comparatorProperty().bind(uTable.comparatorProperty());
-        pSortedData.comparatorProperty().bind(pTable.comparatorProperty());
-        
-        // Add sorted data to the table.
-        uTable.setItems(uSortedData);
-        pTable.setItems(pSortedData);
     }    
 }
