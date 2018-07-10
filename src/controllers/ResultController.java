@@ -2,6 +2,8 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 import database.dbConnection;
 import java.io.File;
 import java.net.URL;
@@ -18,6 +20,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -41,7 +44,7 @@ public class ResultController implements Initializable {
     @FXML private Pane businessResultPane, computingResultPane, engineeringResultPane;
     @FXML private Text businessResultText, computingResultText, engineeringResultText;
     @FXML private ListView assignmentListView;
-    @FXML private JFXButton assignmentsButton;
+    @FXML private JFXButton assignmentsButton, gradeButton;
     @FXML private JFXComboBox goToComboBox, courseComboBox, subjectComboBox;
     
     // Undergraduate result table components
@@ -83,14 +86,14 @@ public class ResultController implements Initializable {
     }
     
     // This method will return an ObservableList of results(postgraduate)
-    public ObservableList<Postgraduate_Assesment> getPgResults(String selectedItem){
+    public ObservableList<Postgraduate_Assesment> getPgResults(String assignmentId){
         ObservableList<Postgraduate_Assesment> results = FXCollections.observableArrayList();
         String query;
         try{
-            if(selectedItem.equals("All")){
+            if(assignmentId.equals("All")){
                 query = "SELECT * FROM postgraduate_assesment";
             }else{
-                query = "SELECT * FROM postgraduate_assesment WHERE assesment_id = '"+ selectedItem +"'";
+                query = "SELECT * FROM postgraduate_assesment WHERE assesment_id = '"+ assignmentId +"' AND subject_code = '"+ subjectCode+"'";
             }
         
             Statement st = con.createStatement();
@@ -141,7 +144,14 @@ public class ResultController implements Initializable {
                 subjectCode = subjectCodes.getString("subject_code");
             }
             
-            PreparedStatement ps = con.prepareStatement("SELECT assesment_id FROM undergraduate_assesment WHERE subject_code=?");
+            PreparedStatement ps = null;
+            
+            if(goToComboBox.getValue() == "UNDERGRADUATE RESULT CENTER"){
+                ps = con.prepareStatement("SELECT assesment_id FROM undergraduate_assesment WHERE subject_code=?");
+            }else if(goToComboBox.getValue() == "POSTGRADUATE RESULT CENTER"){
+                ps = con.prepareStatement("SELECT assesment_id FROM postgraduate_assesment WHERE subject_code=?");
+            }
+            
             ps.setString(1, subjectCode);
             ResultSet rs = ps.executeQuery();
             
@@ -177,33 +187,83 @@ public class ResultController implements Initializable {
         
     }
     
+    // Update students' grades using temporary table
+    public int updateGrades(String thisTable, String filePath) throws SQLException{
+        PreparedStatement ps1 = con.prepareStatement("CREATE TABLE temp_table LIKE "+ thisTable +" ");
+        PreparedStatement ps2 = con.prepareStatement("LOAD DATA INFILE '"+ filePath +"' INTO TABLE temp_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\n'");
+        PreparedStatement ps3 = con.prepareStatement("UPDATE "+ thisTable +" INNER JOIN temp_table ON temp_table.student_id = "+ thisTable +".student_id AND temp_table.subject_code="+ thisTable +".subject_code SET "+ thisTable +".grade=temp_table.grade");
+        PreparedStatement ps4 = con.prepareStatement("DROP TABLE temp_table");
+        
+        ps1.executeUpdate();
+        ps2.executeQuery();
+        int returnCode = ps3.executeUpdate();
+        ps4.executeUpdate();
+
+        return returnCode;
+    }
+    
     // Upload new result sheet into the database
-    public void uploadButtonPressed() {
+    public void uploadButtonPressed(ActionEvent event) {
+        PreparedStatement ps = null;
         String filePath = null;
-        try{
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Result File...");
+        
+        if(goToComboBox.getValue() == null){
+            alerts('I', "Message", null, "Before upload a new result sheet, you must select the related Result Center");
+        }else{
+            try{
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Result File...");
 
-            // set extension filter
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("result set (*.csv)", "*.csv");
-            fileChooser.getExtensionFilters().addAll(extFilter);
+                // set extension filter
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("result set (*.csv)", "*.csv");
+                fileChooser.getExtensionFilters().addAll(extFilter);
 
-            // show open file dialog
-            File file = fileChooser.showOpenDialog(null);
-            if(file != null){
-                filePath = file.getAbsolutePath().replace("\\", "/");
-                //System.out.println(file.getAbsolutePath().replace("\\", "/"));
+                // show open file dialog
+                File file = fileChooser.showOpenDialog(null);
+                if(file != null){
+                    filePath = file.getAbsolutePath().replace("\\", "/");
+                }else{
+                    System.out.println("No file selected");
+                    return;
+                }
+
+                if(goToComboBox.getValue() == "UNDERGRADUATE RESULT CENTER"){
+                    if(event.getTarget() == gradeButton){
+                        if(updateGrades("undergraduate_subject", filePath) == 0){
+                            alerts('E', "Message", null, "Wrong file");
+                            return;
+                        }
+                    }else{
+                        ps = con.prepareStatement("LOAD DATA INFILE ? INTO TABLE undergraduate_assesment FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\n'");
+                        ps.setString(1, filePath);
+                        ps.executeQuery();
+                    }
+                }else if(goToComboBox.getValue() == "POSTGRADUATE RESULT CENTER"){
+                    if(event.getTarget() == gradeButton){
+                        if(updateGrades("postgraduate_subject", filePath) == 0){
+                            alerts('E', "Message", null, "Wrong file");
+                            return;
+                        }
+                    }else{
+                        ps = con.prepareStatement("LOAD DATA INFILE ? INTO TABLE postgraduate_assesment FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\n'");
+                        ps.setString(1, filePath);
+                        ps.executeQuery();
+                    } 
+                }
+                
+                alerts('I', "Message", null, "New Result Sheet Uploaded");
+//                updateTable("All", 'u');
+//                updateTable("All", 'p');
+  
+            }catch(SQLException ex){
+                ex.printStackTrace();
+                System.out.println(ex.getErrorCode());
+                if(ex.getErrorCode() == 1062){
+                    alerts('E', "Message", null, "This result sheet consist with already uploaded marks");
+                }else if(ex.getErrorCode() == 1452){
+                    alerts('E', "Message", null, "Selected result sheet not compatible with selected result center");
+                } 
             }
-            
-            PreparedStatement ps = con.prepareStatement("LOAD DATA INFILE ? INTO TABLE undergraduate_assesment FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\n'");
-            ps.setString(1, filePath);
-            ps.executeQuery();
-
-            alerts('I', "Message", null, "New Result Sheet Uploaded");
-            updateTable("All", 'u');
-            
-        }catch(Exception ex){
-            ex.printStackTrace();
         }
     }
     
@@ -220,7 +280,7 @@ public class ResultController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if(newValue != null){
-                    System.out.println(newValue);
+                    //System.out.println(newValue);
                     if(goToComboBox.getSelectionModel().getSelectedItem() == "UNDERGRADUATE RESULT CENTER"){
                         updateTable(newValue, 'u');
                     }else if(goToComboBox.getSelectionModel().getSelectedItem() == "POSTGRADUATE RESULT CENTER"){
@@ -288,6 +348,7 @@ public class ResultController implements Initializable {
                             courseComboBox.getItems().addAll(cName);
                         } 
                         
+                        pgResultTable.getItems().clear();
                         pgResultTable.setVisible(true);
                         ugResultTable.setVisible(false);
                     }
@@ -325,7 +386,9 @@ public class ResultController implements Initializable {
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 assignmentListView.getItems().clear();
                 ugResultTable.getItems().clear();
+                pgResultTable.getItems().clear();
             } 
         });
-    }      
+
+    } 
 }
