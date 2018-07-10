@@ -36,6 +36,7 @@ public class ResultController implements Initializable {
     
     Connection con;
     char faculty = 'b';
+    String subjectCode;
 
     @FXML private Pane businessResultPane, computingResultPane, engineeringResultPane;
     @FXML private Text businessResultText, computingResultText, engineeringResultText;
@@ -47,21 +48,23 @@ public class ResultController implements Initializable {
     @FXML TableView<Undergraduate_Assesment> ugResultTable;
     @FXML TableColumn<Undergraduate_Assesment, String> ugStudentIdColumn;
     @FXML TableColumn<Undergraduate_Assesment, Integer> ugMarkColumn;
+    @FXML TableColumn<Undergraduate_Assesment, String> ugATypeColumn;
     
     // Postgraduate result table components
     @FXML TableView<Postgraduate_Assesment> pgResultTable;
     @FXML TableColumn<Postgraduate_Assesment, String> pgStudentIdColumn;
     @FXML TableColumn<Postgraduate_Assesment, Integer> pgMarkColumn;
+    @FXML TableColumn<Postgraduate_Assesment, String> pgATypeColumn;
     
     // This method will return an ObservableList of results(undergraduate)
-    public ObservableList<Undergraduate_Assesment> getUgResults(String selectedItem){
+    public ObservableList<Undergraduate_Assesment> getUgResults(String assignmentId){
         ObservableList<Undergraduate_Assesment> results = FXCollections.observableArrayList();
         String query;
         try{
-            if(selectedItem.equals("All")){
+            if(assignmentId.equals("All")){
                 query = "SELECT * FROM undergraduate_assesment";
             }else{
-                query = "SELECT * FROM undergraduate_assesment WHERE assesment_id = '"+ selectedItem +"'";
+                query = "SELECT * FROM undergraduate_assesment WHERE assesment_id = '"+ assignmentId +"' AND subject_code = '"+ subjectCode+"'";
             }
         
             Statement st = con.createStatement();
@@ -127,21 +130,51 @@ public class ResultController implements Initializable {
     }
     
     // Assignment button
-    public void assignmentsButtonPressed(){
+    public void assignmentsButtonPressed() throws SQLException{
         assignmentListView.getItems().clear();
-        for(int i=0; i<getUgResults("All").size(); i++){
-            assignmentListView.getItems().add(getUgResults("All").get(i).getAssesmentId());
+        try{
+            PreparedStatement getSubjectCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+            getSubjectCode.setString(1, subjectComboBox.getSelectionModel().getSelectedItem().toString());
+            ResultSet subjectCodes = getSubjectCode.executeQuery();
+            
+            while(subjectCodes.next()){
+                subjectCode = subjectCodes.getString("subject_code");
+            }
+            
+            PreparedStatement ps = con.prepareStatement("SELECT assesment_id FROM undergraduate_assesment WHERE subject_code=?");
+            ps.setString(1, subjectCode);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                String assignmentId = rs.getString("assesment_id");
+                assignmentListView.getItems().add(assignmentId);
+                //System.out.println(assignmentId);
+            }
+        }catch(Exception ex){
+            System.out.println("empty");         
         }
     }
     
     // Item selected
-    public void updateTable(String newValue){
-        // setup columns in the lecturer table
-        ugStudentIdColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, String> ("studentId"));
-        ugMarkColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, Integer> ("mark"));
+    public void updateTable(String newValue, char table){
+        if(table == 'u'){
+            // setup columns in the undergraduate result table
+            ugStudentIdColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, String> ("studentId"));
+            ugMarkColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, Integer> ("mark"));
+            ugATypeColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, String> ("type"));
         
-        // load the data into the lecturer table
-        ugResultTable.setItems(getUgResults(newValue));
+            // load the data into the undergraduate result table
+            ugResultTable.setItems(getUgResults(newValue));
+        }else if(table == 'p'){
+            // setup columns in the postgraduate result table
+            pgStudentIdColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Assesment, String> ("studentId"));
+            pgMarkColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Assesment, Integer> ("mark"));
+            pgATypeColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Assesment, String> ("type"));
+        
+            // load the data into the postgraduate result table
+            pgResultTable.setItems(getPgResults(newValue));
+        }
+        
     }
     
     // Upload new result sheet into the database
@@ -167,7 +200,7 @@ public class ResultController implements Initializable {
             ps.executeQuery();
 
             alerts('I', "Message", null, "New Result Sheet Uploaded");
-            updateTable("All");
+            updateTable("All", 'u');
             
         }catch(Exception ex){
             ex.printStackTrace();
@@ -187,7 +220,12 @@ public class ResultController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if(newValue != null){
-                    updateTable(newValue);
+                    System.out.println(newValue);
+                    if(goToComboBox.getSelectionModel().getSelectedItem() == "UNDERGRADUATE RESULT CENTER"){
+                        updateTable(newValue, 'u');
+                    }else if(goToComboBox.getSelectionModel().getSelectedItem() == "POSTGRADUATE RESULT CENTER"){
+                        updateTable(newValue, 'p');
+                    }           
                 } 
             }
         });
@@ -225,6 +263,7 @@ public class ResultController implements Initializable {
                             courseComboBox.getItems().addAll(cName);
                         } 
                         
+                        ugResultTable.getItems().clear();
                         ugResultTable.setVisible(true);
                         pgResultTable.setVisible(false);
                         
@@ -253,12 +292,40 @@ public class ResultController implements Initializable {
                         ugResultTable.setVisible(false);
                     }
                 }catch(SQLException ex){
-                    ex.printStackTrace();
+                    //ex.printStackTrace();
                 }
             }
         });
         
+        // Listening to Course Combo Box
+        courseComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                subjectComboBox.getItems().clear();
+                try {
+                    PreparedStatement ps = con.prepareStatement("SELECT subject_name FROM subject WHERE b_course_name = ? OR m_course_name = ?");
+                    ps.setString(1, newValue.toString());
+                    ps.setString(2, newValue.toString());
+                    
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
+                        String subjectName = rs.getString("subject_name");
+                        subjectComboBox.getItems().addAll(subjectName);
+                    } 
+                } catch (Exception ex) {
+                    System.out.println("Error: Caused by null value");
+                    //Logger.getLogger(ResultController.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            } 
+        });
         
-    }    
-    
+        // Listening to Subejct Combo Box
+        subjectComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                assignmentListView.getItems().clear();
+                ugResultTable.getItems().clear();
+            } 
+        });
+    }      
 }
