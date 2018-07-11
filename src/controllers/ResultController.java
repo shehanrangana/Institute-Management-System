@@ -133,7 +133,7 @@ public class ResultController implements Initializable {
     }
     
     // Assignment button
-    public void assignmentsButtonPressed() throws SQLException{
+    public void loadAssesmentList() throws SQLException{
         assignmentListView.getItems().clear();
         try{
             PreparedStatement getSubjectCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
@@ -384,9 +384,14 @@ public class ResultController implements Initializable {
         subjectComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                assignmentListView.getItems().clear();
-                ugResultTable.getItems().clear();
-                pgResultTable.getItems().clear();
+                try {
+                    assignmentListView.getItems().clear();
+                    loadAssesmentList();
+                    ugResultTable.getItems().clear();
+                    pgResultTable.getItems().clear();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ResultController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } 
         });
 
