@@ -209,9 +209,9 @@ public class ResultController implements Initializable {
             PreparedStatement ps = null;
             
             if(goToComboBox.getValue() == "UNDERGRADUATE RESULT CENTER"){
-                ps = con.prepareStatement("SELECT assesment_id FROM undergraduate_assesment WHERE subject_code=?");
+                ps = con.prepareStatement("SELECT DISTINCT assesment_id FROM undergraduate_assesment WHERE subject_code=?");
             }else if(goToComboBox.getValue() == "POSTGRADUATE RESULT CENTER"){
-                ps = con.prepareStatement("SELECT assesment_id FROM postgraduate_assesment WHERE subject_code=?");
+                ps = con.prepareStatement("SELECT DISTINCT assesment_id FROM postgraduate_assesment WHERE subject_code=?");
             }
             
             ps.setString(1, subjectCode);

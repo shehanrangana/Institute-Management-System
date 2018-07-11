@@ -52,7 +52,7 @@
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="379.0" layoutY="610.0" onMousePressed="#chooseSubjects" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Choose/Change Subjects" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="378.0">
+            <JFXButton layoutX="379.0" layoutY="610.0" onAction="#chooseSubjects" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Choose/Change Subjects" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="378.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -80,7 +80,7 @@
                   </Text>
                </children>
             </Pane>
-            <JFXButton layoutX="929.0" layoutY="610.0" onMousePressed="#moreDetails" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="More details" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="168.0">
+            <JFXButton layoutX="929.0" layoutY="610.0" onAction="#moreDetails" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="More details" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="168.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -205,7 +205,6 @@
                   <JFXComboBox fx:id="semIdComboBox2" layoutX="5.0" layoutY="5.0" prefHeight="25.0" prefWidth="90.0" promptText="Semester" />
                   <JFXComboBox fx:id="s02OpSubject1" layoutX="126.0" layoutY="174.0" prefHeight="25.0" prefWidth="300.0" promptText="Subject 1" stylesheets="@../res/jfx-combo-box-add-course.css" />
                   <JFXComboBox fx:id="s02OpSubject2" layoutX="126.0" layoutY="221.0" prefHeight="25.0" prefWidth="300.0" promptText="Subject 2" stylesheets="@../res/jfx-combo-box-add-course.css" />
-                  <JFXComboBox fx:id="s02OpSubject3" layoutX="126.0" layoutY="268.0" prefHeight="25.0" prefWidth="300.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
                   <JFXComboBox fx:id="s02OpSubject4" layoutX="126.0" layoutY="315.0" prefHeight="25.0" prefWidth="300.0" promptText="Subject 4" stylesheets="@../res/jfx-combo-box-add-course.css" />
                   <Pane layoutX="14.0" layoutY="387.0" prefHeight="120.0" prefWidth="262.0" style="-fx-background-color: #CCCCCC;">
                      <children>
@@ -260,6 +259,7 @@
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
+                  <JFXComboBox fx:id="s02OpSubject3" layoutX="126.0" layoutY="268.0" prefHeight="25.0" prefWidth="300.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
                </children>
             </Pane>
          </children>

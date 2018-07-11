@@ -267,8 +267,9 @@ public class SubjectController implements Initializable {
             subjectHomeAnchorPane.setVisible(true);
             addNewSubjectAnchorPane.setVisible(false);
             
-        }catch(Exception e){
+        }catch(NumberFormatException | SQLException e){
             // Error message
+            e.printStackTrace();
             alerts('E', "Message", null, "Please fill all the fields");
         }
     }

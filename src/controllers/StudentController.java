@@ -393,7 +393,7 @@ public class StudentController implements Initializable {
                 s02CompSubject3.setText(s02CompSubList.get(2));
             } 
         }catch (Exception ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
             alerts('E', "Message", null, "Compulsory subjects are not found");
         }
     }
@@ -530,7 +530,7 @@ public class StudentController implements Initializable {
         
         try{
             // Store selected subject names in a list
-            if(event.getTarget() == s01ConfirmButton){
+            if(event.getTarget() == s01ConfirmButton && s01TotalCredit >= 15){
                 if(semIdComboBox1.getValue() != null){
                     semesters.add(semIdComboBox1.getValue().toString());
                     fees.add(s01Amount.getText());
@@ -540,11 +540,13 @@ public class StudentController implements Initializable {
                     subjects.add(s01OpSubject1.getValue().toString());
                     subjects.add(s01OpSubject2.getValue().toString());
                     subjects.add(s01OpSubject3.getValue().toString());
-                    subjects.add(s01OpSubject4.getValue().toString());
+                    try{
+                        subjects.add(s01OpSubject4.getValue().toString());
+                    }catch(NullPointerException ex){}
                 }else{
                     alerts('E', "Message", null, "Please select a semester");
                 }
-            }else if(event.getTarget() == s02ConfirmButton){  
+            }else if(event.getTarget() == s02ConfirmButton && s02TotalCredit >= 15){  
                 if(semIdComboBox2.getValue() != null){
                     semesters.add(semIdComboBox2.getValue().toString());
                     fees.add(s02Amount.getText());
@@ -554,10 +556,14 @@ public class StudentController implements Initializable {
                     subjects.add(s02OpSubject1.getValue().toString());
                     subjects.add(s02OpSubject2.getValue().toString());
                     subjects.add(s02OpSubject3.getValue().toString());
-                    subjects.add(s02OpSubject4.getValue().toString());
+                    try{
+                        subjects.add(s02OpSubject4.getValue().toString());
+                    }catch(NullPointerException ex){}
                 }else{
                     alerts('E', "Message", null, "Please select a semester");
                 }
+            }else{
+                alerts('I', "Message", null, "You must select at least 15 credits");
             }
 
             psSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
@@ -590,13 +596,16 @@ public class StudentController implements Initializable {
                 psInsert2.executeUpdate();
                 
                 alerts('I', "Messsage", null, "Successfully updated");
+                
+//                studentHomeAnchorPane.setVisible(true);
+//                chooseSubjectsAnchorPane.setVisible(false);
             }
         } catch (NullPointerException ex) {
              // Error message
             ex.printStackTrace();
             alerts('E', "Message", null, "Please fill all the fields correctly");
         } catch (SQLException ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
             alerts('E', "Message", null, "Subjects are already selected for this student");
         }
     }
@@ -611,12 +620,12 @@ public class StudentController implements Initializable {
         PreparedStatement ps2 = null;
         
         if(student == 'u'){
-            ps1 = con.prepareStatement("SELECT subject_name FROM subject INNER JOIN undergraduate_subject ON subject.subject_code = undergraduate_subject.subject_code WHERE undergraduate_subject.student_id=?");
+            ps1 = con.prepareStatement("SELECT subject_name FROM subject INNER JOIN undergraduate_subject ON subject.subject_code = undergraduate_subject.subject_code WHERE subject.compulsory=0 AND undergraduate_subject.student_id=?");
             ps2 = con.prepareStatement("SELECT semester_id FROM undergraduate_semester WHERE student_id=?");
             ps1.setString(1, studentId);
             ps2.setString(1, studentId);
         }else if(student == 'p'){
-            ps1 = con.prepareStatement("SELECT subject_name FROM subject INNER JOIN postgraduate_subject ON subject.subject_code = postgraduate_subject.subject_code WHERE postgraduate_subject.student_id=?");
+            ps1 = con.prepareStatement("SELECT subject_name FROM subject INNER JOIN postgraduate_subject ON subject.subject_code = postgraduate_subject.subject_code WHERE subject.compulsory=0 AND postgraduate_subject.student_id=?");
             ps2 = con.prepareStatement("SELECT semester_id FROM postgraduate_semester WHERE student_id=?");
             ps1.setString(1, studentId);
             ps2.setString(1, studentId);
@@ -627,26 +636,27 @@ public class StudentController implements Initializable {
         
         while(rs1.next()){
             subjectCodes.add(rs1.getString("subject_name"));
+            System.out.println(rs1.getString("subject_name"));
         }
         while(rs2.next()){
             semesters.add(rs2.getString("semester_id"));
-            System.out.println(rs2.getString("semester_id"));
+            //System.out.println(rs2.getString("semester_id"));
         }
         try{
             semIdComboBox1.setValue(semesters.get(0));
-            s01OpSubject1.setValue(subjectCodes.get(3));
-            s01OpSubject2.setValue(subjectCodes.get(4));
-            s01OpSubject3.setValue(subjectCodes.get(5));
-            s01OpSubject4.setValue(subjectCodes.get(6));
+            s01OpSubject1.setValue(subjectCodes.get(0));
+            s01OpSubject2.setValue(subjectCodes.get(1));
+            s01OpSubject3.setValue(subjectCodes.get(2));
+            s01OpSubject4.setValue(subjectCodes.get(3));
         }catch(Exception ex){
             //ex.printStackTrace();
         }
         try{
             semIdComboBox2.setValue(semesters.get(1));
-            s02OpSubject1.setValue(subjectCodes.get(10));
-            s02OpSubject2.setValue(subjectCodes.get(11));
-            s02OpSubject3.setValue(subjectCodes.get(12));
-            s02OpSubject4.setValue(subjectCodes.get(13));
+            s02OpSubject1.setValue(subjectCodes.get(4));
+            s02OpSubject2.setValue(subjectCodes.get(5));
+            s02OpSubject3.setValue(subjectCodes.get(6));
+            s02OpSubject4.setValue(subjectCodes.get(7));
         }catch(Exception ex){
             //ex.printStackTrace();
         }
