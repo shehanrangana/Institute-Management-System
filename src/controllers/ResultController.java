@@ -31,7 +31,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import models.Postgraduate_Assesment;
+import models.Postgraduate_Subjects;
 import models.Undergraduate_Assesment;
+import models.Undergraduate_Subjects;
 import static nsbm.NSBM.alerts;
 import static nsbm.NSBM.changeTabColors;
 
@@ -44,20 +46,30 @@ public class ResultController implements Initializable {
     @FXML private Pane businessResultPane, computingResultPane, engineeringResultPane;
     @FXML private Text businessResultText, computingResultText, engineeringResultText;
     @FXML private ListView assignmentListView;
-    @FXML private JFXButton assignmentsButton, gradeButton;
+    @FXML private JFXButton gradeButton;
     @FXML private JFXComboBox goToComboBox, courseComboBox, subjectComboBox;
     
-    // Undergraduate result table components
+    // Undergraduate assesments result table components
     @FXML TableView<Undergraduate_Assesment> ugResultTable;
     @FXML TableColumn<Undergraduate_Assesment, String> ugStudentIdColumn;
     @FXML TableColumn<Undergraduate_Assesment, Integer> ugMarkColumn;
     @FXML TableColumn<Undergraduate_Assesment, String> ugATypeColumn;
     
-    // Postgraduate result table components
+    // Postgraduate assesments result table components
     @FXML TableView<Postgraduate_Assesment> pgResultTable;
     @FXML TableColumn<Postgraduate_Assesment, String> pgStudentIdColumn;
     @FXML TableColumn<Postgraduate_Assesment, Integer> pgMarkColumn;
     @FXML TableColumn<Postgraduate_Assesment, String> pgATypeColumn;
+    
+    // Undergraduate final result table components
+    @FXML TableView<Undergraduate_Subjects> ugGradeTable;
+    @FXML TableColumn<Undergraduate_Subjects, String> ugStudentIdColumn2;
+    @FXML TableColumn<Undergraduate_Subjects, String> ugGradeColumn;
+    
+    // Postgraduate final table components
+    @FXML TableView<Postgraduate_Subjects> pgGradeTable;
+    @FXML TableColumn<Postgraduate_Subjects, String> pgStudentIdColumn2;
+    @FXML TableColumn<Postgraduate_Subjects, String> pgGradeColumn;
     
     // This method will return an ObservableList of results(undergraduate)
     public ObservableList<Undergraduate_Assesment> getUgResults(String assignmentId){
@@ -111,10 +123,52 @@ public class ResultController implements Initializable {
         return results;
     }
     
+    // This method will return an ObservableList of grades(undergraduate)
+    public ObservableList<Undergraduate_Subjects> getUgGrades(String subjectCode){
+        ObservableList<Undergraduate_Subjects> gradeList = FXCollections.observableArrayList();
+        try{
+            String query = "SELECT student_id, grade FROM undergraduate_subject WHERE subject_code= '"+ subjectCode +"'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            Undergraduate_Subjects grade;
+            
+            while(rs.next()){
+                grade = new Undergraduate_Subjects(rs.getString("student_id"), rs.getString("grade")); 
+                gradeList.add(grade);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ResultController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return gradeList;
+    }
+    
+    // This method will return an ObservableList of grades(undergraduate)
+    public ObservableList<Postgraduate_Subjects> getPgGrades(String subjectCode){
+        ObservableList<Postgraduate_Subjects> gradeList = FXCollections.observableArrayList();
+        try{
+            String query = "SELECT student_id, grade FROM postgraduate_subject WHERE subject_code= '"+ subjectCode +"'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            Postgraduate_Subjects grade;
+            
+            while(rs.next()){
+                grade = new Postgraduate_Subjects(rs.getString("student_id"), rs.getString("grade")); 
+                gradeList.add(grade);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ResultController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return gradeList;
+    }
+    
     // Handle results tab of school of business
     public void selectBusinessResultTab(){
         faculty = 'b';
         goToComboBox.getSelectionModel().clearSelection();
+        ugGradeTable.getItems().clear();
+        pgGradeTable.getItems().clear();
         changeTabColors(businessResultPane, computingResultPane, engineeringResultPane, businessResultText, computingResultText, engineeringResultText);
     }
     
@@ -122,6 +176,8 @@ public class ResultController implements Initializable {
     public void selectComputingResultTab(){
         faculty = 'c';
         goToComboBox.getSelectionModel().clearSelection();
+        ugGradeTable.getItems().clear();
+        pgGradeTable.getItems().clear();
         changeTabColors(computingResultPane, engineeringResultPane, businessResultPane, computingResultText, engineeringResultText, businessResultText);
     }
     
@@ -129,21 +185,27 @@ public class ResultController implements Initializable {
     public void selectEngineeringResultTab(){
         faculty = 'e';
         goToComboBox.getSelectionModel().clearSelection();
+        ugGradeTable.getItems().clear();
+        pgGradeTable.getItems().clear();
         changeTabColors(engineeringResultPane, businessResultPane, computingResultPane, engineeringResultText, businessResultText, computingResultText);
+    }
+    
+    // This method gets subject codes related to subject names
+    public void getSubjectCode() throws SQLException{
+        PreparedStatement getSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+        getSubCode.setString(1, subjectComboBox.getSelectionModel().getSelectedItem().toString());
+        ResultSet subjectCodes = getSubCode.executeQuery();
+            
+        while(subjectCodes.next()){
+            subjectCode = subjectCodes.getString("subject_code");
+        }
     }
     
     // Assignment button
     public void loadAssesmentList() throws SQLException{
         assignmentListView.getItems().clear();
         try{
-            PreparedStatement getSubjectCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
-            getSubjectCode.setString(1, subjectComboBox.getSelectionModel().getSelectedItem().toString());
-            ResultSet subjectCodes = getSubjectCode.executeQuery();
-            
-            while(subjectCodes.next()){
-                subjectCode = subjectCodes.getString("subject_code");
-            }
-            
+            getSubjectCode();
             PreparedStatement ps = null;
             
             if(goToComboBox.getValue() == "UNDERGRADUATE RESULT CENTER"){
@@ -158,15 +220,14 @@ public class ResultController implements Initializable {
             while(rs.next()){
                 String assignmentId = rs.getString("assesment_id");
                 assignmentListView.getItems().add(assignmentId);
-                //System.out.println(assignmentId);
             }
         }catch(Exception ex){
-            System.out.println("empty");         
+            System.out.println("Assesment list empty");         
         }
     }
     
-    // Item selected
-    public void updateTable(String newValue, char table){
+    // This method updates assesment tables
+    public void updateAssesmentTables(String newValue, char table){
         if(table == 'u'){
             // setup columns in the undergraduate result table
             ugStudentIdColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, String> ("studentId"));
@@ -183,8 +244,25 @@ public class ResultController implements Initializable {
         
             // load the data into the postgraduate result table
             pgResultTable.setItems(getPgResults(newValue));
-        }
+        } 
+    }
+    
+    public void updateGradeTables(char table){
+        if(table == 'u'){
+        // Setup columns in the undergraduate grades table
+            ugStudentIdColumn2.setCellValueFactory(new PropertyValueFactory<Undergraduate_Subjects, String> ("subjectCode"));
+            ugGradeColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Subjects, String> ("grade"));
         
+            // load the data into the undergraduate result table
+            ugGradeTable.setItems(getUgGrades(subjectCode));
+        }else if(table == 'p'){
+            // Setup columns in the postgraduate grades table
+            pgStudentIdColumn2.setCellValueFactory(new PropertyValueFactory<Postgraduate_Subjects, String> ("subjectCode"));
+            pgGradeColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Subjects, String> ("grade"));
+        
+            // load the data into the postgraduate result table
+            pgGradeTable.setItems(getPgGrades(subjectCode));
+        }     
     }
     
     // Update students' grades using temporary table
@@ -282,9 +360,9 @@ public class ResultController implements Initializable {
                 if(newValue != null){
                     //System.out.println(newValue);
                     if(goToComboBox.getSelectionModel().getSelectedItem() == "UNDERGRADUATE RESULT CENTER"){
-                        updateTable(newValue, 'u');
+                        updateAssesmentTables(newValue, 'u');
                     }else if(goToComboBox.getSelectionModel().getSelectedItem() == "POSTGRADUATE RESULT CENTER"){
-                        updateTable(newValue, 'p');
+                        updateAssesmentTables(newValue, 'p');
                     }           
                 } 
             }
@@ -327,6 +405,10 @@ public class ResultController implements Initializable {
                         ugResultTable.setVisible(true);
                         pgResultTable.setVisible(false);
                         
+                        ugGradeTable.getItems().clear();
+                        ugGradeTable.setVisible(true);
+                        pgGradeTable.setVisible(false);
+                        
                     }else if(newValue == "POSTGRADUATE RESULT CENTER"){
                         switch (faculty) {
                             case 'b':
@@ -351,6 +433,10 @@ public class ResultController implements Initializable {
                         pgResultTable.getItems().clear();
                         pgResultTable.setVisible(true);
                         ugResultTable.setVisible(false);
+                        
+                        pgGradeTable.getItems().clear();
+                        pgGradeTable.setVisible(true);
+                        ugGradeTable.setVisible(false);
                     }
                 }catch(SQLException ex){
                     //ex.printStackTrace();
@@ -381,18 +467,26 @@ public class ResultController implements Initializable {
         });
         
         // Listening to Subejct Combo Box
-        subjectComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
+        subjectComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
             @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     assignmentListView.getItems().clear();
                     loadAssesmentList();
+
+                    if(goToComboBox.getSelectionModel().getSelectedItem() == "UNDERGRADUATE RESULT CENTER"){
+                        updateGradeTables('u');
+                    }else if(goToComboBox.getSelectionModel().getSelectedItem() == "POSTGRADUATE RESULT CENTER"){
+                        updateGradeTables('p');
+                    }           
+                    
                     ugResultTable.getItems().clear();
                     pgResultTable.getItems().clear();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } 
+            }
+             
         });
 
     } 
