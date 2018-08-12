@@ -35,7 +35,7 @@ import static nsbm.NSBM.changeTabColors;
 public class CourseController implements Initializable {
     
     // Initialize variable for connection
-    Connection con;
+    private Connection con;
 
     @FXML AnchorPane bachelorAnchorPane, masterAnchorPane, courseHomeAnchorPane, addNewCourseAnchorPane;
     @FXML Pane bachelorPane, masterPane;

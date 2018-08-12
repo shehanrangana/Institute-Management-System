@@ -44,9 +44,8 @@ import static nsbm.NSBM.alerts;
 public class StudentController implements Initializable {
     
     // Initialize variable for connection
-    Connection con;
-    
-    char student = 'u';
+    private Connection con;
+    private char student = 'u';
     
     @FXML Pane undergraduatePane, postgraduatePane;
     @FXML AnchorPane ugAnchorPane, pgAnchorPane, stdRegAnchorPane, chooseSubjectsAnchorPane, studentHomeAnchorPane, detailsAndUpdateAnchorPane, studentAnchorPane;
@@ -79,15 +78,27 @@ public class StudentController implements Initializable {
     @FXML JFXComboBox s02OpSubject1, s02OpSubject2, s02OpSubject3, s02OpSubject4, semIdComboBox2;
     @FXML Text studentIdText, s01TotalCreditText, s02TotalCreditText, s01Amount, s02Amount;
     @FXML JFXButton s01ConfirmButton, s02ConfirmButton;
-    int s01TotalCredit, s02TotalCredit = 0;
-    double s01TotalFee, s02TotalFee = 0;
+    private int s01TotalCredit, s02TotalCredit = 0;
+    private double s01TotalFee, s02TotalFee = 0;
+    
+    // fillCompulsory, fillOptional methods' variables
+    private PreparedStatement psS01, psS02;
+    private ResultSet rsS01, rsS02;
+    private String subject;
     
     // More details components
-    @FXML Label studentIdLabel;
+    @FXML Text studentIdText2;
     @FXML JFXTextField nameTextField, addressLine1TextField, addressLine2TextField, addressLine3TextField, birthdayTextField, genderTextField,
                        emailTextField, nicTextField, mobileTextField, fixedTextField, facultyTextField, courseTextField, streamTextField, result1TextField,
                        result2TextField, result3TextField, rankTextField, zScoreTextField, qualificationTextField, instituteTextField, compYearTextField;
-    @FXML Pane alResultPane, qualificationsPane;
+    @FXML AnchorPane alResultAnchorPane, qualificationsAnchorPane;
+    
+    // Variables for more details view
+    private int index;
+    private String id, name, addressLine1, addressLine2, addressLine3, birthday, gender, email, nic, mobile, fixed, faculty, course, stream, result1, result2, result3,
+           qualification, institute, compYear;
+    private int rank;
+    private double zScore;
     
     // This method will return an ObservableList of undergraduate students 
     public ObservableList<UndergraduateStudent> getUgStudents(){
@@ -330,9 +341,6 @@ public class StudentController implements Initializable {
     }
     
     // Fill compulsory subjects with database values
-    PreparedStatement psS01, psS02;
-    ResultSet rsS01, rsS02;
-    String subject;
     public void fillCompulsory(){
         s01CompSubject1.clear();
         s01CompSubject2.clear();
@@ -703,12 +711,7 @@ public class StudentController implements Initializable {
         
     }
     
-    // Variables for more details view
-    int index;
-    String id, name, addressLine1, addressLine2, addressLine3, birthday, gender, email, nic, mobile, fixed, faculty, course, stream, result1, result2, result3,
-           qualification, institute, compYear;
-    int rank;
-    double zScore;
+    
     // Switch to the more details/update pane
     public void moreDetails(){
 
@@ -740,8 +743,8 @@ public class StudentController implements Initializable {
                 
                 detailsAndUpdateAnchorPane.setVisible(true);
                 studentHomeAnchorPane.setVisible(false);
-                alResultPane.setVisible(true);
-                qualificationsPane.setVisible(false);
+                alResultAnchorPane.setVisible(true);
+                qualificationsAnchorPane.setVisible(false);
             
                 fillTextFields();
             }catch(Exception e){
@@ -772,8 +775,8 @@ public class StudentController implements Initializable {
                 
                 detailsAndUpdateAnchorPane.setVisible(true);
                 studentHomeAnchorPane.setVisible(false);
-                qualificationsPane.setVisible(true);
-                alResultPane.setVisible(false);
+                qualificationsAnchorPane.setVisible(true);
+                alResultAnchorPane.setVisible(false);
 
                 fillTextFields();
             }catch(Exception e){
@@ -785,7 +788,7 @@ public class StudentController implements Initializable {
     // Fill text fields
     public void fillTextFields(){
 
-        studentIdLabel.setText(id);
+        studentIdText2.setText(id);
         nameTextField.setText(name);
         addressLine1TextField.setText(addressLine1);
         addressLine2TextField.setText(addressLine2);
@@ -822,7 +825,7 @@ public class StudentController implements Initializable {
     }
     
     // Enable text fields for edit details
-    byte editbuttonClicked = 0;
+    private byte editbuttonClicked = 0;
     public void updateDetails(){
         enableOrDisableTextFields(true);
         editbuttonClicked = 1;
@@ -848,7 +851,7 @@ public class StudentController implements Initializable {
             ps.setString(4, emailTextField.getText());
             ps.setString(5, mobileTextField.getText());
             ps.setString(6, fixedTextField.getText());
-            ps.setString(7, studentIdLabel.getText());
+            ps.setString(7, studentIdText2.getText());
             ps.executeUpdate();
 
             editbuttonClicked = 0;

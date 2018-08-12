@@ -34,7 +34,7 @@ import static nsbm.NSBM.changeTabColors;
 public class StaffController implements Initializable {
     
     // Initialize variable for connection
-    Connection con;
+    private Connection con;
     
     @FXML Pane lecturerPane, instructorPane;
     @FXML AnchorPane addNewStaffAnchorPane, staffAnchorPane, staffHomeAnchorPane, detailsAndUpdateAnchorPane, lecturerAnchorPane, instructorAnchorPane;
@@ -66,7 +66,7 @@ public class StaffController implements Initializable {
     // More details view componenets
     @FXML JFXTextField idTextField, nameTextField, mobileTextField, emailTextField, addressLine1TextField, addressLine2TextField, addressLine3TextField, roomTextField;
     @FXML ListView subjectListView;
-    String id, name, mobile, email, addressLine1, addressLine2, addressLine3, room;
+    private String id, name, mobile, email, addressLine1, addressLine2, addressLine3, room;
     
     // This method will return an ObservableList of lecturers
     public ObservableList<Lecturer> getLecturerList(){

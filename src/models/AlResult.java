@@ -3,15 +3,15 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class AlResult {
-    private SimpleStringProperty stream;
-    private SimpleStringProperty subject1;
-    private SimpleStringProperty result1;
-    private SimpleStringProperty subject2;
-    private SimpleStringProperty result2;
-    private SimpleStringProperty subject3;
-    private SimpleStringProperty result3;
-    private int rank;
-    private double zScore;
+    private final SimpleStringProperty stream;
+    private final SimpleStringProperty subject1;
+    private final SimpleStringProperty result1;
+    private final SimpleStringProperty subject2;
+    private final SimpleStringProperty result2;
+    private final SimpleStringProperty subject3;
+    private final SimpleStringProperty result3;
+    private final int rank;
+    private final double zScore;
     
     public AlResult(String stream, String subject1, String result1, String subject2, String result2, String subject3, String result3, int rank, double zScore){
         this.stream = new SimpleStringProperty(stream);
@@ -44,7 +44,7 @@ public class AlResult {
     public String getResult2() {
         return result2.get();
     }
-
+    
     public String getSubject3() {
         return subject3.get();
     }
@@ -59,7 +59,5 @@ public class AlResult {
 
     public double getzScore() {
         return zScore;
-    }
-    
-    
+    } 
 }

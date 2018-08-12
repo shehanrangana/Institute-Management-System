@@ -3,10 +3,10 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class BachelorCourses {
-    private SimpleStringProperty courseName;
-    private int duration;
-    private int creditLimit;
-    private SimpleStringProperty facultyName;
+    private final SimpleStringProperty courseName;
+    private final int duration;
+    private final int creditLimit;
+    private final SimpleStringProperty facultyName;
     
     // Constructor
     public BachelorCourses(String courseName, int duration, int creditLimit, String facultyName){

@@ -3,14 +3,14 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Lecturer {
-    private SimpleStringProperty staffId;
-    private SimpleStringProperty name;
-    private SimpleStringProperty mobile;
-    private SimpleStringProperty email;
-    private SimpleStringProperty room;
-    private SimpleStringProperty addressLine1;
-    private SimpleStringProperty addressLine2;
-    private SimpleStringProperty addressLine3;
+    private final SimpleStringProperty staffId;
+    private final SimpleStringProperty name;
+    private final SimpleStringProperty mobile;
+    private final SimpleStringProperty email;
+    private final SimpleStringProperty room;
+    private final SimpleStringProperty addressLine1;
+    private final SimpleStringProperty addressLine2;
+    private final SimpleStringProperty addressLine3;
     
     public Lecturer(String staffId, String name, String mobile, String email, String room, String addressLine1, String addressLine2, String addressLine3){
         this.staffId = new SimpleStringProperty(staffId);
@@ -54,6 +54,5 @@ public class Lecturer {
 
     public String getAddressLine3() {
         return addressLine3.get();
-    }
-    
+    }   
 }

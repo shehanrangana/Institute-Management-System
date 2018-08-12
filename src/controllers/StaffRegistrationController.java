@@ -8,7 +8,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +21,7 @@ import static nsbm.NSBM.alerts;
 
 public class StaffRegistrationController implements Initializable {
     
-    Connection con;
+    private Connection con;
     
     @FXML AnchorPane addMemberAnchorPane;    
     @FXML JFXComboBox memberTypeComboBox;

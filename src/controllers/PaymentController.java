@@ -30,7 +30,7 @@ import static nsbm.NSBM.alerts;
 
 public class PaymentController implements Initializable {
     
-    Connection con;
+    private Connection con;
     private char table = 'u';
     
     @FXML AnchorPane paymentAnchorPane;

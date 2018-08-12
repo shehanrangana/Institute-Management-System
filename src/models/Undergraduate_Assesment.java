@@ -3,11 +3,11 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Undergraduate_Assesment {
-    private SimpleStringProperty assesmentId;
-    private SimpleStringProperty studentId;
-    private SimpleStringProperty subjectCode;
-    private int mark;
-    private SimpleStringProperty type;
+    private final SimpleStringProperty assesmentId;
+    private final SimpleStringProperty studentId;
+    private final SimpleStringProperty subjectCode;
+    private final int mark;
+    private final SimpleStringProperty type;
 
     public Undergraduate_Assesment(String assesmentId, String studentId, String subjectCode, int mark, String type) {
         this.assesmentId = new SimpleStringProperty(assesmentId);
@@ -36,6 +36,5 @@ public class Undergraduate_Assesment {
 
     public String getType() {
         return type.get();
-    }
-    
+    } 
 }

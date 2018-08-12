@@ -3,8 +3,8 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Undergraduate_Subjects {
-    private SimpleStringProperty subjectCode;
-    private SimpleStringProperty grade;
+    private final SimpleStringProperty subjectCode;
+    private final SimpleStringProperty grade;
     
     public Undergraduate_Subjects(String subjectCode, String grade){
         this.subjectCode = new SimpleStringProperty(subjectCode);

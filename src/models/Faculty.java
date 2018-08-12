@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Faculty {
     
-    private SimpleStringProperty facultyName;
+    private final SimpleStringProperty facultyName;
     
     // Constructor
     public Faculty(String facultyName){

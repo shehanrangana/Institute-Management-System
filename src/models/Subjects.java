@@ -3,15 +3,15 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Subjects {
-    private SimpleStringProperty subjectCode;
-    private SimpleStringProperty subjectName;
-    private double allocatedTime;
-    private double fee;
-    private int credit;
-    private double duration;
-    private SimpleStringProperty location;
-    private SimpleStringProperty courseName;
-    private SimpleStringProperty lecturerId;
+    private final SimpleStringProperty subjectCode;
+    private final SimpleStringProperty subjectName;
+    private final double allocatedTime;
+    private final double fee;
+    private final int credit;
+    private final double duration;
+    private final SimpleStringProperty location;
+    private final SimpleStringProperty courseName;
+    private final SimpleStringProperty lecturerId;
 
     public Subjects(String subjectCode, String subjectName, double allocatedTime, double fee, int credit, double duration, String location, String courseName, String lecturerId) {
         this.subjectCode = new SimpleStringProperty(subjectCode);
@@ -60,6 +60,5 @@ public class Subjects {
 
     public String getLecturerId() {
         return lecturerId.get();
-    }
-    
+    }   
 }

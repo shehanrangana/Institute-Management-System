@@ -2,8 +2,6 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 import database.dbConnection;
 import java.io.File;
 import java.net.URL;
@@ -12,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,9 +36,9 @@ import static nsbm.NSBM.changeTabColors;
 
 public class ResultController implements Initializable {
     
-    Connection con;
-    char faculty = 'b';
-    String subjectCode;
+    private Connection con;
+    private char faculty = 'b';
+    private String subjectCode;
 
     @FXML private Pane businessResultPane, computingResultPane, engineeringResultPane;
     @FXML private Text businessResultText, computingResultText, engineeringResultText;

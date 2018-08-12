@@ -3,11 +3,11 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Undergraduate_Semester {
-    private SimpleStringProperty semesterId;
-    private SimpleStringProperty studentId;
-    private double amount;
-    private SimpleStringProperty status;
-    private SimpleStringProperty payDate;
+    private final SimpleStringProperty semesterId;
+    private final SimpleStringProperty studentId;
+    private final double amount;
+    private final SimpleStringProperty status;
+    private final SimpleStringProperty payDate;
     
     public Undergraduate_Semester(String semesterId, String studentId, double amount, String status, String payDate){
         this.semesterId = new SimpleStringProperty(semesterId);
@@ -37,6 +37,4 @@ public class Undergraduate_Semester {
     public String getPayDate() {
         return payDate.get();
     }
-    
-    
 }

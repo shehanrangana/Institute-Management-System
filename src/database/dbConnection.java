@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 
 public class dbConnection {
     
-    static Connection con = null;
+    private static Connection con = null;
     
     // MySQL and Java Connection
     public static Connection getConnection() throws ClassNotFoundException {

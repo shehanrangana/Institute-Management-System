@@ -16,13 +16,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class NSBM extends Application {
     
-    public double xOffset = 0;
-    public double yOffset = 0;
+    private double xOffset = 0;
+    private double yOffset = 0;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -125,7 +124,6 @@ public class NSBM extends Application {
 
     public static void main(String[] args) throws ClassNotFoundException {
         launch(args);
-        
     }
     
 }

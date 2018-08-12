@@ -38,11 +38,11 @@ import static nsbm.NSBM.changeTabColors;
 public class SubjectController implements Initializable {
     
     // Initialize variable for
-    Connection con;
+    private Connection con;
     
     // These variables for check the faculty and courses types
-    char school = 'b';
-    String toogleValue = "Bachelor";
+    private char school = 'b';
+    private String toogleValue = "Bachelor";
 
     @FXML AnchorPane subjectHomeAnchorPane, addNewSubjectAnchorPane, timeAllocationAnchorPane;
     @FXML Pane businessPane, computingPane, engineeringPane;

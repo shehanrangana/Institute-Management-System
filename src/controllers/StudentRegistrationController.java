@@ -21,7 +21,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -30,7 +29,7 @@ import static nsbm.NSBM.alerts;
 public class StudentRegistrationController implements Initializable {
     
     // Initialize variable for connection
-    Connection con;
+    private Connection con;
 
     @FXML AnchorPane stdRegAnchorPane;
     @FXML ImageView backFromStdRegistration;
@@ -224,8 +223,8 @@ public class StudentRegistrationController implements Initializable {
     }
     
     // Fill courses ComboBox with database values
-    String coursesQuery = "";
-    int stdTypeIndex = 0;
+    private String coursesQuery = "";
+    private int stdTypeIndex = 0;
     public void fillComboBoxWithCoursesNames(){
         
         // Check the student type using stdTypeComboBox

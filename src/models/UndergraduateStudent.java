@@ -3,21 +3,21 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class UndergraduateStudent {
-    private SimpleStringProperty studentId;
-    private SimpleStringProperty initials;
-    private SimpleStringProperty firstName;
-    private SimpleStringProperty lastName;
-    private SimpleStringProperty birthday;
-    private SimpleStringProperty gender;
-    private SimpleStringProperty email;
-    private SimpleStringProperty nic;
-    private SimpleStringProperty addressLine1;
-    private SimpleStringProperty addressLine2;
-    private SimpleStringProperty addressLine3;
-    private SimpleStringProperty mobile;
-    private SimpleStringProperty fixed;
-    private SimpleStringProperty facultyName;
-    private SimpleStringProperty courseName;  
+    private final SimpleStringProperty studentId;
+    private final SimpleStringProperty initials;
+    private final SimpleStringProperty firstName;
+    private final SimpleStringProperty lastName;
+    private final SimpleStringProperty birthday;
+    private final SimpleStringProperty gender;
+    private final SimpleStringProperty email;
+    private final SimpleStringProperty nic;
+    private final SimpleStringProperty addressLine1;
+    private final SimpleStringProperty addressLine2;
+    private final SimpleStringProperty addressLine3;
+    private final SimpleStringProperty mobile;
+    private final SimpleStringProperty fixed;
+    private final SimpleStringProperty facultyName;
+    private final SimpleStringProperty courseName;  
 
     // Constructor
     public UndergraduateStudent(String studentId, String initials, String firstName, String lastName, String addressLine1, String addressLine2, String addressLine3,
@@ -99,6 +99,5 @@ public class UndergraduateStudent {
 
     public String getCourseName() {
         return courseName.get();
-    }
-    
+    }   
 }

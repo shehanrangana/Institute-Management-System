@@ -3,9 +3,9 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Qualifications {
-    private SimpleStringProperty qualification;
-    private SimpleStringProperty institute;
-    private SimpleStringProperty compYear;
+    private final SimpleStringProperty qualification;
+    private final SimpleStringProperty institute;
+    private final SimpleStringProperty compYear;
     
     public Qualifications(String qualification, String institute, String compYear){
         this.qualification = new SimpleStringProperty(qualification);

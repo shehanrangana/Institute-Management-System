@@ -3,7 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="studentAnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StudentController">
+<AnchorPane fx:id="studentAnchorPane" prefHeight="650.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StudentController">
    <children>
       <AnchorPane id="AnchorPane" fx:id="studentHomeAnchorPane" maxHeight="768.0" maxWidth="1366.0" minHeight="650.0" minWidth="1156.0" prefHeight="650.0" prefWidth="1156.0" style="-fx-background-color: #E2E6EF;">
          <children>
@@ -47,17 +48,17 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <JFXButton fx:id="studentRegisterButton" layoutX="99.0" layoutY="610.0" onAction="#stdRegisterButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #FF3838;" text="Register a Student" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="168.0">
+            <JFXButton fx:id="studentRegisterButton" layoutX="99.0" layoutY="610.0" onAction="#stdRegisterButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #FF3838; -fx-background-radius: 0;" text="Register a Student" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="168.0">
                <font>
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="379.0" layoutY="610.0" onAction="#chooseSubjects" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Choose/Change Subjects" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="378.0">
+            <JFXButton layoutX="379.0" layoutY="610.0" onAction="#chooseSubjects" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999; -fx-background-radius: 0;" text="Choose/Change Subjects" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="378.0">
                <font>
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="deleteButton" layoutX="578.0" layoutY="610.0" onAction="#deleteButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="378.0">
+            <JFXButton fx:id="deleteButton" layoutX="578.0" layoutY="610.0" onAction="#deleteButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999; -fx-background-radius: 0;" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="378.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -80,7 +81,7 @@
                   </Text>
                </children>
             </Pane>
-            <JFXButton layoutX="929.0" layoutY="610.0" onAction="#moreDetails" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="More details" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="168.0">
+            <JFXButton layoutX="929.0" layoutY="610.0" onAction="#moreDetails" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999; -fx-background-radius: 0;" text="More details" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="168.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -105,14 +106,14 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <Pane layoutX="1016.0" layoutY="4.0" prefHeight="40.0" prefWidth="130.0" style="-fx-border-color: #CCCCCC;">
+                  <Pane layoutX="976.0" layoutY="4.0" prefHeight="40.0" prefWidth="170.0" style="-fx-border-color: #CCCCCC;">
                      <children>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="83.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="126.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../icons/profile-picture.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="studentIdText" fill="#6f7977" layoutX="8.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UG0001" textAlignment="CENTER">
+                        <Text fx:id="studentIdText" fill="#6f7977" layoutX="8.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2016/CS/160" textAlignment="CENTER">
                            <font>
                               <Font name="Segoe UI Historic" size="18.0" />
                            </font>
@@ -264,11 +265,11 @@
             </Pane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="detailsAndUpdateAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false">
+      <AnchorPane fx:id="detailsAndUpdateAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;">
+            <AnchorPane prefWidth="1156.0" style="-fx-border-color: #468ac9; -fx-border-width: 0 0 1 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Text fill="#505050" layoutX="487.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="More Details...">
+                  <Text fill="#505050" layoutX="487.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="More Details..." textAlignment="CENTER" AnchorPane.topAnchor="3.78515625">
                      <font>
                         <Font name="Segoe UI Semibold" size="28.0" />
                      </font>
@@ -282,241 +283,255 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="detailsSaveButton" layoutX="1096.0" layoutY="10.0" onMousePressed="#updateStudentsDetails" prefHeight="30.0" prefWidth="50.0" style="-fx-background-color: #505050;" text="OK" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="editButton" layoutX="1035.0" layoutY="10.0" onMousePressed="#updateDetails" prefHeight="30.0" prefWidth="50.0" style="-fx-background-color: #505050;" text="EDIT" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <Label fx:id="studentIdLabel" layoutX="284.0" layoutY="6.0" style="-fx-label-padding: 4 10; -fx-border-color: #3EE576; -fx-border-radius: 20;" text="UG0001">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                  <Pane layoutX="768.0" layoutY="3.0" prefHeight="40.0" prefWidth="170.0" style="-fx-border-color: #CCCCCC;" AnchorPane.rightAnchor="35.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="126.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/profile-picture.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="studentIdText2" fill="#6f7977" layoutX="8.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2016/CS/160" textAlignment="CENTER">
+                           <font>
+                              <Font name="Segoe UI Historic" size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
                </children>
-            </Pane>
-            <Text fx:id="name" fontSmoothingType="LCD" layoutX="285.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name with initials" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="57.576171875">
+            </AnchorPane>
+            <Text fx:id="name" fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="74.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Name with initials" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="58.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address Line 1" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="89.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="129.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Address Line 1" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="113.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address Line 2" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="121.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="184.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Address Line 2" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="168.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address Line 3" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="153.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="239.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Address Line 3" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="223.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Birthday" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="185.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="294.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Birthday" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="278.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="217.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="349.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="333.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="249.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="682.9997308850288" layoutY="74.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="415.99998077750206" AnchorPane.rightAnchor="57.0002883374691" AnchorPane.topAnchor="58.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NIC" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="281.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="682.9999720454216" layoutY="129.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="NIC" wrappingWidth="415.9999980032444" AnchorPane.rightAnchor="57.000029951334" AnchorPane.topAnchor="113.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobile" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="313.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="682.9997308850288" layoutY="184.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobile" wrappingWidth="415.99998077750206" AnchorPane.rightAnchor="57.0002883374691" AnchorPane.topAnchor="168.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fixed" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="345.576171875">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="682.9996103048325" layoutY="239.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Fixed" wrappingWidth="415.9999721646309" AnchorPane.rightAnchor="57.00041753053665" AnchorPane.topAnchor="223.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Faculty" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="378.0">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="682.9999720454216" layoutY="294.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Course" wrappingWidth="415.9999980032444" AnchorPane.rightAnchor="57.000029951334" AnchorPane.topAnchor="278.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI Semibold" size="14.0" />
                </font>
             </Text>
-            <JFXTextField fx:id="nameTextField" editable="false" layoutX="455.0" layoutY="58.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="58.0">
+            <Text fill="#575757" fontSmoothingType="LCD" layoutX="682.9999720454216" layoutY="349.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Faculty" wrappingWidth="415.9999980032444" AnchorPane.rightAnchor="57.000029951334" AnchorPane.topAnchor="333.0">
+               <font>
+                  <Font name="Segoe UI Semibold" size="14.0" />
+               </font>
+            </Text>
+            <JFXTextField fx:id="nameTextField" editable="false" labelFloat="true" layoutX="57.0" layoutY="80.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="80.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="addressLine1TextField" editable="false" layoutX="455.0" layoutY="90.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="90.0">
+            <JFXTextField fx:id="addressLine1TextField" editable="false" labelFloat="true" layoutX="57.0" layoutY="135.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="135.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="addressLine2TextField" editable="false" layoutX="455.0" layoutY="122.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="122.0">
+            <JFXTextField fx:id="addressLine2TextField" editable="false" labelFloat="true" layoutX="57.0" layoutY="190.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="190.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="addressLine3TextField" editable="false" layoutX="455.0" layoutY="154.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="154.0">
+            <JFXTextField fx:id="addressLine3TextField" editable="false" labelFloat="true" layoutX="57.0" layoutY="245.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="245.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="birthdayTextField" editable="false" layoutX="455.0" layoutY="186.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="186.0">
+            <JFXTextField fx:id="birthdayTextField" editable="false" labelFloat="true" layoutX="57.0" layoutY="300.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="300.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="genderTextField" editable="false" layoutX="455.0" layoutY="218.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="218.0">
+            <JFXTextField fx:id="genderTextField" editable="false" labelFloat="true" layoutX="57.0" layoutY="355.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="355.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="emailTextField" editable="false" layoutX="455.0" layoutY="250.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="250.0">
+            <JFXTextField fx:id="emailTextField" editable="false" labelFloat="true" layoutX="683.0" layoutY="80.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="80.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="nicTextField" editable="false" layoutX="455.0" layoutY="282.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="282.0">
+            <JFXTextField fx:id="nicTextField" editable="false" labelFloat="true" layoutX="683.0" layoutY="135.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="135.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="mobileTextField" editable="false" layoutX="455.0" layoutY="314.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="314.0">
+            <JFXTextField fx:id="mobileTextField" editable="false" labelFloat="true" layoutX="683.0" layoutY="190.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="190.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="fixedTextField" editable="false" layoutX="455.0" layoutY="346.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="346.0">
+            <JFXTextField fx:id="fixedTextField" editable="false" labelFloat="true" layoutX="683.0" layoutY="245.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="245.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="facultyTextField" editable="false" layoutX="455.0" layoutY="378.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="378.0">
+            <JFXTextField fx:id="courseTextField" editable="false" labelFloat="true" layoutX="683.0" layoutY="300.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="300.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <Text fontSmoothingType="LCD" layoutX="285.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-            <JFXTextField fx:id="courseTextField" editable="false" layoutX="455.0" layoutY="410.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.topAnchor="410.0">
+            <JFXTextField fx:id="facultyTextField" editable="false" labelFloat="true" layoutX="683.0" layoutY="355.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="355.0">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <Pane fx:id="alResultPane" layoutX="272.0" layoutY="437.0" prefHeight="206.0" prefWidth="613.0" visible="false" AnchorPane.topAnchor="437.0">
+            <AnchorPane fx:id="alResultAnchorPane" layoutX="40.0" layoutY="398.0" prefHeight="200.0" prefWidth="1076.0" visible="false" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="398.0">
                <children>
-                  <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A/L Stream">
+                  <Text fontSmoothingType="LCD" layoutX="57.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A/L Stream" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="7.0">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="16.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="streamTextField" editable="false" layoutX="183.0" layoutY="5.0" prefHeight="25.0" prefWidth="160.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="streamTextField" editable="false" layoutY="28.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fx:id="subject1Text" fontSmoothingType="LCD" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 1">
+                  <Text fx:id="subject1Text" fontSmoothingType="LCD" layoutX="697.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 1" wrappingWidth="415.99997279047966" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="7.0">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="16.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="result1TextField" editable="false" layoutX="183.0" layoutY="37.0" prefHeight="25.0" prefWidth="160.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="result1TextField" editable="false" layoutX="697.0" layoutY="28.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fx:id="subject2Text" fontSmoothingType="LCD" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 2">
+                  <Text fx:id="subject2Text" fontSmoothingType="LCD" layoutX="697.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 2" wrappingWidth="415.99997279047966" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="72.734375">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="16.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="result2TextField" editable="false" layoutX="183.0" layoutY="69.0" prefHeight="25.0" prefWidth="160.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="result2TextField" editable="false" layoutX="697.0" layoutY="94.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fx:id="subject3Text" fontSmoothingType="LCD" layoutX="14.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 3">
+                  <Text fx:id="subject3Text" fontSmoothingType="LCD" layoutX="697.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 3" wrappingWidth="416.00000935792923" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="137.0">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="16.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="result3TextField" editable="false" layoutX="183.0" layoutY="101.0" prefHeight="25.0" prefWidth="160.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="result3TextField" editable="false" layoutX="697.0" layoutY="158.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="District Rank">
+                  <Text fontSmoothingType="LCD" layoutX="57.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="District Rank" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="72.734375">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="16.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="rankTextField" editable="false" layoutX="183.0" layoutY="133.0" prefHeight="25.0" prefWidth="160.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="rankTextField" editable="false" layoutX="55.0" layoutY="94.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Z-Score">
+                  <Text fontSmoothingType="LCD" layoutX="57.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Z-Score" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="137.0">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="16.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="zScoreTextField" editable="false" layoutX="183.0" layoutY="165.0" prefHeight="25.0" prefWidth="160.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="zScoreTextField" editable="false" layoutY="158.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
                </children>
-            </Pane>
-            <Pane fx:id="qualificationsPane" layoutX="272.0" layoutY="430.0" prefHeight="206.0" prefWidth="613.0" visible="false" AnchorPane.topAnchor="437.0">
+            </AnchorPane>
+            <AnchorPane fx:id="qualificationsAnchorPane" layoutX="40.0" layoutY="402.0" prefHeight="200.0" prefWidth="1076.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="402.0">
                <children>
-                  <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Qualification Type">
+                  <Text fill="#575757" fontSmoothingType="LCD" layoutX="17.0" layoutY="26.9208984375" strokeType="OUTSIDE" strokeWidth="0.0" text="Qualification Type" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="10.734375">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="qualificationTextField" editable="false" layoutX="183.0" layoutY="5.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="qualificationTextField" editable="false" layoutX="17.0" layoutY="32.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Institute">
+                  <Text fill="#575757" fontSmoothingType="LCD" layoutX="17.0" layoutY="91.9208984375" strokeType="OUTSIDE" strokeWidth="0.0" text="Completion Year" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="75.734375">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="instituteTextField" editable="false" layoutX="183.0" layoutY="37.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="compYearTextField" editable="false" layoutX="17.0" layoutY="97.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Completion Year">
+                  <Text fill="#575757" fontSmoothingType="LCD" layoutX="17.0" layoutY="157.1865234375" strokeType="OUTSIDE" strokeWidth="0.0" text="Institute" wrappingWidth="415.99998077750206" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="141.0">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="compYearTextField" editable="false" layoutX="183.0" layoutY="69.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css">
+                  <JFXTextField fx:id="instituteTextField" editable="false" layoutX="17.0" layoutY="162.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
                      <font>
                         <Font size="16.0" />
                      </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
                   </JFXTextField>
                </children>
-            </Pane>
+            </AnchorPane>
+            <Separator layoutX="10.0" layoutY="398.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <Separator layoutX="10.0" layoutY="606.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <JFXButton fx:id="editButton" layoutX="330.0" layoutY="617.0" onMousePressed="#updateDetails" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #468ac9; -fx-background-radius: 0;" text="EDIT" textFill="WHITE" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="330.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="detailsSaveButton" layoutX="626.0" layoutY="617.0" onMousePressed="#updateStudentsDetails" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #468ac9; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="330.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>
