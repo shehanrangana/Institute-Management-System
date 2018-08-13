@@ -267,7 +267,7 @@
       </AnchorPane>
       <AnchorPane fx:id="detailsAndUpdateAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefWidth="1156.0" style="-fx-border-color: #468ac9; -fx-border-width: 0 0 1 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane prefWidth="1156.0" style="-fx-background-color: #EBEBEB;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Text fill="#505050" layoutX="487.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="More Details..." textAlignment="CENTER" AnchorPane.topAnchor="3.78515625">
                      <font>
