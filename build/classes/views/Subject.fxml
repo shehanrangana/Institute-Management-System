@@ -115,56 +115,55 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane layoutX="284.0" layoutY="116.0" prefHeight="60.0" prefWidth="589.0" style="-fx-background-color: #99CC99;">
+            <JFXComboBox fx:id="subTypeComboBox" layoutX="439.0" layoutY="81.0" prefHeight="31.0" prefWidth="319.0" promptText="Subject Type" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="2" AnchorPane.topAnchor="81.0" />
+            <JFXTextField fx:id="subCodeTextField" layoutX="439.0" layoutY="126.0" prefHeight="31.0" prefWidth="319.0" promptText="Subject Code" AnchorPane.topAnchor="126.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="subNameTextField" layoutX="437.0" layoutY="171.0" prefHeight="31.0" prefWidth="319.0" promptText="Subject Name" AnchorPane.topAnchor="171.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="alloTimeTextField" layoutX="437.0" layoutY="216.0" prefHeight="31.0" prefWidth="319.0" promptText="Allocated Time (Hours)" AnchorPane.topAnchor="216.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="creditTextField" layoutX="437.0" layoutY="261.0" prefHeight="31.0" prefWidth="319.0" promptText="Credit" AnchorPane.topAnchor="261.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="durationTextField" layoutX="437.0" layoutY="306.0" prefHeight="31.0" prefWidth="319.0" promptText="Duration" AnchorPane.topAnchor="306.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="locationTextField" layoutX="437.0" layoutY="351.0" prefHeight="31.0" prefWidth="319.0" promptText="Location" AnchorPane.topAnchor="351.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="feeTextField" layoutX="437.0" layoutY="396.0" prefHeight="31.0" prefWidth="319.0" promptText="Fee" AnchorPane.topAnchor="396.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <JFXComboBox fx:id="courseComboBox" layoutX="437.0" layoutY="441.0" prefHeight="31.0" prefWidth="319.0" promptText="Course" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="4" AnchorPane.topAnchor="441.0" />
+            <JFXComboBox fx:id="lecturerComboBox" layoutX="437.0" layoutY="486.0" prefHeight="31.0" prefWidth="319.0" promptText="Lecturer" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="4" AnchorPane.topAnchor="486.0" />
+            <JFXTextField fx:id="year_semesterTextField" layoutX="437.0" layoutY="531.0" prefHeight="31.0" prefWidth="319.0" promptText="Year_Semester  [e.g : Y1_S1]" AnchorPane.topAnchor="531.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <AnchorPane layoutX="437.0" layoutY="586.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #468AC9;">
                <children>
-                  <Text fontSmoothingType="LCD" layoutX="37.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add as a" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Italic" size="17.0" />
-                     </font>
-                  </Text>
-                  <JFXComboBox fx:id="subTypeComboBox" layoutX="125.0" layoutY="12.0" prefHeight="31.0" prefWidth="275.0" promptText="Subject Type" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="2" />
-                  <JFXCheckBox fx:id="compulsoryCheckBox" layoutX="466.0" layoutY="19.0" text="Compulsory" />
+                  <JFXCheckBox fx:id="compulsoryCheckBox" layoutX="26.0" layoutY="5.0" prefHeight="18.0" prefWidth="113.0" text="Compulsory" textFill="WHITE" />
                </children>
-            </Pane>
-            <JFXTextField fx:id="subCodeTextField" layoutX="284.0" layoutY="210.0" prefHeight="31.0" prefWidth="275.0" promptText="Subject Code" AnchorPane.topAnchor="210.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="subNameTextField" layoutX="598.0" layoutY="210.0" prefHeight="31.0" prefWidth="275.0" promptText="Subject Name" AnchorPane.topAnchor="210.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="alloTimeTextField" layoutX="284.0" layoutY="260.0" prefHeight="31.0" prefWidth="275.0" promptText="Allocated Time (Hours)" AnchorPane.topAnchor="260.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="feeTextField" layoutX="598.0" layoutY="260.0" prefHeight="31.0" prefWidth="275.0" promptText="Fee" AnchorPane.topAnchor="260.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="creditTextField" layoutX="284.0" layoutY="310.0" prefHeight="31.0" prefWidth="275.0" promptText="Credit" AnchorPane.topAnchor="310.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="durationTextField" layoutX="598.0" layoutY="310.0" prefHeight="31.0" prefWidth="275.0" promptText="Duration" AnchorPane.topAnchor="310.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="locationTextField" layoutX="284.0" layoutY="360.0" prefHeight="31.0" prefWidth="275.0" promptText="Location" AnchorPane.topAnchor="360.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </JFXTextField>
-            <JFXComboBox fx:id="semIdComboBox" layoutX="600.0" layoutY="358.0" prefHeight="31.0" prefWidth="275.0" promptText="Semester" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="4" AnchorPane.topAnchor="360.0" />
-            <JFXComboBox fx:id="courseComboBox" layoutX="284.0" layoutY="410.0" prefHeight="31.0" prefWidth="275.0" promptText="Course" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="4" AnchorPane.topAnchor="410.0" />
-            <JFXComboBox fx:id="lecturerComboBox" layoutX="600.0" layoutY="410.0" prefHeight="31.0" prefWidth="275.0" promptText="Lecturer" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="4" AnchorPane.topAnchor="410.0" />
-            <JFXButton fx:id="addButton" layoutX="498.0" layoutY="487.0" onAction="#addButtonPressed" prefHeight="30.0" prefWidth="160.0" style="-fx-background-color: #99CC99;" text="ADD">
+            </AnchorPane>
+            <JFXButton fx:id="addButton" layoutX="606.0" layoutY="586.0" onAction="#addButtonPressed" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="ADD" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Semibold" size="15.0" />
                </font>

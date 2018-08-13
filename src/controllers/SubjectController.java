@@ -64,8 +64,8 @@ public class SubjectController implements Initializable {
     @FXML TableColumn<Subjects, String> lecturerIdColumn;
     
     // Add new subject components
-    @FXML JFXTextField subCodeTextField, subNameTextField, alloTimeTextField, feeTextField, creditTextField, durationTextField, locationTextField;
-    @FXML JFXComboBox subTypeComboBox, semIdComboBox, courseComboBox, lecturerComboBox;
+    @FXML JFXTextField subCodeTextField, subNameTextField, alloTimeTextField, feeTextField, creditTextField, durationTextField, locationTextField, year_semesterTextField;
+    @FXML JFXComboBox subTypeComboBox, courseComboBox, lecturerComboBox;
     @FXML JFXCheckBox compulsoryCheckBox;
     
     // This method will return an ObservableList lecturers
@@ -191,21 +191,21 @@ public class SubjectController implements Initializable {
     }
     
     // Fill semester ComboBox with database values
-    public void fillComboBoxWithSemId(){
-        semIdComboBox.getItems().clear();
-        try {
-            String query = "SELECT semester_id FROM semester";
-            PreparedStatement ps = con.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                String semester = rs.getString("semester_id");
-                semIdComboBox.getItems().addAll(semester); 
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void fillComboBoxWithSemId(){
+//        semIdComboBox.getItems().clear();
+//        try {
+//            String query = "SELECT semester_id FROM semester";
+//            PreparedStatement ps = con.prepareStatement(query);
+//            ResultSet rs = ps.executeQuery();
+//            
+//            while (rs.next()) {
+//                String semester = rs.getString("semester_id");
+//                semIdComboBox.getItems().addAll(semester); 
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
     
     // Fill lecture ComboBox with database values
     public void fillComboBoxWithLecturerId(){
@@ -226,7 +226,6 @@ public class SubjectController implements Initializable {
     
     // Switch to the add new subject pane
     public void addNewSubjectButtonPressed(){
-        fillComboBoxWithSemId();
         fillComboBoxWithLecturerId();
         
         addNewSubjectAnchorPane.setVisible(true);
@@ -243,9 +242,9 @@ public class SubjectController implements Initializable {
         PreparedStatement ps = null;
         try{
             if(subTypeComboBox.getValue().toString() == "Bachelor Subject"){
-                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, compulsory, allocated_time, fee, credit, duration, location, semester_id, b_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, compulsory, allocated_time, fee, credit, duration, location, year_semester, b_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             }else if(subTypeComboBox.getValue().toString() == "Master Subject"){
-                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, compulsory, allocated_time, fee, credit, duration, location, semester_id, m_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+                ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, compulsory, allocated_time, fee, credit, duration, location, year_semester, m_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             }
             // Get values for subject table
             ps.setString(1, subCodeTextField.getText());
@@ -256,7 +255,7 @@ public class SubjectController implements Initializable {
             ps.setInt(6, Integer.parseInt(creditTextField.getText()));
             ps.setDouble(7, Double.parseDouble(durationTextField.getText()));
             ps.setString(8, locationTextField.getText());
-            ps.setString(9, semIdComboBox.getValue().toString());
+            ps.setString(9, year_semesterTextField.getText());
             ps.setString(10, courseComboBox.getValue().toString());
             ps.setString(11, lecturerComboBox.getValue().toString());
             
