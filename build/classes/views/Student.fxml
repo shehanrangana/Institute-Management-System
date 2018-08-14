@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -11,6 +12,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -88,16 +90,16 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="chooseSubjectsAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false">
+      <AnchorPane fx:id="chooseSubjectsAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;">
+            <StackPane prefHeight="50.0" style="-fx-background-color: #ebebeb;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Text fill="#505050" layoutX="420.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose/Change Subjects">
+                  <Text fill="#505050" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose/Change Subjects" StackPane.alignment="CENTER">
                      <font>
                         <Font name="Segoe UI Semibold" size="28.0" />
                      </font>
                   </Text>
-                  <Pane layoutX="10.0" layoutY="3.0" prefHeight="45.0" prefWidth="45.0">
+                  <Pane maxHeight="45.0" maxWidth="45.0" StackPane.alignment="CENTER_LEFT">
                      <children>
                         <ImageView fx:id="backFromSubjects" fitHeight="30.0" fitWidth="30.0" layoutX="8.0" layoutY="8.0" onMousePressed="#backToStudent" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -105,8 +107,11 @@
                            </image>
                         </ImageView>
                      </children>
+                     <StackPane.margin>
+                        <Insets left="10.0" />
+                     </StackPane.margin>
                   </Pane>
-                  <Pane layoutX="976.0" layoutY="4.0" prefHeight="40.0" prefWidth="170.0" style="-fx-border-color: #CCCCCC;">
+                  <Pane maxHeight="40.0" maxWidth="170.0" style="-fx-border-color: #CCCCCC;" StackPane.alignment="CENTER_RIGHT">
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="126.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -119,9 +124,15 @@
                            </font>
                         </Text>
                      </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <StackPane.margin>
+                        <Insets right="10.0" />
+                     </StackPane.margin>
                   </Pane>
                </children>
-            </Pane>
+            </StackPane>
             <Pane layoutX="44.0" layoutY="79.0" prefHeight="575.0" prefWidth="563.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0">
                <children>
                   <Pane layoutX="195.0" layoutY="-22.0" prefHeight="45.0" prefWidth="173.0" style="-fx-background-color: #99CC99;">
@@ -192,7 +203,7 @@
                      </font>
                   </JFXTextField>
                </children></Pane>
-            <Pane layoutX="587.0" layoutY="80.0" prefHeight="575.0" prefWidth="563.0" style="-fx-background-color: #eee;" AnchorPane.rightAnchor="10.0">
+            <Pane layoutX="587.0" layoutY="80.0" prefHeight="575.0" prefWidth="563.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0">
                <children>
                   <Pane layoutX="195.0" layoutY="-22.0" prefHeight="45.0" prefWidth="173.0" style="-fx-background-color: #99CC99;">
                      <children>
@@ -235,7 +246,7 @@
                         </Text>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="s02ResetButton" layoutX="14.0" layoutY="515.0" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE">
+                  <JFXButton fx:id="s02ResetButton" layoutX="14.0" layoutY="515.0" onAction="#s02UpdateButtonPressed" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>
@@ -263,6 +274,7 @@
                   <JFXComboBox fx:id="s02OpSubject3" layoutX="126.0" layoutY="268.0" prefHeight="25.0" prefWidth="300.0" promptText="Subject 3" stylesheets="@../res/jfx-combo-box-add-course.css" />
                </children>
             </Pane>
+            <Button fx:id="resetButton" layoutX="545.0" layoutY="243.0" mnemonicParsing="false" onAction="#resetButtonPressed" prefHeight="64.0" prefWidth="64.0" style="-fx-background-radius: 50;" stylesheets="@../res/ButtonBackground.css" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="detailsAndUpdateAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

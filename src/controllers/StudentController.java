@@ -25,8 +25,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -77,6 +79,7 @@ public class StudentController implements Initializable {
     @FXML JFXComboBox s02OpSubject1, s02OpSubject2, s02OpSubject3, s02OpSubject4, semIdComboBox2;
     @FXML Text studentIdText, s01TotalCreditText, s02TotalCreditText, s01Amount, s02Amount;
     @FXML JFXButton s01ConfirmButton, s02ConfirmButton;
+    @FXML Button resetButton;
     private int s01TotalCredit, s02TotalCredit = 0;
     private double s01TotalFee, s02TotalFee = 0;
     
@@ -93,7 +96,6 @@ public class StudentController implements Initializable {
     @FXML AnchorPane alResultAnchorPane, qualificationsAnchorPane;
     
     // Variables for more details view
-    private int index;
     private String id, name, addressLine1, addressLine2, addressLine3, birthday, gender, email, nic, mobile, fixed, faculty, course, stream, result1, result2, result3,
            qualification, institute, compYear;
     private int rank;
@@ -255,6 +257,8 @@ public class StudentController implements Initializable {
 
     // Switch to the choose/change subject pane
     public void chooseSubjects(){
+        Tooltip tt = new Tooltip("Reset");
+        resetButton.setTooltip(tt);
         s01TotalCredit=0; 
         s02TotalCredit = 0;
         s01TotalFee = 0; 
@@ -323,7 +327,6 @@ public class StudentController implements Initializable {
                 psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S2' AND student_id=?");
                 psS01.setString(1, studentIdText.getText());
                 psS02.setString(1, studentIdText.getText());
-                //System.out.println(studentIdText.getText());
                 
                 rsS01 = psS01.executeQuery();
                 rsS02 = psS02.executeQuery();
@@ -348,7 +351,6 @@ public class StudentController implements Initializable {
                 psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S2' AND student_id=?");
                 psS01.setString(1, studentIdText.getText());
                 psS02.setString(1, studentIdText.getText());
-                //System.out.println(studentIdText.getText());
 
                 rsS01 = psS01.executeQuery();
                 rsS02 = psS02.executeQuery();
@@ -476,10 +478,19 @@ public class StudentController implements Initializable {
             }
     }
     
-    // Reset subject selection form
+    // Change selected subjects [semseter 1]
     public void s01UpdateButtonPressed() throws SQLException{
-        
-        enableComboBoxes(false);
+
+    }
+    
+    // Change selected subjects [semseter 2]
+    public void s02UpdateButtonPressed() throws SQLException{
+
+    }
+    
+    // Reset subject selection form
+    public void resetButtonPressed(){
+        chooseSubjects();
     }
 
     // Assign subjects
