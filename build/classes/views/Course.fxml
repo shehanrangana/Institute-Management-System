@@ -46,12 +46,12 @@
                      </columnResizePolicy></TableView>
                </children>
             </AnchorPane>
-            <JFXButton fx:id="addCourseButton" layoutX="99.0" layoutY="610.0" onMousePressed="#addCourseButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #FF3838;" text="Add new course" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="378.0">
+            <JFXButton fx:id="addCourseButton" layoutX="99.0" layoutY="610.0" onMousePressed="#addCourseButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #FF3838; -fx-background-radius: 0;" text="Add new course" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="378.0">
                <font>
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="removeCourseButton" layoutX="497.0" layoutY="610.0" onAction="#removeCourseButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Remove course" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="378.0">
+            <JFXButton fx:id="removeCourseButton" layoutX="497.0" layoutY="610.0" onAction="#removeCourseButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999; -fx-background-radius: 0;" text="Remove course" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="378.0">
                <font>
                   <Font size="15.0" />
                </font>

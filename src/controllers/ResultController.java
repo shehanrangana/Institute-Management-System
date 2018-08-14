@@ -47,13 +47,13 @@ public class ResultController implements Initializable {
     @FXML private JFXComboBox goToComboBox, courseComboBox, subjectComboBox;
     
     // Undergraduate assesments result table components
-    @FXML TableView<Undergraduate_Assesment> ugResultTable;
+    @FXML TableView<Undergraduate_Assesment> ugAssesmentTable;
     @FXML TableColumn<Undergraduate_Assesment, String> ugStudentIdColumn;
     @FXML TableColumn<Undergraduate_Assesment, Integer> ugMarkColumn;
     @FXML TableColumn<Undergraduate_Assesment, String> ugATypeColumn;
     
     // Postgraduate assesments result table components
-    @FXML TableView<Postgraduate_Assesment> pgResultTable;
+    @FXML TableView<Postgraduate_Assesment> pgAssesmentTable;
     @FXML TableColumn<Postgraduate_Assesment, String> pgStudentIdColumn;
     @FXML TableColumn<Postgraduate_Assesment, Integer> pgMarkColumn;
     @FXML TableColumn<Postgraduate_Assesment, String> pgATypeColumn;
@@ -73,11 +73,7 @@ public class ResultController implements Initializable {
         ObservableList<Undergraduate_Assesment> results = FXCollections.observableArrayList();
         String query;
         try{
-            if(assignmentId.equals("All")){
-                query = "SELECT * FROM undergraduate_assesment";
-            }else{
-                query = "SELECT * FROM undergraduate_assesment WHERE assesment_id = '"+ assignmentId +"' AND subject_code = '"+ subjectCode+"'";
-            }
+            query = "SELECT * FROM undergraduate_assesment WHERE assesment_id = '"+ assignmentId +"' AND subject_code = '"+ subjectCode+"'";
         
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -99,11 +95,7 @@ public class ResultController implements Initializable {
         ObservableList<Postgraduate_Assesment> results = FXCollections.observableArrayList();
         String query;
         try{
-            if(assignmentId.equals("All")){
-                query = "SELECT * FROM postgraduate_assesment";
-            }else{
-                query = "SELECT * FROM postgraduate_assesment WHERE assesment_id = '"+ assignmentId +"' AND subject_code = '"+ subjectCode+"'";
-            }
+            query = "SELECT * FROM postgraduate_assesment WHERE assesment_id = '"+ assignmentId +"' AND subject_code = '"+ subjectCode+"'";
         
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -121,7 +113,7 @@ public class ResultController implements Initializable {
     }
     
     // This method will return an ObservableList of grades(undergraduate)
-    public ObservableList<Undergraduate_Subjects> getUgGrades(String subjectCode){
+    public ObservableList<Undergraduate_Subjects> getUgFinalGrades(String subjectCode){
         ObservableList<Undergraduate_Subjects> gradeList = FXCollections.observableArrayList();
         try{
             String query = "SELECT student_id, grade FROM undergraduate_subject WHERE subject_code= '"+ subjectCode +"'";
@@ -141,7 +133,7 @@ public class ResultController implements Initializable {
     }
     
     // This method will return an ObservableList of grades(undergraduate)
-    public ObservableList<Postgraduate_Subjects> getPgGrades(String subjectCode){
+    public ObservableList<Postgraduate_Subjects> getPgFinalGrades(String subjectCode){
         ObservableList<Postgraduate_Subjects> gradeList = FXCollections.observableArrayList();
         try{
             String query = "SELECT student_id, grade FROM postgraduate_subject WHERE subject_code= '"+ subjectCode +"'";
@@ -232,7 +224,7 @@ public class ResultController implements Initializable {
             ugATypeColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, String> ("type"));
         
             // load the data into the undergraduate result table
-            ugResultTable.setItems(getUgResults(newValue));
+            ugAssesmentTable.setItems(getUgResults(newValue));
         }else if(table == 'p'){
             // setup columns in the postgraduate result table
             pgStudentIdColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Assesment, String> ("studentId"));
@@ -240,7 +232,7 @@ public class ResultController implements Initializable {
             pgATypeColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Assesment, String> ("type"));
         
             // load the data into the postgraduate result table
-            pgResultTable.setItems(getPgResults(newValue));
+            pgAssesmentTable.setItems(getPgResults(newValue));
         } 
     }
     
@@ -251,14 +243,14 @@ public class ResultController implements Initializable {
             ugGradeColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Subjects, String> ("grade"));
         
             // load the data into the undergraduate result table
-            ugGradeTable.setItems(getUgGrades(subjectCode));
+            ugGradeTable.setItems(getUgFinalGrades(subjectCode));
         }else if(table == 'p'){
             // Setup columns in the postgraduate grades table
             pgStudentIdColumn2.setCellValueFactory(new PropertyValueFactory<Postgraduate_Subjects, String> ("subjectCode"));
             pgGradeColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Subjects, String> ("grade"));
         
             // load the data into the postgraduate result table
-            pgGradeTable.setItems(getPgGrades(subjectCode));
+            pgGradeTable.setItems(getPgFinalGrades(subjectCode));
         }     
     }
     
@@ -273,7 +265,7 @@ public class ResultController implements Initializable {
         ps2.executeQuery();
         int returnCode = ps3.executeUpdate();
         ps4.executeUpdate();
-
+        System.out.println(returnCode);
         return returnCode;
     }
     
@@ -312,6 +304,8 @@ public class ResultController implements Initializable {
                         ps = con.prepareStatement("LOAD DATA INFILE ? INTO TABLE undergraduate_assesment FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\n'");
                         ps.setString(1, filePath);
                         ps.executeQuery();
+                        
+                        loadAssesmentList();
                     }
                 }else if(goToComboBox.getValue() == "POSTGRADUATE RESULT CENTER"){
                     if(event.getTarget() == gradeButton){
@@ -323,19 +317,18 @@ public class ResultController implements Initializable {
                         ps = con.prepareStatement("LOAD DATA INFILE ? INTO TABLE postgraduate_assesment FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\n'");
                         ps.setString(1, filePath);
                         ps.executeQuery();
+                        
+                        loadAssesmentList();
                     } 
                 }
-                
                 alerts('I', "Message", null, "New Result Sheet Uploaded");
-//                updateTable("All", 'u');
-//                updateTable("All", 'p');
   
             }catch(SQLException ex){
                 ex.printStackTrace();
                 System.out.println(ex.getErrorCode());
                 if(ex.getErrorCode() == 1062){
                     alerts('E', "Message", null, "This result sheet consist with already uploaded marks");
-                }else if(ex.getErrorCode() == 1452){
+                }else if(ex.getErrorCode() == 1452 || ex.getErrorCode() == 1261){
                     alerts('E', "Message", null, "Selected result sheet not compatible with selected result center");
                 } 
             }
@@ -398,9 +391,9 @@ public class ResultController implements Initializable {
                             courseComboBox.getItems().addAll(cName);
                         } 
                         
-                        ugResultTable.getItems().clear();
-                        ugResultTable.setVisible(true);
-                        pgResultTable.setVisible(false);
+                        ugAssesmentTable.getItems().clear();
+                        ugAssesmentTable.setVisible(true);
+                        pgAssesmentTable.setVisible(false);
                         
                         ugGradeTable.getItems().clear();
                         ugGradeTable.setVisible(true);
@@ -427,9 +420,9 @@ public class ResultController implements Initializable {
                             courseComboBox.getItems().addAll(cName);
                         } 
                         
-                        pgResultTable.getItems().clear();
-                        pgResultTable.setVisible(true);
-                        ugResultTable.setVisible(false);
+                        pgAssesmentTable.getItems().clear();
+                        pgAssesmentTable.setVisible(true);
+                        ugAssesmentTable.setVisible(false);
                         
                         pgGradeTable.getItems().clear();
                         pgGradeTable.setVisible(true);
@@ -477,8 +470,8 @@ public class ResultController implements Initializable {
                         updateGradeTables('p');
                     }           
                     
-                    ugResultTable.getItems().clear();
-                    pgResultTable.getItems().clear();
+                    ugAssesmentTable.getItems().clear();
+                    pgAssesmentTable.getItems().clear();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultController.class.getName()).log(Level.SEVERE, null, ex);
                 }

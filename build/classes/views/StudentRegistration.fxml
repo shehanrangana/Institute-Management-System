@@ -86,7 +86,7 @@
          </font>
       </JFXTextField>
       <JFXComboBox fx:id="stdTypeComboBox" layoutX="39.0" layoutY="512.0" onAction="#expandExternalPane" prefHeight="31.0" prefWidth="478.0" promptText="Student Type" stylesheets="@../res/jfx-combo-box.css" visibleRowCount="2" />
-      <JFXButton fx:id="registerButton" layoutX="965.0" layoutY="592.0" onAction="#registerButtonPressed" prefHeight="31.0" prefWidth="129.0" style="-fx-background-color: #FF3838;" text="Register" textFill="WHITE" visible="false">
+      <JFXButton fx:id="registerButton" layoutX="965.0" layoutY="592.0" onAction="#registerButtonPressed" prefHeight="31.0" prefWidth="129.0" style="-fx-background-color: #FF3838; -fx-background-radius: 0;" text="Register" textFill="WHITE" visible="false">
          <font>
             <Font name="Segoe UI Semibold" size="14.0" />
          </font>

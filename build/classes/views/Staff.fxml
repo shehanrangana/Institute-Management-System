@@ -70,17 +70,17 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <JFXButton fx:id="addMemberButton" layoutX="273.0" layoutY="610.0" onAction="#addMemberButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #FF3838;" text="Add a new staff member" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="273.0">
+            <JFXButton fx:id="addMemberButton" layoutX="273.0" layoutY="610.0" onAction="#addMemberButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #FF3838; -fx-background-radius: 0;" text="Add a new staff member" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="273.0">
                <font>
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="removeMember" layoutX="483.0" layoutY="610.0" onAction="#removeMemberButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="483.0">
+            <JFXButton fx:id="removeMember" layoutX="483.0" layoutY="610.0" onAction="#removeMemberButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999; -fx-background-radius: 0;" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="483.0">
                <font>
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="moreDetailsButton" layoutX="695.0" layoutY="610.0" onMousePressed="#moreDetailsButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999;" text="More details" textFill="WHITE" AnchorPane.rightAnchor="273.0">
+            <JFXButton fx:id="moreDetailsButton" layoutX="695.0" layoutY="610.0" onMousePressed="#moreDetailsButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999; -fx-background-radius: 0;" text="More details" textFill="WHITE" AnchorPane.rightAnchor="273.0">
                <font>
                   <Font size="15.0" />
                </font>

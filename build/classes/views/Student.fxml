@@ -421,9 +421,9 @@
             </JFXTextField>
             <AnchorPane fx:id="alResultAnchorPane" layoutX="40.0" layoutY="398.0" prefHeight="200.0" prefWidth="1076.0" visible="false" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="398.0">
                <children>
-                  <Text fontSmoothingType="LCD" layoutX="57.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A/L Stream" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="7.0">
+                  <Text fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A/L Stream" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="7.0">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
                   <JFXTextField fx:id="streamTextField" editable="false" layoutY="28.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
@@ -431,9 +431,9 @@
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fx:id="subject1Text" fontSmoothingType="LCD" layoutX="697.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 1" wrappingWidth="415.99997279047966" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="7.0">
+                  <Text fx:id="subject1Text" fill="#575757" fontSmoothingType="LCD" layoutX="697.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 1" wrappingWidth="415.99997279047966" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="7.0">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
                   <JFXTextField fx:id="result1TextField" editable="false" layoutX="697.0" layoutY="28.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="17.0">
@@ -441,9 +441,9 @@
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fx:id="subject2Text" fontSmoothingType="LCD" layoutX="697.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 2" wrappingWidth="415.99997279047966" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="72.734375">
+                  <Text fx:id="subject2Text" fill="#575757" fontSmoothingType="LCD" layoutX="697.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 2" wrappingWidth="415.99997279047966" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="72.734375">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
                   <JFXTextField fx:id="result2TextField" editable="false" layoutX="697.0" layoutY="94.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="17.0">
@@ -451,9 +451,9 @@
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fx:id="subject3Text" fontSmoothingType="LCD" layoutX="697.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 3" wrappingWidth="416.00000935792923" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="137.0">
+                  <Text fx:id="subject3Text" fill="#575757" fontSmoothingType="LCD" layoutX="697.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject 3" wrappingWidth="416.00000935792923" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="137.0">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
                   <JFXTextField fx:id="result3TextField" editable="false" layoutX="697.0" layoutY="158.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.rightAnchor="17.0">
@@ -461,9 +461,9 @@
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fontSmoothingType="LCD" layoutX="57.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="District Rank" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="72.734375">
+                  <Text fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="District Rank" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="72.734375">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
                   <JFXTextField fx:id="rankTextField" editable="false" layoutX="55.0" layoutY="94.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
@@ -471,9 +471,9 @@
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <Text fontSmoothingType="LCD" layoutX="57.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Z-Score" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="137.0">
+                  <Text fill="#575757" fontSmoothingType="LCD" layoutX="57.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Z-Score" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="137.0">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Segoe UI Semibold" size="14.0" />
                      </font>
                   </Text>
                   <JFXTextField fx:id="zScoreTextField" editable="false" layoutY="158.0" prefHeight="25.0" prefWidth="416.0" stylesheets="@../res/jfx-text-field-update-details.css" AnchorPane.leftAnchor="17.0">
@@ -483,7 +483,7 @@
                   </JFXTextField>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="qualificationsAnchorPane" layoutX="40.0" layoutY="402.0" prefHeight="200.0" prefWidth="1076.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="402.0">
+            <AnchorPane fx:id="qualificationsAnchorPane" layoutX="40.0" layoutY="402.0" prefHeight="200.0" prefWidth="1076.0" visible="false" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="402.0">
                <children>
                   <Text fill="#575757" fontSmoothingType="LCD" layoutX="17.0" layoutY="26.9208984375" strokeType="OUTSIDE" strokeWidth="0.0" text="Qualification Type" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="10.734375">
                      <font>

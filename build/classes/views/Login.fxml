@@ -29,7 +29,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <JFXButton fx:id="logInButton" layoutX="57.0" layoutY="306.0" onMousePressed="#logIn" prefHeight="25.0" prefWidth="227.0" style="-fx-background-color: #0893A5;" text="Log In" textFill="WHITE">
+            <JFXButton fx:id="logInButton" layoutX="57.0" layoutY="306.0" onMousePressed="#logIn" prefHeight="25.0" prefWidth="227.0" style="-fx-background-color: #0893A5; -fx-background-radius: 0;" text="Log In" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>

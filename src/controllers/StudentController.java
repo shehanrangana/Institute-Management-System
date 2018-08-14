@@ -215,20 +215,14 @@ public class StudentController implements Initializable {
         return qualificationDetails;
     }
     
-//    // Update tables
-//    public void updateTables(ObservableList oList){
-//        // setup columns in the undergarduate table
-//        idColumn.setCellValueFactory(new PropertyValueFactory<UndergraduateStudent, String> ("studentId"));
-//        fNameColumn.setCellValueFactory(new PropertyValueFactory<UndergraduateStudent, String> ("firstName"));
-//        birthdayColumn.setCellValueFactory(new PropertyValueFactory<UndergraduateStudent, String> ("birthday"));
-//        genderColumn.setCellValueFactory(new PropertyValueFactory<UndergraduateStudent, String> ("gender"));
-//        emailColumn.setCellValueFactory(new PropertyValueFactory<UndergraduateStudent, String> ("email"));
-//        nicColumn.setCellValueFactory(new PropertyValueFactory<UndergraduateStudent, String> ("nic"));
-//        mobileColumn.setCellValueFactory(new PropertyValueFactory<UndergraduateStudent, String> ("mobile"));
-//        
-//        // load the data into the undergraduate table
-//        undergraduateTable.setItems(oList);
-//    }
+    // Update tables
+    public void updateTables(){
+        undergraduateTable.setItems(null);
+        undergraduateTable.setItems(getUgStudents());
+        
+        postgraduateTable.setItems(null);
+        postgraduateTable.setItems(getPgStudents());
+    }
     
     // Load undergraduates' details
     public void selectTabU(){
@@ -327,12 +321,16 @@ public class StudentController implements Initializable {
         semIdComboBox2.getItems().clear();
         
         try{
-            PreparedStatement ps = con.prepareStatement("SELECT semester_id FROM semester");
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement ps1 = con.prepareStatement("SELECT semester_id FROM semester WHERE semester_id LIKE '%S01'");
+            PreparedStatement ps2 = con.prepareStatement("SELECT semester_id FROM semester WHERE semester_id LIKE '%S02'");
+            ResultSet rs1 = ps1.executeQuery();
+            ResultSet rs2 = ps2.executeQuery();
             
-            while(rs.next()){
-                semIdComboBox1.getItems().addAll(rs.getString("semester_id"));
-                semIdComboBox2.getItems().addAll(rs.getString("semester_id"));
+            while(rs1.next()){
+                semIdComboBox1.getItems().addAll(rs1.getString("semester_id"));
+            }
+            while(rs2.next()){
+                semIdComboBox2.getItems().addAll(rs2.getString("semester_id"));
             }
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -711,9 +709,9 @@ public class StudentController implements Initializable {
                     ps.setString(1, null);
                     ps.executeUpdate();
                 } 
+            } 
+            updateTables();
             
-            }
-
         }catch(SQLException e){
             e.printStackTrace();       
         }

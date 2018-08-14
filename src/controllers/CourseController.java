@@ -172,11 +172,18 @@ public class CourseController implements Initializable {
 //        src.fillComboBoxWithFacultyNames(facultyComboBox);
     }
     
+    // Update tables
+    public void updateTables(){
+        bachelorTable.setItems(null);
+        bachelorTable.setItems(getBachelorCourses());
+        
+        masterTable.setItems(null);
+        masterTable.setItems(getMasterCourses());
+    }
+    
     // Insert new course to the database
-    public void saveCourseButtonPressed(ActionEvent event){
-        
-        PreparedStatement ps = null;
-        
+    public void saveCourseButtonPressed(ActionEvent event){     
+        PreparedStatement ps = null;  
         JFXRadioButton selectedRadioButton = (JFXRadioButton) courseType.getSelectedToggle();
         String toogleValue = selectedRadioButton.getText();
         
@@ -192,7 +199,8 @@ public class CourseController implements Initializable {
             ps.setInt(3, Integer.parseInt(creditLimitTextField.getText()));
             ps.setString(4, facultyComboBox.getValue().toString());
             
-            ps.executeUpdate();
+            ps.executeUpdate();      
+            updateTables();
             
             // Back to courses view
             backToCourseButtonPressed();
@@ -235,6 +243,7 @@ public class CourseController implements Initializable {
                     ps.executeUpdate();
                 }
             }
+            updateTables();
 
         }catch(SQLException e){
             alerts('E', "Message", null, "Cannot remove selected course.\nSome students are currently following this course.");

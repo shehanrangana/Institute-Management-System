@@ -162,6 +162,15 @@ public class StaffController implements Initializable {
         staffAnchorPane.getChildren().setAll(pane); 
     }
     
+    // Update tables
+    public void updateTables(){
+        lecturerTable.setItems(null);
+        lecturerTable.setItems(getLecturerList());
+        
+        instructorTable.setItems(null);
+        instructorTable.setItems(getInstructorList());
+    }
+    
     // Remove staff member from system
     public void removeMemberButtonPressed(){
         PreparedStatement ps = null;
@@ -195,6 +204,7 @@ public class StaffController implements Initializable {
                     ps.executeUpdate();
                 }
             }
+            updateTables();
 
         }catch(SQLException e){
             e.printStackTrace(); 
