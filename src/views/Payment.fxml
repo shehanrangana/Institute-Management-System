@@ -16,15 +16,6 @@
    <children>
       <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Pane layoutX="10.0" layoutY="2.0" prefHeight="45.0" prefWidth="45.0">
-               <children>
-                  <ImageView fx:id="backFromPayment" fitHeight="30.0" fitWidth="30.0" layoutX="8.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/back.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
             <Text fill="#505050" layoutX="110.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PAYMENT CENTER">
                <font>
                   <Font name="Segoe UI Semibold" size="28.0" />

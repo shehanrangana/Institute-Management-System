@@ -265,7 +265,8 @@ public class ResultController implements Initializable {
         ps2.executeQuery();
         int returnCode = ps3.executeUpdate();
         ps4.executeUpdate();
-        System.out.println(returnCode);
+        // update relevant table 
+        updateGradeTables((thisTable.equals("undergraduate_subject") ? 'u' : 'p'));
         return returnCode;
     }
     

@@ -160,36 +160,7 @@ public class StudentController implements Initializable {
         
         return pgStudentList;
     }
-    
-    // This method will return an ObservableList of A/L results 
-    public ObservableList<AlResult> getAlResult(){
-        
-        ObservableList<AlResult> alResultList = FXCollections.observableArrayList();
-        
-        String query = "SELECT stream, subject_1, result_1, subject_2, result_2, subject_3, result_3, rank, z_score FROM al_results";
-        
-        Statement st;
-        ResultSet rs;
-        
-        try {
-            st = con.createStatement();
-            rs = st.executeQuery(query);
-            AlResult resultForm;
-            
-            while(rs.next()){
-                resultForm = new AlResult(rs.getString("stream"), rs.getString("subject_1"), rs.getString("result_1"), rs.getString("subject_2"),
-                        rs.getString("result_2"), rs.getString("subject_3"), rs.getString("result_3"), rs.getInt("rank"), rs.getDouble("z_score"));
-                
-                alResultList.add(resultForm);
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        return alResultList;
-    }
-    
     // This method will return an ObservableList of qualification details
     public ObservableList<Qualifications> getQualifcationDetails(){
         
@@ -295,11 +266,9 @@ public class StudentController implements Initializable {
         
         try{
             if(student == 'u'){
-                index = undergraduateTable.getSelectionModel().selectedIndexProperty().get();
-                studentIdText.setText(getUgStudents().get(index).getStudentId());
+                studentIdText.setText(undergraduateTable.getSelectionModel().getSelectedItem().getStudentId());
             }else if(student == 'p'){
-                index = postgraduateTable.getSelectionModel().selectedIndexProperty().get();
-                studentIdText.setText(getPgStudents().get(index).getStudentId());
+                studentIdText.setText(postgraduateTable.getSelectionModel().getSelectedItem().getStudentId());
             }
             fillSemester();
             fillCompulsory();
@@ -307,7 +276,7 @@ public class StudentController implements Initializable {
             showMySubjects();
             chooseSubjectsAnchorPane.setVisible(true);
             studentHomeAnchorPane.setVisible(false);
-        }catch(ArrayIndexOutOfBoundsException e){
+        }catch(NullPointerException e){
             alerts('E', "Message", null, "Please select a student");
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -352,8 +321,9 @@ public class StudentController implements Initializable {
             if(student == 'u'){
                 psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S1' AND student_id=?");
                 psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S2' AND student_id=?");
-                psS01.setString(1, getUgStudents().get(index).getStudentId());
-                psS02.setString(1, getUgStudents().get(index).getStudentId());
+                psS01.setString(1, studentIdText.getText());
+                psS02.setString(1, studentIdText.getText());
+                //System.out.println(studentIdText.getText());
                 
                 rsS01 = psS01.executeQuery();
                 rsS02 = psS02.executeQuery();
@@ -376,8 +346,9 @@ public class StudentController implements Initializable {
             }else if(student == 'p'){
                 psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S1' AND student_id=?");
                 psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S2' AND student_id=?");
-                psS01.setString(1, getPgStudents().get(index).getStudentId());
-                psS02.setString(1, getPgStudents().get(index).getStudentId());
+                psS01.setString(1, studentIdText.getText());
+                psS02.setString(1, studentIdText.getText());
+                //System.out.println(studentIdText.getText());
 
                 rsS01 = psS01.executeQuery();
                 rsS02 = psS02.executeQuery();
@@ -418,8 +389,8 @@ public class StudentController implements Initializable {
             if(student == 'u'){
                 psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S1' AND student_id=?");
                 psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S2' AND student_id=?");
-                psS01.setString(1, getUgStudents().get(index).getStudentId());
-                psS02.setString(1, getUgStudents().get(index).getStudentId());
+                psS01.setString(1, studentIdText.getText());
+                psS02.setString(1, studentIdText.getText());
                 
                 rsS01 = psS01.executeQuery();
                 rsS02 = psS02.executeQuery();
@@ -440,8 +411,8 @@ public class StudentController implements Initializable {
             }else if(student == 'p'){
                 psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S1' AND student_id=?");
                 psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S2' AND student_id=?");
-                psS01.setString(1, getPgStudents().get(index).getStudentId());
-                psS02.setString(1, getPgStudents().get(index).getStudentId());
+                psS01.setString(1, studentIdText.getText());
+                psS02.setString(1, studentIdText.getText());
                 
                 rsS01 = psS01.executeQuery();
                 rsS02 = psS02.executeQuery();
@@ -477,9 +448,7 @@ public class StudentController implements Initializable {
                 psSubCode.setString(1, newValue);
                 rsSubCode = psSubCode.executeQuery();
                 
-                while(rsSubCode.next()){
-                    //System.out.println(rsSubCode.getString("subject_code"));
-                        
+                while(rsSubCode.next()){  
                     PreparedStatement psCredit = con.prepareStatement("SELECT credit, fee FROM subject WHERE subject_code=?");
                     psCredit.setString(1, rsSubCode.getString("subject_code"));
                     
@@ -510,16 +479,7 @@ public class StudentController implements Initializable {
     // Reset subject selection form
     public void s01UpdateButtonPressed() throws SQLException{
         
-//        chooseSubjects();   
-//        enableComboBoxes();
-
-//        List<Object> objects = new ArrayList<Object>();
-//        objects.add(s01OpSubject1);
-//        objects.add(s01OpSubject2);
-//        for(Object ob : objects){
-//            JFXComboBox comboBox = (JFXComboBox) ob;
-//            comboBox.setMouseTransparent(false);
-//        }
+        enableComboBoxes(false);
     }
 
     // Assign subjects
@@ -721,32 +681,36 @@ public class StudentController implements Initializable {
     
     // Switch to the more details/update pane
     public void moreDetails(){
-
+        PreparedStatement ps;
+        ResultSet rs;
         // full details about the selected student (this check that student is an undergraduate or a postgraduate)
         if(ugAnchorPane.isVisible()){
-            index = undergraduateTable.getSelectionModel().selectedIndexProperty().get();
-            
             try{  
-                id = getUgStudents().get(index).getStudentId();
-                name = getUgStudents().get(index).getInitials()+" "+ getUgStudents().get(index).getFirstName()+" "+ getUgStudents().get(index).getLastName();
-                addressLine1 = getUgStudents().get(index).getAddressLine1();
-                addressLine2 = getUgStudents().get(index).getAddressLine2();
-                addressLine3 = getUgStudents().get(index).getAddressLine3();
-                birthday = getUgStudents().get(index).getBirthday();
-                gender = getUgStudents().get(index).getGender();
-                email = getUgStudents().get(index).getEmail();
-                nic = getUgStudents().get(index).getNic();
-                mobile = getUgStudents().get(index).getMobile();
-                fixed = getUgStudents().get(index).getFixed();
-                faculty = getUgStudents().get(index).getFacultyName();
-                course = getUgStudents().get(index).getCourseName();
-            
-                stream = getAlResult().get(index).getStream();
-                result1 = getAlResult().get(index).getResult1();
-                result2 = getAlResult().get(index).getResult2();
-                result3 = getAlResult().get(index).getResult3();
-                rank = getAlResult().get(index).getRank();
-                zScore = getAlResult().get(index).getzScore();
+                id = undergraduateTable.getSelectionModel().getSelectedItem().getStudentId();
+                name = undergraduateTable.getSelectionModel().getSelectedItem().getInitials()+" "+ undergraduateTable.getSelectionModel().getSelectedItem().getFirstName()+" "+ undergraduateTable.getSelectionModel().getSelectedItem().getLastName();
+                addressLine1 = undergraduateTable.getSelectionModel().getSelectedItem().getAddressLine1();
+                addressLine2 = undergraduateTable.getSelectionModel().getSelectedItem().getAddressLine2();
+                addressLine3 = undergraduateTable.getSelectionModel().getSelectedItem().getAddressLine3();
+                birthday = undergraduateTable.getSelectionModel().getSelectedItem().getBirthday();
+                gender = undergraduateTable.getSelectionModel().getSelectedItem().getGender();
+                email = undergraduateTable.getSelectionModel().getSelectedItem().getEmail();
+                nic = undergraduateTable.getSelectionModel().getSelectedItem().getNic();
+                mobile = undergraduateTable.getSelectionModel().getSelectedItem().getMobile();
+                fixed = undergraduateTable.getSelectionModel().getSelectedItem().getFixed();
+                faculty = undergraduateTable.getSelectionModel().getSelectedItem().getFacultyName();
+                course = undergraduateTable.getSelectionModel().getSelectedItem().getCourseName();
+                
+                ps = con.prepareStatement("SELECT * FROM al_results WHERE student_id= '"+ id +"' ");
+                rs = ps.executeQuery();
+                
+                while(rs.next()){
+                    stream = rs.getString("stream");
+                    result1 = rs.getString("result_1");
+                    result2 = rs.getString("result_2");
+                    result3 = rs.getString("result_3");
+                    rank = rs.getInt("rank");
+                    zScore = rs.getDouble("z_score");
+                }
                 
                 detailsAndUpdateAnchorPane.setVisible(true);
                 studentHomeAnchorPane.setVisible(false);
@@ -755,30 +719,34 @@ public class StudentController implements Initializable {
             
                 fillTextFields();
             }catch(Exception e){
+                e.printStackTrace();
                 alerts('E', "Message", null, "Please select a student");
             }
             
-        }else if(pgAnchorPane.isVisible()){
-            index = postgraduateTable.getSelectionModel().selectedIndexProperty().get();
-            
+        }else if(pgAnchorPane.isVisible()){ 
             try{
-                id = getPgStudents().get(index).getStudentId();
-                name = getPgStudents().get(index).getInitials()+" "+ getPgStudents().get(index).getFirstName()+" "+ getPgStudents().get(index).getLastName();
-                addressLine1 = getPgStudents().get(index).getAddressLine1();
-                addressLine2 = getPgStudents().get(index).getAddressLine2();
-                addressLine3 = getPgStudents().get(index).getAddressLine3();
-                birthday = getPgStudents().get(index).getBirthday();
-                gender = getPgStudents().get(index).getGender();
-                email = getPgStudents().get(index).getEmail();
-                nic = getPgStudents().get(index).getNic();
-                mobile = getPgStudents().get(index).getMobile();
-                fixed = getPgStudents().get(index).getFixed();
-                faculty = getPgStudents().get(index).getFacultyName();
-                course = getPgStudents().get(index).getCourseName();
+                id = postgraduateTable.getSelectionModel().getSelectedItem().getStudentId();
+                name = postgraduateTable.getSelectionModel().getSelectedItem().getInitials()+" "+ postgraduateTable.getSelectionModel().getSelectedItem().getFirstName()+" "+ postgraduateTable.getSelectionModel().getSelectedItem().getLastName();
+                addressLine1 = postgraduateTable.getSelectionModel().getSelectedItem().getAddressLine1();
+                addressLine2 = postgraduateTable.getSelectionModel().getSelectedItem().getAddressLine2();
+                addressLine3 = postgraduateTable.getSelectionModel().getSelectedItem().getAddressLine3();
+                birthday = postgraduateTable.getSelectionModel().getSelectedItem().getBirthday();
+                gender = postgraduateTable.getSelectionModel().getSelectedItem().getGender();
+                email = postgraduateTable.getSelectionModel().getSelectedItem().getEmail();
+                nic = postgraduateTable.getSelectionModel().getSelectedItem().getNic();
+                mobile = postgraduateTable.getSelectionModel().getSelectedItem().getMobile();
+                fixed = postgraduateTable.getSelectionModel().getSelectedItem().getFixed();
+                faculty = postgraduateTable.getSelectionModel().getSelectedItem().getFacultyName();
+                course = postgraduateTable.getSelectionModel().getSelectedItem().getCourseName();
                 
-                qualification = getQualifcationDetails().get(index).getQualification();
-                institute = getQualifcationDetails().get(index).getInstitute();
-                compYear = getQualifcationDetails().get(index).getCompYear();
+                ps = con.prepareStatement("SELECT * FROM qualifications WHERE student_id= '"+ id +"' ");
+                rs = ps.executeQuery();
+                
+                while(rs.next()){
+                    qualification = rs.getString("qualification_type");
+                    institute = rs.getString("institute");
+                    compYear = rs.getString("completion_year");
+                }
                 
                 detailsAndUpdateAnchorPane.setVisible(true);
                 studentHomeAnchorPane.setVisible(false);
