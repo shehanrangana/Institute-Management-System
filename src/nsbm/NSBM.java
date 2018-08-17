@@ -1,5 +1,13 @@
 package nsbm;
 
+import controllers.CourseController;
+import database.dbConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +28,7 @@ import javafx.scene.text.Text;
 
 public class NSBM extends Application {
     
+    private static Connection con;
     private double xOffset = 0;
     private double yOffset = 0;
     
@@ -105,24 +114,69 @@ public class NSBM extends Application {
     // Alert messeges 
     public static void alerts(char alertType, String message, String header, String content){
         Alert alert = null;
-        if(alertType == 'C'){
-           alert = new Alert(Alert.AlertType.CONFIRMATION); 
-        }else if(alertType == 'E'){
-            alert = new Alert(Alert.AlertType.ERROR); 
-        }else if(alertType == 'I'){
-            alert = new Alert(Alert.AlertType.INFORMATION); 
-        }else if(alertType == 'N'){
-            alert = new Alert(Alert.AlertType.NONE); 
-        }else if(alertType == 'W'){
-            alert = new Alert(Alert.AlertType.WARNING); 
-        } 
+        switch (alertType) {
+            case 'C':
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                break;
+            case 'E':
+                alert = new Alert(Alert.AlertType.ERROR);
+                break;
+            case 'I':
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                break;
+            case 'N': 
+                alert = new Alert(Alert.AlertType.NONE);
+                break;
+            case 'W':
+                alert = new Alert(Alert.AlertType.WARNING);
+                break;
+            default:
+                break;
+        }
         alert.setTitle(message);
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
     }
+    
+    // Insert faculties into the faculty table if not exists
+    private static void createFacultyTable(){
+        try{
+            PreparedStatement ps1 = con.prepareStatement("INSERT INTO faculty VALUES('School of Business'), ('School of Computing'), ('School of Engineering')");
+            ps1.executeUpdate();
+            
+        }catch(SQLException e){
+            //e.printStackTrace();
+            //System.out.println("Faculties already exists");
+        }
+    }
+    
+    // Add two semesters when new year arrived 
+    private static void createSemesterTable(){
+        LocalDateTime localDate = LocalDateTime.now();
+        String newSemester1 = localDate.getYear() + "S01";
+        String newSemester2 = localDate.getYear() + "S02";
+
+        try{
+            PreparedStatement ps1 = con.prepareStatement("INSERT INTO semester VALUES('"+ newSemester1 +"'), ('"+ newSemester2 +"')");  
+            ps1.executeUpdate();
+
+        }catch(SQLException e){
+            //e.printStackTrace();
+            //System.out.println("Semesters already added");
+        }
+    }
 
     public static void main(String[] args) throws ClassNotFoundException {
+        
+        try {
+            con = dbConnection.getConnection();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CourseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        createFacultyTable();
+        createSemesterTable();
         launch(args);
     }
     

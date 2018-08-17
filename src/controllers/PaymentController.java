@@ -133,8 +133,8 @@ public class PaymentController implements Initializable {
                 semIdText.setText(uTable.getSelectionModel().getSelectedItem().getSemesterId());
                 amountText.setText(Double.toString(uTable.getSelectionModel().getSelectedItem().getAmount()));
 
-                if(uTable.getSelectionModel().getSelectedItem().getStatus().equals("Payed")){
-                    payButton.setText("PAYED");
+                if(uTable.getSelectionModel().getSelectedItem().getStatus().equals("Paid")){
+                    payButton.setText("PAID");
                     payButton.setDisable(true);
                 }else{
                     payButton.setText("PAY");
@@ -146,8 +146,8 @@ public class PaymentController implements Initializable {
                 semIdText.setText(pTable.getSelectionModel().getSelectedItem().getSemesterId());
                 amountText.setText(Double.toString(pTable.getSelectionModel().getSelectedItem().getAmount()));
 
-                if(pTable.getSelectionModel().getSelectedItem().getStatus().equals("Payed")){
-                    payButton.setText("PAYED");
+                if(pTable.getSelectionModel().getSelectedItem().getStatus().equals("Paid")){
+                    payButton.setText("PAID");
                     payButton.setDisable(true);
                 }else{
                     payButton.setText("PAY");
@@ -161,9 +161,9 @@ public class PaymentController implements Initializable {
     public void payButtonPressed() throws SQLException{
         PreparedStatement ps = null;
         if(table == 'u'){
-            ps = con.prepareStatement("UPDATE undergraduate_semester SET status = 'Payed', pay_date = ? WHERE semester_id = ? AND student_id = ?");
+            ps = con.prepareStatement("UPDATE undergraduate_semester SET status = 'Paid', pay_date = ? WHERE semester_id = ? AND student_id = ?");
         }else if(table == 'p'){
-            ps = con.prepareStatement("UPDATE postgraduate_semester SET status = 'Payed', pay_date = ?  WHERE semester_id = ? AND student_id = ?");
+            ps = con.prepareStatement("UPDATE postgraduate_semester SET status = 'Paid', pay_date = ?  WHERE semester_id = ? AND student_id = ?");
         }
         
         LocalDateTime localDate = LocalDateTime.now();
