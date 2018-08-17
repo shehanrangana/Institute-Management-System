@@ -2,39 +2,10 @@ package models;
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class Undergraduate_Semester {
-    private final SimpleStringProperty semesterId;
-    private final SimpleStringProperty studentId;
-    private final double amount;
-    private final SimpleStringProperty status;
-    private final SimpleStringProperty payDate;
+public class Undergraduate_Semester extends Semester{
     
-    public Undergraduate_Semester(String semesterId, String studentId, double amount, String status, String payDate){
-        this.semesterId = new SimpleStringProperty(semesterId);
-        this.studentId = new SimpleStringProperty(studentId);
-        this.amount = amount;
-        this.status = new SimpleStringProperty(status);
-        this.payDate = new SimpleStringProperty(payDate);
+    public Undergraduate_Semester(String semesterId, String studentId, double amount, String status, String payDate) {
+        super(semesterId, studentId, amount, status, payDate);
     }
-
-    // Getters
-    public String getSemesterId() {
-        return semesterId.get();
-    }
-
-    public String getStudentId() {
-        return studentId.get();
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public String getStatus() {
-        return status.get();
-    }
-
-    public String getPayDate() {
-        return payDate.get();
-    }
+    
 }

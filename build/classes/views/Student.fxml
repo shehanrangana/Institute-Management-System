@@ -177,7 +177,7 @@
                         </Text>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="s01UpdateButton" layoutX="14.0" layoutY="515.0" onAction="#s01UpdateButtonPressed" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE">
+                  <JFXButton fx:id="s01ChangeButton" layoutX="14.0" layoutY="515.0" onAction="#s01ChangeButtonPressed" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>
@@ -246,7 +246,7 @@
                         </Text>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="s02ResetButton" layoutX="14.0" layoutY="515.0" onAction="#s02UpdateButtonPressed" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE">
+                  <JFXButton fx:id="s02ChangeButton" layoutX="14.0" layoutY="515.0" onAction="#s02ChangeButtonPressed" prefHeight="37.0" prefWidth="262.0" style="-fx-background-color: #99CD99; -fx-background-radius: 0;" text="UPDATE" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>

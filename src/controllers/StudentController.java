@@ -35,7 +35,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import models.AlResult;
 import models.PostgraduateStudent;
 import models.Qualifications;
 import models.UndergraduateStudent;
@@ -87,6 +86,10 @@ public class StudentController implements Initializable {
     private PreparedStatement psS01, psS02;
     private ResultSet rsS01, rsS02;
     private String subject;
+    
+    // Subject change variables
+    private PreparedStatement psSubject;
+    private PreparedStatement psSemester;
     
     // More details components
     @FXML Text studentIdText2;
@@ -162,31 +165,6 @@ public class StudentController implements Initializable {
         
         return pgStudentList;
     }
-
-    // This method will return an ObservableList of qualification details
-    public ObservableList<Qualifications> getQualifcationDetails(){
-        
-        ObservableList<Qualifications> qualificationDetails = FXCollections.observableArrayList();
-        String query = "SELECT qualification_type, institute, completion_year FROM qualifications";
-        Statement st;
-        ResultSet rs;
-        
-        try {
-            st = con.createStatement();
-            rs = st.executeQuery(query);
-            Qualifications qualifications;
-            
-            while(rs.next()){
-                qualifications = new Qualifications(rs.getString("qualification_type"), rs.getString("institute"), rs.getString("completion_year"));
-                qualificationDetails.add(qualifications);
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return qualificationDetails;
-    }
     
     // Update tables
     public void updateTables(){
@@ -257,8 +235,8 @@ public class StudentController implements Initializable {
 
     // Switch to the choose/change subject pane
     public void chooseSubjects(){
-        Tooltip tt = new Tooltip("Reset");
-        resetButton.setTooltip(tt);
+        Tooltip tooltip = new Tooltip("Reset");
+        resetButton.setTooltip(tooltip);
         s01TotalCredit=0; 
         s02TotalCredit = 0;
         s01TotalFee = 0; 
@@ -478,19 +456,26 @@ public class StudentController implements Initializable {
             }
     }
     
-    // Change selected subjects [semseter 1]
-    public void s01UpdateButtonPressed() throws SQLException{
-
-    }
-    
-    // Change selected subjects [semseter 2]
-    public void s02UpdateButtonPressed() throws SQLException{
-
-    }
-    
     // Reset subject selection form
     public void resetButtonPressed(){
         chooseSubjects();
+    }
+    
+    // Change selected subjects [semseter 1]
+    public void s01ChangeButtonPressed() throws SQLException{
+//        if(student == 'u'){
+//            psSubject = con.prepareStatement("DELETE FROM undergraduate_subject WHERE student_id=?");
+//            psSemester = con.prepareStatement("DELETE FROM undergraduate_semester WHERE student_id=?");
+//        }else if(student == 'p'){
+//            psSubject = con.prepareStatement("DELETE FROM undergraduate_subject WHERE student_id=?");
+//        }
+//        psS01.setString(1, studentIdText.getText());
+//        psS01.executeUpdate();
+    }
+    
+    // Change selected subjects [semseter 2]
+    public void s02ChangeButtonPressed() throws SQLException{
+
     }
 
     // Assign subjects
@@ -686,9 +671,7 @@ public class StudentController implements Initializable {
         }catch(SQLException e){
             e.printStackTrace();       
         }
-        
     }
-    
     
     // Switch to the more details/update pane
     public void moreDetails(){
