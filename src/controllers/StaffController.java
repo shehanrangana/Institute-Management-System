@@ -1,5 +1,6 @@
 package controllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import database.dbConnection;
 import java.io.IOException;
@@ -9,9 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -64,6 +68,8 @@ public class StaffController implements Initializable {
     @FXML TableColumn<Instructor, String> iAddressLine3Column;
     
     // More details view componenets
+    @FXML AnchorPane assignAnchorPane;
+    @FXML JFXComboBox courseComboBox, subjectComboBox;
     @FXML JFXTextField idTextField, nameTextField, mobileTextField, emailTextField, addressLine1TextField, addressLine2TextField, addressLine3TextField, roomTextField;
     @FXML ListView subjectListView;
     private String id, name, mobile, email, addressLine1, addressLine2, addressLine3, room;
@@ -280,9 +286,99 @@ public class StaffController implements Initializable {
         roomTextField.setEditable(value);
     }
     
+    // Set combo box with courses names
+    public void getSubjectList(){
+        ArrayList<String> courseList = new ArrayList<String>();
+        
+        courseComboBox.getItems().clear();
+        try {
+            PreparedStatement ps1 = con.prepareStatement("SELECT course_name FROM bachelor");
+            PreparedStatement ps2 = con.prepareStatement("SELECT course_name FROM master");
+            
+            ResultSet rs1 = ps1.executeQuery();
+            ResultSet rs2 = ps2.executeQuery();
+            
+            while(rs1.next()){
+                courseList.add(rs1.getString("course_name"));
+            }
+            while(rs2.next()){
+                courseList.add(rs2.getString("course_name"));
+            }
+            courseComboBox.getItems().addAll(courseList);
+            
+            courseComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    PreparedStatement ps3 = null;
+                    subjectComboBox.getItems().clear();
+                    try {
+                        if(lecturerAnchorPane.isVisible()){
+                            ps3 = con.prepareStatement("SELECT subject_name FROM subject WHERE lecturer_id IS NULL AND b_course_name='"+ newValue +"' OR m_course_name='"+ newValue +"'");
+                        }else if(instructorAnchorPane.isVisible()){
+                            ps3 = con.prepareStatement("SELECT subject_name FROM subject WHERE b_course_name='"+ newValue +"' OR m_course_name='"+ newValue +"'");
+                        }
+                        
+                        ResultSet rs3 = ps3.executeQuery();
+                        while(rs3.next()){
+                            subjectComboBox.getItems().add(rs3.getString("subject_name"));
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+            }); 
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Assign subjects
+    public void assignSubjectButtonPressed(){
+        assignAnchorPane.setVisible(true);
+        getSubjectList();
+    }
+    
+    // Confirm selected subject
+    public void confirmButtonPressed(){
+        String selectedSubject = subjectComboBox.getSelectionModel().getSelectedItem().toString();
+        String subjectCode = null;
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
+        
+        try{
+            ps1 = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+            ps1.setString(1, selectedSubject);
+            ResultSet rs = ps1.executeQuery();
+            while(rs.next()){
+                subjectCode = rs.getString("subject_code");
+            }
+            
+            if(lecturerAnchorPane.isVisible()){
+                ps2 = con.prepareStatement("UPDATE subject SET lecturer_id = '"+ id +"' WHERE subject_code='"+ subjectCode +"'");
+            }else if(instructorAnchorPane.isVisible()){
+                ps2 = con.prepareStatement("INSERT INTO instructor_subject(instructor_id, subject_code) VALUES('"+ id +"', '"+ subjectCode +"')");
+            }
+            ps2.executeUpdate();
+            
+            moreDetailsButtonPressed();
+            assignAnchorPane.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Cancel assign process
+    public void cancelButtonPressed(){
+        assignAnchorPane.setVisible(false);
+    }
+    
+    
     // Back to staff pane
     public void backToStaffButtonPressed(){
         enableOrDisableTextFields(false);
+        assignAnchorPane.setVisible(false);
         staffHomeAnchorPane.setVisible(true);
         detailsAndUpdateAnchorPane.setVisible(false);
     }

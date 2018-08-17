@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
@@ -107,7 +108,7 @@
                   </Pane>
                </children>
             </Pane>
-            <ListView fx:id="subjectListView" fixedCellSize="40.0" layoutX="827.0" layoutY="161.0" prefHeight="400.0" prefWidth="282.0" style="-fx-background-color: #F4F4F4;" stylesheets="@../res/modena.css" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="161.0" />
+            <ListView fx:id="subjectListView" fixedCellSize="40.0" layoutX="828.0" layoutY="103.0" prefHeight="320.0" prefWidth="282.0" style="-fx-background-color: #F4F4F4;" stylesheets="@../res/modena.css" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="103.0" />
             <JFXTextField fx:id="idTextField" alignment="BOTTOM_CENTER" editable="false" labelFloat="true" layoutX="109.0" layoutY="227.0" prefHeight="37.0" prefWidth="250.0" promptText="Staff ID">
                <font>
                   <Font size="18.0" />
@@ -164,11 +165,20 @@
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <Text fill="#ae2e2e" layoutX="822.484375" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching Subjects" textAlignment="CENTER" AnchorPane.rightAnchor="190.78125">
+            <Text fill="#ae2e2e" layoutX="823.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching Subjects" textAlignment="CENTER" AnchorPane.rightAnchor="190.265625">
                <font>
-                  <Font name="Segoe UI" size="18.0" />
+                  <Font name="Segoe UI Semibold Italic" size="18.0" />
                </font>
             </Text>
+            <JFXButton fx:id="assignSubjectButton" contentDisplay="GRAPHIC_ONLY" ellipsisString="" graphicTextGap="0.0" layoutX="982.0" layoutY="65.0" onAction="#assignSubjectButtonPressed" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 20;" stylesheets="@../res/ButtonBackground.css" textAlignment="CENTER" AnchorPane.rightAnchor="142.0" AnchorPane.topAnchor="65.0" />
+            <AnchorPane fx:id="assignAnchorPane" layoutX="828.0" layoutY="445.0" prefHeight="145.0" prefWidth="282.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #444;" visible="false" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="445.0">
+               <children>
+                  <JFXComboBox fx:id="courseComboBox" layoutX="22.0" layoutY="14.0" prefHeight="31.0" prefWidth="238.0" promptText="Select course" stylesheets="@../res/jfx-combo-box.css" />
+                  <JFXComboBox fx:id="subjectComboBox" layoutX="22.0" layoutY="55.0" prefHeight="31.0" prefWidth="238.0" promptText="Select subject" stylesheets="@../res/jfx-combo-box.css" />
+                  <JFXButton fx:id="confirmButton" layoutX="22.0" layoutY="106.0" onAction="#confirmButtonPressed" prefWidth="100.0" style="-fx-background-color: #468AC9;" text="Assign" textFill="WHITE" />
+                  <JFXButton fx:id="cancelButton" layoutX="160.0" layoutY="106.0" onAction="#cancelButtonPressed" prefWidth="100.0" style="-fx-background-color: #468AC9;" text="Cancel" textFill="WHITE" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

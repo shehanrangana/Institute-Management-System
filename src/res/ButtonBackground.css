@@ -2,3 +2,8 @@
     -fx-background-image: url("../icons/reset.png");
     -fx-background-size: 64px;
 }
+
+.jfx-button {
+	-fx-background-image: url("../icons/addSubject.png");
+	-fx-background-size: 32px;
+}

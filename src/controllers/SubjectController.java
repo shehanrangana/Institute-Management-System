@@ -65,7 +65,7 @@ public class SubjectController implements Initializable {
     
     // Add new subject components
     @FXML JFXTextField subCodeTextField, subNameTextField, alloTimeTextField, feeTextField, creditTextField, durationTextField, locationTextField, year_semesterTextField;
-    @FXML JFXComboBox subTypeComboBox, courseComboBox, lecturerComboBox;
+    @FXML JFXComboBox subTypeComboBox, courseComboBox, lecturerComboBox, instructorComboBox;
     @FXML JFXCheckBox compulsoryCheckBox;
     
     // This method will return an ObservableList lecturers
@@ -190,29 +190,11 @@ public class SubjectController implements Initializable {
         }); 
     }
     
-    // Fill semester ComboBox with database values
-//    public void fillComboBoxWithSemId(){
-//        semIdComboBox.getItems().clear();
-//        try {
-//            String query = "SELECT semester_id FROM semester";
-//            PreparedStatement ps = con.prepareStatement(query);
-//            ResultSet rs = ps.executeQuery();
-//            
-//            while (rs.next()) {
-//                String semester = rs.getString("semester_id");
-//                semIdComboBox.getItems().addAll(semester); 
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-    
     // Fill lecture ComboBox with database values
-    public void fillComboBoxWithLecturerId(){
+    public void loadLecturers(){
         lecturerComboBox.getItems().clear();
         try {
-            String query = "SELECT lecturer_id FROM lecturer";
-            PreparedStatement ps = con.prepareStatement(query);
+            PreparedStatement ps = con.prepareStatement("SELECT lecturer_id FROM lecturer");
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
@@ -226,7 +208,7 @@ public class SubjectController implements Initializable {
     
     // Switch to the add new subject pane
     public void addNewSubjectButtonPressed(){
-        fillComboBoxWithLecturerId();
+        loadLecturers();
         
         addNewSubjectAnchorPane.setVisible(true);
         subjectHomeAnchorPane.setVisible(false);
