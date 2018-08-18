@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -11,6 +12,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -20,7 +22,7 @@
          <children>
             <AnchorPane fx:id="bachelorAnchorPane" layoutY="50.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="bachelorTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                  <TableView fx:id="bachelorTable" editable="true" prefHeight="550.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="bCourseNameColumn" prefWidth="75.0" text="Course Name" />
                         <TableColumn fx:id="bDurationColumn" prefWidth="75.0" text="Duration (Years)" />
@@ -34,7 +36,7 @@
             </AnchorPane>
             <AnchorPane fx:id="masterAnchorPane" layoutX="10.0" layoutY="60.0" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="masterTable" layoutY="6.0" prefHeight="544.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                  <TableView fx:id="masterTable" layoutY="6.0" prefHeight="544.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="mCourseNameColumn" prefWidth="75.0" text="Course Name" />
                         <TableColumn fx:id="mDurationColumn" prefWidth="75.0" text="Duration (Years)" />
@@ -46,17 +48,17 @@
                      </columnResizePolicy></TableView>
                </children>
             </AnchorPane>
-            <JFXButton fx:id="addCourseButton" layoutX="99.0" layoutY="610.0" onMousePressed="#addCourseButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #FF3838; -fx-background-radius: 0;" text="Add new course" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="378.0">
+            <JFXButton fx:id="addCourseButton" layoutX="99.0" layoutY="610.0" onMousePressed="#addCourseButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="Add new course" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="378.0">
                <font>
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="removeCourseButton" layoutX="497.0" layoutY="610.0" onAction="#removeCourseButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #999999; -fx-background-radius: 0;" text="Remove course" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="378.0">
+            <JFXButton fx:id="removeCourseButton" layoutX="497.0" layoutY="610.0" onAction="#removeCourseButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="Remove course" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="378.0">
                <font>
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <Pane fx:id="bachelorPane" maxWidth="683.0" onMousePressed="#selectBachelorTab" prefHeight="50.0" prefWidth="578.0" style="-fx-background-color: #2B6CB7;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Pane fx:id="bachelorPane" maxWidth="683.0" onMousePressed="#selectBachelorTab" prefHeight="50.0" prefWidth="578.0" style="-fx-background-color: #468AC9;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Text fx:id="bachelorText" fill="WHITE" layoutX="206.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bachelor Courses">
                      <font>
@@ -78,58 +80,62 @@
       </AnchorPane>
       <AnchorPane fx:id="addNewCourseAnchorPane" prefHeight="650.0" prefWidth="1156.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;">
+            <StackPane prefHeight="50.0" style="-fx-background-color: #EBEBEB;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Text fill="#505050" layoutX="460.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a New Course">
+                  <Text fill="#505050" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Course" StackPane.alignment="CENTER">
                      <font>
                         <Font name="Segoe UI Semibold" size="28.0" />
                      </font>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                   </Text>
-                  <Pane layoutX="10.0" layoutY="2.0" prefHeight="45.0" prefWidth="45.0">
-                     <children>
-                        <ImageView fx:id="backFromAddCourse" fitHeight="30.0" fitWidth="30.0" layoutX="8.0" layoutY="8.0" onMousePressed="#backToCourseButtonPressed" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/back.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-               </children>
-            </Pane>
-            <Pane layoutX="305.0" layoutY="164.0" prefHeight="323.0" prefWidth="547.0" style="-fx-background-color: #EBEBEB; -fx-background-radius: 10; -fx-border-color: #222; -fx-border-radius: 10;">
-               <children>
-                  <JFXTextField fx:id="courseNameTextField" layoutX="42.0" layoutY="20.0" prefHeight="39.0" prefWidth="464.0" promptText="Course Name">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXComboBox fx:id="facultyComboBox" layoutX="42.0" layoutY="200.0" prefHeight="41.0" prefWidth="464.0" promptText="Faculty " stylesheets="@../res/jfx-combo-box-add-course.css" />
-                  <JFXTextField fx:id="durationTextField" layoutX="42.0" layoutY="80.0" prefHeight="39.0" prefWidth="464.0" promptText="Duration ( Years )">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextField fx:id="creditLimitTextField" layoutX="42.0" layoutY="140.0" prefHeight="39.0" prefWidth="464.0" promptText="Credit Limit">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXRadioButton fx:id="bachelorRadioButton" layoutX="320.0" layoutY="275.0" selected="true" text="Bachelor">
+                  <ImageView fx:id="backFromAddCourse" fitHeight="30.0" fitWidth="30.0" onMousePressed="#backToCourseButtonPressed" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                     <image>
+                        <Image url="@../icons/back.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets left="10.0" />
+                     </StackPane.margin>
+                  </ImageView>
+                  <JFXRadioButton fx:id="bachelorRadioButton" selected="true" text="Bachelor" StackPane.alignment="CENTER_RIGHT">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <toggleGroup>
                         <ToggleGroup fx:id="courseType" />
                      </toggleGroup>
+                     <StackPane.margin>
+                        <Insets right="125.0" />
+                     </StackPane.margin>
                   </JFXRadioButton>
-                  <JFXRadioButton fx:id="masterRadioButton" layoutX="419.0" layoutY="275.0" text="Master" toggleGroup="$courseType">
+                  <JFXRadioButton fx:id="masterRadioButton" text="Master" toggleGroup="$courseType" StackPane.alignment="CENTER_RIGHT">
                      <font>
                         <Font size="15.0" />
                      </font>
+                     <StackPane.margin>
+                        <Insets right="25.0" />
+                     </StackPane.margin>
                   </JFXRadioButton>
                </children>
-            </Pane>
-            <JFXButton fx:id="saveCourseButton" layoutX="450.0" layoutY="504.0" onAction="#saveCourseButtonPressed" prefHeight="25.0" prefWidth="257.0" style="-fx-background-color: #EBEBEB; -fx-border-color: #222; -fx-border-radius: 5;" text="ADD" textAlignment="CENTER">
+            </StackPane>
+            <JFXTextField fx:id="courseNameTextField" layoutX="346.0" layoutY="145.0" prefHeight="39.0" prefWidth="464.0" promptText="Course Name">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXComboBox fx:id="facultyComboBox" layoutX="346.0" layoutY="325.0" prefHeight="41.0" prefWidth="464.0" promptText="Faculty " stylesheets="@../res/jfx-combo-box-add-course.css" />
+            <JFXTextField fx:id="durationTextField" layoutX="346.0" layoutY="205.0" prefHeight="39.0" prefWidth="464.0" promptText="Duration ( Years )">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="creditLimitTextField" layoutX="346.0" layoutY="265.0" prefHeight="39.0" prefWidth="464.0" promptText="Credit Limit">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="saveCourseButton" layoutX="346.0" layoutY="410.0" onAction="#saveCourseButtonPressed" prefHeight="37.0" prefWidth="464.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="ADD" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>

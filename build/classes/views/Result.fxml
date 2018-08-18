@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="resultsAnchorPane" prefHeight="650.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ResultController">
    <children>
-      <Pane fx:id="businessResultPane" maxWidth="683.0" onMousePressed="#selectBusinessResultTab" prefHeight="50.0" prefWidth="385.33" style="-fx-background-color: #2B6CB7;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="businessResultPane" maxWidth="683.0" onMousePressed="#selectBusinessResultTab" prefHeight="50.0" prefWidth="385.33" style="-fx-background-color: #468AC9;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text fx:id="businessResultText" fill="WHITE" layoutX="103.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="School of Business">
                <font>

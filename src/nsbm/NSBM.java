@@ -72,7 +72,7 @@ public class NSBM extends Application {
     
     // Change color of 2 tabs when pressed mouse
     public static void changeTabColors(Pane pane1, Pane pane2, Text text1, Text text2, AnchorPane anchorPane1, AnchorPane anchorPane2){
-        pane1.setBackground(new Background(new BackgroundFill(Color.valueOf("#2B6CB7"), CornerRadii.EMPTY, Insets.EMPTY)));
+        pane1.setBackground(new Background(new BackgroundFill(Color.valueOf("#468AC9"), CornerRadii.EMPTY, Insets.EMPTY)));
         pane2.setBackground(new Background(new BackgroundFill(Color.valueOf("#E2E6EF"), CornerRadii.EMPTY, Insets.EMPTY)));
         text1.setFill(Color.valueOf("#FFFFFF"));
         text2.setFill(Color.valueOf("#7c7474"));
@@ -82,7 +82,7 @@ public class NSBM extends Application {
     
     // Change color of 3 tabs when pressed mouse
     public static void changeTabColors(Pane pane1, Pane pane2, Pane pane3, Text text1, Text text2, Text text3){
-        pane1.setBackground(new Background(new BackgroundFill(Color.valueOf("#2B6CB7"), CornerRadii.EMPTY, Insets.EMPTY)));
+        pane1.setBackground(new Background(new BackgroundFill(Color.valueOf("#468AC9"), CornerRadii.EMPTY, Insets.EMPTY)));
         pane2.setBackground(new Background(new BackgroundFill(Color.valueOf("#E2E6EF"), CornerRadii.EMPTY, Insets.EMPTY)));
         pane3.setBackground(new Background(new BackgroundFill(Color.valueOf("#E2E6EF"), CornerRadii.EMPTY, Insets.EMPTY)));
         text1.setFill(Color.valueOf("#FFFFFF"));

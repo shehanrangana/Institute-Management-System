@@ -51,13 +51,14 @@ public class SubjectController implements Initializable {
     
     @FXML ToggleGroup courseType;
     
-    // Business table components
+    // Table components
     @FXML TableView<Subjects> subjectTable;
     @FXML TableColumn<Subjects, String> subjectCodeColumn;
     @FXML TableColumn<Subjects, String> subjectNameColumn;
     @FXML TableColumn<Subjects, Double> alloTimeColumn;
     @FXML TableColumn<Subjects, Double> feeColumn;
     @FXML TableColumn<Subjects, Integer> creditColumn;
+    @FXML TableColumn<Subjects, Integer> complusoryColumn;
     @FXML TableColumn<Subjects, Double> durationColumn;
     @FXML TableColumn<Subjects, String> locationColumn;
     @FXML TableColumn<Subjects, String> courseColumn;
@@ -109,7 +110,7 @@ public class SubjectController implements Initializable {
             Subjects subject;
             
             while(rs.next()){
-                subject = new Subjects(rs.getString("subject_code"), rs.getString("subject_name"), rs.getDouble("allocated_time"), rs.getDouble("fee"),
+                subject = new Subjects(rs.getString("subject_code"), rs.getString("subject_name"), rs.getInt("compulsory"), rs.getDouble("allocated_time"), rs.getDouble("fee"),
                 rs.getInt("credit"), rs.getDouble("duration"), rs.getString("location"), rs.getString("course_name"), rs.getString("lecturer_id")); 
                 subjectList.add(subject);
             }
@@ -128,6 +129,7 @@ public class SubjectController implements Initializable {
         alloTimeColumn.setCellValueFactory(new PropertyValueFactory<Subjects, Double> ("allocatedTime"));
         feeColumn.setCellValueFactory(new PropertyValueFactory<Subjects, Double> ("fee"));
         creditColumn.setCellValueFactory(new PropertyValueFactory<Subjects, Integer> ("credit"));
+        complusoryColumn.setCellValueFactory(new PropertyValueFactory<Subjects, Integer> ("compulsory"));
         durationColumn.setCellValueFactory(new PropertyValueFactory<Subjects, Double> ("duration"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<Subjects, String> ("location"));
         courseColumn.setCellValueFactory(new PropertyValueFactory<Subjects, String> ("courseName"));
