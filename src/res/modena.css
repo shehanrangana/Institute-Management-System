@@ -2426,9 +2426,9 @@ is being used to size a border should also be in pixels.
 .tree-table-view > .column-header-background > .show-hide-columns-button,
 .table-view:constrained-resize .filler,
 .tree-table-view:constrained-resize .filler {
-    -fx-background-color: #E2E6EF; /* columns header color*/
+    /*-fx-background-color: -fx-background;  columns header color*/
     -fx-background-insets: 0, 0 1 1 0, 1 2 2 1;
-    -fx-font-weight: bold;
+    -fx-font-weight: null;
     -fx-size: 2.2em;
     -fx-text-fill: -fx-selection-bar-text;
     -fx-padding: 0.166667em;
@@ -2465,7 +2465,7 @@ is being used to size a border should also be in pixels.
 }
 .table-view .column-header .label,
 .tree-table-view .column-header .label {
-    -fx-alignment: left; /*text alignment of column header*/
+    -fx-alignment: center-left; /*text alignment of column header*/
 }
 
 /* Plus Symbol */

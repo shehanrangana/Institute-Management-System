@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,11 +11,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" minHeight="420.0" minWidth="300.0" prefHeight="420.0" prefWidth="340.0" style="-fx-border-insets: 1; -fx-border-color: #505050;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="340.0" style="-fx-border-insets: 1; -fx-border-color: #505050;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
    <children>
       <Pane opacity="0.95" prefHeight="420.0" prefWidth="340.0" style="-fx-background-color: #383738;">
          <children>
-            <ImageView fitHeight="570.0" fitWidth="560.0" layoutX="-70.0" layoutY="-22.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="570.0" fitWidth="560.0" layoutX="-70.0" layoutY="-17.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/global-network.png" />
                </image>
@@ -24,26 +25,21 @@
                   <Font name="Segoe UI Semibold" size="22.0" />
                </font>
             </Text>
-            <Text fill="#da9898" layoutX="115.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot Password" underline="true">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
-            <JFXButton fx:id="logInButton" layoutX="57.0" layoutY="306.0" onMousePressed="#logIn" prefHeight="25.0" prefWidth="227.0" style="-fx-background-color: #0893A5; -fx-background-radius: 0;" text="Log In" textFill="WHITE">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </JFXButton>
-            <JFXPasswordField fx:id="password" layoutX="57.0" layoutY="245.0" prefHeight="37.0" prefWidth="227.0" promptText="Password" stylesheets="@../res/jfx-password-field-login.css">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </JFXPasswordField>
-            <JFXTextField fx:id="userNameText" focusColor="WHITE" layoutX="57.0" layoutY="191.0" prefHeight="25.0" prefWidth="227.0" promptText="User Name" stylesheets="@../res/jfx-text-field-login.css" unFocusColor="WHITE">
+            <JFXTextField fx:id="userNameField" focusColor="WHITE" layoutX="57.0" layoutY="191.0" prefHeight="25.0" prefWidth="227.0" promptText="User Name" stylesheets="@../res/jfx-text-field-login.css" unFocusColor="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
+            <JFXPasswordField fx:id="passwordField" layoutX="57.0" layoutY="245.0" prefHeight="37.0" prefWidth="227.0" promptText="Password" stylesheets="@../res/jfx-password-field-login.css">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXPasswordField>
+            <JFXButton fx:id="logInButton" layoutX="57.0" layoutY="306.0" onMousePressed="#logIn" prefHeight="25.0" prefWidth="227.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="Log In" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="79.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/nsbm-logo.png" />
@@ -63,6 +59,11 @@
                   <Font size="14.0" />
                </font>
             </Text>
+            <Hyperlink fx:id="forgotHyperLink" layoutX="117.0" layoutY="379.0" onAction="#forgotHyperLinkClicked" text="Forgot Password" textAlignment="CENTER" textFill="#da9898">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Hyperlink>
          </children>
       </Pane>
    </children>

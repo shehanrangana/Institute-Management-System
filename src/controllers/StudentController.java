@@ -92,14 +92,14 @@ public class StudentController implements Initializable {
     private PreparedStatement psSemester;
     
     // More details components
-    @FXML Text studentIdText2;
+    @FXML Text subject1Text, subject2Text, subject3Text, studentIdText2;
     @FXML JFXTextField nameTextField, addressLine1TextField, addressLine2TextField, addressLine3TextField, birthdayTextField, genderTextField,
                        emailTextField, nicTextField, mobileTextField, fixedTextField, facultyTextField, courseTextField, streamTextField, result1TextField,
                        result2TextField, result3TextField, rankTextField, zScoreTextField, qualificationTextField, instituteTextField, compYearTextField;
     @FXML AnchorPane alResultAnchorPane, qualificationsAnchorPane;
     
     // Variables for more details view
-    private String id, name, addressLine1, addressLine2, addressLine3, birthday, gender, email, nic, mobile, fixed, faculty, course, stream, result1, result2, result3,
+    private String id, name, addressLine1, addressLine2, addressLine3, birthday, gender, email, nic, mobile, fixed, faculty, course, stream, subject1, subject2, subject3, result1, result2, result3,
            qualification, institute, compYear;
     private int rank;
     private double zScore;
@@ -109,8 +109,7 @@ public class StudentController implements Initializable {
         
         ObservableList<UndergraduateStudent> ugStudentList = FXCollections.observableArrayList();
         
-        String query = "SELECT student_id, initials, first_name, last_name, address_line_1, address_line_2, address_line_3, birthday, gender, email, nic,"
-                       + "mobile, fixed, faculty_name, course_name FROM undergraduate";
+        String query = "SELECT * FROM undergraduate";
         
         Statement st;
         ResultSet rs;
@@ -140,8 +139,7 @@ public class StudentController implements Initializable {
         
         ObservableList<PostgraduateStudent> pgStudentList = FXCollections.observableArrayList();
         
-        String query = "SELECT student_id, initials, first_name, last_name, address_line_1, address_line_2, address_line_3, birthday, gender, email, nic,"
-                       + "mobile, fixed, faculty_name, course_name FROM postgraduate";
+        String query = "SELECT * FROM postgraduate";
         
         Statement st;
         ResultSet rs;
@@ -477,10 +475,26 @@ public class StudentController implements Initializable {
     public void s02ChangeButtonPressed() throws SQLException{
 
     }
+    
+    // Get minimum credit for a semster
+    public int getMinimumCredit(int duration){
+        switch (duration) {
+            case 2:
+                return 12;
+            case 3:
+                return 15;
+            case 4:
+                return 16;
+            default:
+                break;
+        }
+        return 0;
+    }
 
     // Assign subjects
     public void confirmButtonPressed(ActionEvent event){
         String subjectCode = null;
+        int courseDuration = 0;
         List subjects = new ArrayList();
         List semesters = new ArrayList();
         List fees = new ArrayList();
@@ -488,10 +502,24 @@ public class StudentController implements Initializable {
         PreparedStatement psSubCode = null;
         PreparedStatement psInsert1 = null;
         PreparedStatement psInsert2 = null;
+        PreparedStatement psDuration = null;
+        ResultSet rsDuration = null;
         
         try{
+            if(ugAnchorPane.isVisible()){
+                course = undergraduateTable.getSelectionModel().getSelectedItem().getCourseName();
+                psDuration = con.prepareStatement("SELECT duration FROM bachelor WHERE course_name='"+ course +"'");
+            }else if(pgAnchorPane.isVisible()){
+                course = postgraduateTable.getSelectionModel().getSelectedItem().getCourseName();
+                psDuration = con.prepareStatement("SELECT duration FROM master WHERE course_name='"+ course +"'");
+            }
+            rsDuration = psDuration.executeQuery();
+            while(rsDuration.next()){
+                courseDuration = rsDuration.getInt("duration");
+            }
+            
             // Store selected subject names in a list
-            if(event.getTarget() == s01ConfirmButton && s01TotalCredit >= 15){
+            if(event.getTarget() == s01ConfirmButton && s01TotalCredit >= getMinimumCredit(courseDuration)){
                 if(semIdComboBox1.getValue() != null){
                     semesters.add(semIdComboBox1.getValue().toString());
                     fees.add(s01Amount.getText());
@@ -507,7 +535,7 @@ public class StudentController implements Initializable {
                 }else{
                     alerts('E', "Message", null, "Please select a semester");
                 }
-            }else if(event.getTarget() == s02ConfirmButton && s02TotalCredit >= 15){  
+            }else if(event.getTarget() == s02ConfirmButton && s02TotalCredit >= getMinimumCredit(courseDuration)){  
                 if(semIdComboBox2.getValue() != null){
                     semesters.add(semIdComboBox2.getValue().toString());
                     fees.add(s02Amount.getText());
@@ -524,7 +552,8 @@ public class StudentController implements Initializable {
                     alerts('E', "Message", null, "Please select a semester");
                 }
             }else{
-                alerts('I', "Message", null, "You must select at least 15 credits");
+                System.out.println("message");
+                alerts('I', "Message", null, "You must select at least " + getMinimumCredit(courseDuration) + " credits");
             }
 
             psSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
@@ -699,6 +728,9 @@ public class StudentController implements Initializable {
                 
                 while(rs.next()){
                     stream = rs.getString("stream");
+                    subject1 = rs.getString("subject_1");
+                    subject2 = rs.getString("subject_2");
+                    subject3 = rs.getString("subject_3");
                     result1 = rs.getString("result_1");
                     result2 = rs.getString("result_2");
                     result3 = rs.getString("result_3");
@@ -772,6 +804,9 @@ public class StudentController implements Initializable {
         courseTextField.setText(course);
         
         streamTextField.setText(stream);
+        subject1Text.setText(subject1);
+        subject2Text.setText(subject2);
+        subject3Text.setText(subject3);
         result1TextField.setText(result1);
         result2TextField.setText(result2);
         result3TextField.setText(result3);

@@ -22,7 +22,7 @@
                </font>
             </Text>
          </children></Pane>
-      <TableView fx:id="uTable" layoutX="925.0" layoutY="75.0" onMouseClicked="#clickRowActionPerformed" prefHeight="290.0" prefWidth="700.0" stylesheets="@../res/modena.css" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="55.0">
+      <TableView fx:id="uTable" layoutX="925.0" layoutY="75.0" onMouseClicked="#clickRowActionPerformed" prefHeight="290.0" prefWidth="700.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="55.0">
         <columns>
             <TableColumn fx:id="uSemIdColumn" prefWidth="75.0" text="Semester ID" />
           <TableColumn fx:id="uStudentIdColumn" prefWidth="75.0" text="Student ID" />
@@ -34,7 +34,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TableView fx:id="pTable" layoutX="446.0" layoutY="343.0" onMouseClicked="#clickRowActionPerformed" prefHeight="290.0" prefWidth="700.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <TableView fx:id="pTable" layoutX="446.0" layoutY="343.0" onMouseClicked="#clickRowActionPerformed" prefHeight="290.0" prefWidth="700.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <columns>
             <TableColumn fx:id="pSemIdColumn" prefWidth="75.0" text="Semester ID" />
             <TableColumn fx:id="pStudentIdColumn" prefWidth="75.0" text="Student ID" />
@@ -66,7 +66,7 @@
                   <Image url="@../icons/profile-picture-large.png" />
                </image>
             </ImageView>
-            <Text fx:id="studentIdText" fill="#468ac9" layoutX="150.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="125.99999225139618">
+            <Text fx:id="studentIdText" fill="#468ac9" layoutX="138.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="150.0">
                <font>
                   <Font name="Segoe UI Semibold" size="20.0" />
                </font>

@@ -176,8 +176,9 @@ public class PaymentController implements Initializable {
         alerts('I', "Message", null, "Database Updated");
         fillUgTable();
         fillPgTable();
-
-
+        
+        payButton.setText("PAID");
+        payButton.setDisable(true);
     }
 
     @Override

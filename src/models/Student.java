@@ -19,18 +19,18 @@ public class Student {
     private final SimpleStringProperty facultyName;
     private final SimpleStringProperty courseName; 
 
-    public Student(String studentId, String initials, String firstName, String lastName, String birthday, String gender, String email, String nic, String addressLine1, String addressLine2, String addressLine3, String mobile, String fixed, String facultyName, String courseName) {
+    public Student(String studentId, String initials, String firstName, String lastName, String addressLine1, String addressLine2, String addressLine3, String birthday, String gender, String email, String nic, String mobile, String fixed, String facultyName, String courseName) {
         this.studentId = new SimpleStringProperty(studentId);
         this.initials =  new SimpleStringProperty(initials);
         this.firstName =  new SimpleStringProperty(firstName);
         this.lastName =  new SimpleStringProperty(lastName);
+        this.addressLine1 =  new SimpleStringProperty(addressLine1);
+        this.addressLine2 =  new SimpleStringProperty(addressLine2);
+        this.addressLine3 =  new SimpleStringProperty(addressLine3);
         this.birthday =  new SimpleStringProperty(birthday);
         this.gender =  new SimpleStringProperty(gender);
         this.email =  new SimpleStringProperty(email);
         this.nic =  new SimpleStringProperty(nic);
-        this.addressLine1 =  new SimpleStringProperty(addressLine1);
-        this.addressLine2 =  new SimpleStringProperty(addressLine2);
-        this.addressLine3 =  new SimpleStringProperty(addressLine3);
         this.mobile =  new SimpleStringProperty(mobile);
         this.fixed =  new SimpleStringProperty(fixed);
         this.facultyName =  new SimpleStringProperty(facultyName);
@@ -46,30 +46,17 @@ public class Student {
     }
 
     public String getFirstName() {
-        return firstName.get();
+        //System.out.println(firstName.get());
+        return firstName.get();   
     }
 
     public String getLastName() {
+        //System.out.println(lastName.get());
         return lastName.get();
     }
-
-    public String getBirthday() {
-        return birthday.get();
-    }
-
-    public String getGender() {
-        return gender.get();
-    }
-
-    public String getEmail() {
-        return email.get();
-    }
-
-    public String getNic() {
-        return nic.get();
-    }
-
+    
     public String getAddressLine1() {
+        //System.out.println(addressLine1.get());
         return addressLine1.get();
     }
 
@@ -79,6 +66,26 @@ public class Student {
 
     public String getAddressLine3() {
         return addressLine3.get();
+    }
+
+    public String getBirthday() {
+        //System.out.println(birthday.get());
+        return birthday.get();
+    }
+
+    public String getGender() {
+        //System.out.println(gender.get());
+        return gender.get();
+    }
+
+    public String getEmail() {
+        //System.out.println(email.get());
+        return email.get();
+    }
+
+    public String getNic() {
+        //System.out.println(nic.get());
+        return nic.get();
     }
 
     public String getMobile() {
