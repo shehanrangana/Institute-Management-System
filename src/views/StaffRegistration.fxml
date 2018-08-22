@@ -14,7 +14,7 @@
    <children>
       <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fill="#505050" layoutX="413.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a New Staff Member " textAlignment="CENTER">
+            <Text fill="#505050" layoutX="458.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Member " textAlignment="CENTER">
                <font>
                   <Font name="Segoe UI Semibold" size="28.0" />
                </font>
@@ -71,7 +71,7 @@
             <Font size="16.0" />
          </font>
       </JFXTextField>
-      <JFXButton fx:id="registerButton" layoutX="426.0" layoutY="571.0" onAction="#registerButtonPressed" prefHeight="30.0" prefWidth="305.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="Register" textFill="WHITE">
+      <JFXButton fx:id="registerButton" layoutX="426.0" layoutY="571.0" onAction="#registerButtonPressed" prefHeight="30.0" prefWidth="305.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="REGISTER" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>

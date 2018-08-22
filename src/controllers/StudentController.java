@@ -36,14 +36,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import models.PostgraduateStudent;
-import models.Qualifications;
 import models.UndergraduateStudent;
 import static nsbm.NSBM.changeTabColors;
 import static nsbm.NSBM.alerts;
 
 public class StudentController implements Initializable {
-    
-    // Initialize variable for connection
+
     private Connection con;
     private char student = 'u';
     
@@ -72,19 +70,19 @@ public class StudentController implements Initializable {
     @FXML TableColumn<PostgraduateStudent, String> pNicColumn;
     @FXML TableColumn<PostgraduateStudent, String> pMobileColumn;
     
-    // Subject select view componenets
-    @FXML JFXTextField s01CompSubject1, s01CompSubject2, s01CompSubject3, s02CompSubject1, s02CompSubject2, s02CompSubject3;
-    @FXML JFXComboBox s01OpSubject1, s01OpSubject2, s01OpSubject3, s01OpSubject4, semIdComboBox1;
-    @FXML JFXComboBox s02OpSubject1, s02OpSubject2, s02OpSubject3, s02OpSubject4, semIdComboBox2;
-    @FXML Text studentIdText, s01TotalCreditText, s02TotalCreditText, s01Amount, s02Amount;
-    @FXML JFXButton s01ConfirmButton, s02ConfirmButton;
+    // Subject selection view componenets
+    @FXML JFXTextField sem1CompSubject1, sem1CompSubject2, sem1CompSubject3, sem2CompSubject1, sem2CompSubject2, sem2CompSubject3;
+    @FXML JFXComboBox sem1OpSubject1, sem1OpSubject2, sem1OpSubject3, sem1OpSubject4, semIdComboBox1;
+    @FXML JFXComboBox sem2OpSubject1, sem2OpSubject2, sem2OpSubject3, sem2OpSubject4, semIdComboBox2;
+    @FXML Text studentIdText, sem1TotalCreditText, sem2TotalCreditText, sem1Amount, sem2Amount;
+    @FXML JFXButton sem1ConfirmButton, sem2ConfirmButton;
     @FXML Button resetButton;
-    private int s01TotalCredit, s02TotalCredit = 0;
-    private double s01TotalFee, s02TotalFee = 0;
+    private int sem1TotalCredit, sem2TotalCredit = 0;
+    private double sem1TotalFee, sem2TotalFee = 0;
     
     // fillCompulsory, fillOptional methods' variables
-    private PreparedStatement psS01, psS02;
-    private ResultSet rsS01, rsS02;
+    private PreparedStatement psSemester1, psSemester2;
+    private ResultSet rsSemester1, rsSemester2;
     private String subject;
     
     // Subject change variables
@@ -106,9 +104,7 @@ public class StudentController implements Initializable {
     
     // This method will return an ObservableList of undergraduate students 
     public ObservableList<UndergraduateStudent> getUgStudents(){
-        
         ObservableList<UndergraduateStudent> ugStudentList = FXCollections.observableArrayList();
-        
         String query = "SELECT * FROM undergraduate";
         
         Statement st;
@@ -125,20 +121,16 @@ public class StudentController implements Initializable {
                         rs.getString("email"), rs.getString("nic"), rs.getString("mobile"), rs.getString("fixed"), rs.getString("faculty_name"), rs.getString("course_name"));
                 
                 ugStudentList.add(ugStudents);
-            }
-            
+            }  
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return ugStudentList;
     }
     
     // This method will return an ObservableList of postgraduate students 
     public ObservableList<PostgraduateStudent> getPgStudents(){
-        
-        ObservableList<PostgraduateStudent> pgStudentList = FXCollections.observableArrayList();
-        
+        ObservableList<PostgraduateStudent> pgStudentList = FXCollections.observableArrayList(); 
         String query = "SELECT * FROM postgraduate";
         
         Statement st;
@@ -155,12 +147,10 @@ public class StudentController implements Initializable {
                         rs.getString("email"), rs.getString("nic"), rs.getString("mobile"), rs.getString("fixed"), rs.getString("faculty_name"), rs.getString("course_name"));
                 
                 pgStudentList.add(pgStudents);
-            }
-            
+            }   
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         return pgStudentList;
     }
     
@@ -173,7 +163,7 @@ public class StudentController implements Initializable {
         postgraduateTable.setItems(getPgStudents());
     }
     
-    // Load undergraduates' details
+    // View undergraduates' details
     public void selectTabU(){
         student = 'u';
         
@@ -192,7 +182,7 @@ public class StudentController implements Initializable {
         changeTabColors(undergraduatePane, postgraduatePane, undergraduateText, postgraduateText, ugAnchorPane, pgAnchorPane); 
     }
     
-    // Load postgraduates' details
+    // View postgraduates' details
     public void selectTabP(){
         student = 'p';
         
@@ -217,32 +207,34 @@ public class StudentController implements Initializable {
         studentAnchorPane.getChildren().setAll(pane);
     }
     
-    // Enable combo boxes for selections
+    // Enable/Disable combo boxes for selections
     public void enableComboBoxes(boolean x){
         semIdComboBox1.setMouseTransparent(x);
         semIdComboBox2.setMouseTransparent(x);
-        s01OpSubject1.setMouseTransparent(x);
-        s01OpSubject2.setMouseTransparent(x);
-        s01OpSubject3.setMouseTransparent(x);
-        s01OpSubject4.setMouseTransparent(x);
-        s02OpSubject1.setMouseTransparent(x);
-        s02OpSubject2.setMouseTransparent(x);
-        s02OpSubject3.setMouseTransparent(x);
-        s02OpSubject4.setMouseTransparent(x);
+        sem1OpSubject1.setMouseTransparent(x);
+        sem1OpSubject2.setMouseTransparent(x);
+        sem1OpSubject3.setMouseTransparent(x);
+        sem1OpSubject4.setMouseTransparent(x);
+        sem2OpSubject1.setMouseTransparent(x);
+        sem2OpSubject2.setMouseTransparent(x);
+        sem2OpSubject3.setMouseTransparent(x);
+        sem2OpSubject4.setMouseTransparent(x);
     }
 
-    // Switch to the choose/change subject pane
+    // Switch to the choose/change subject view
     public void chooseSubjects(){
+        // Reset button's tooltip
         Tooltip tooltip = new Tooltip("Reset");
         resetButton.setTooltip(tooltip);
-        s01TotalCredit=0; 
-        s02TotalCredit = 0;
-        s01TotalFee = 0; 
-        s02TotalFee = 0;
-        s01TotalCreditText.setText("0"); 
-        s02TotalCreditText.setText("0");
-        s01Amount.setText("00.00"); 
-        s02Amount.setText("00.00");
+        
+        sem1TotalCredit=0; 
+        sem2TotalCredit = 0;
+        sem1TotalFee = 0; 
+        sem2TotalFee = 0;
+        sem1TotalCreditText.setText("0"); 
+        sem2TotalCreditText.setText("0");
+        sem1Amount.setText("00.00"); 
+        sem2Amount.setText("00.00");
         
         try{
             if(student == 'u'){
@@ -257,6 +249,7 @@ public class StudentController implements Initializable {
             chooseSubjectsAnchorPane.setVisible(true);
             studentHomeAnchorPane.setVisible(false);
         }catch(NullPointerException e){
+            // Error message
             alerts('E', "Message", null, "Please select a student");
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -286,169 +279,166 @@ public class StudentController implements Initializable {
         }
     }
     
-    // Fill compulsory subjects with database values
+    // Add compulsory subjects to combo box
     public void fillCompulsory(){
-        s01CompSubject1.clear();
-        s01CompSubject2.clear();
-        s01CompSubject3.clear();
-        s02CompSubject1.clear();
-        s02CompSubject2.clear();
-        s02CompSubject3.clear();
+        sem1CompSubject1.clear();
+        sem1CompSubject2.clear();
+        sem1CompSubject3.clear();
+        sem2CompSubject1.clear();
+        sem2CompSubject2.clear();
+        sem2CompSubject3.clear();
         
-        ArrayList<String> s01CompSubList = new ArrayList<String>();
-        ArrayList<String> s02CompSubList = new ArrayList<String>();
+        ArrayList<String> sem1CompSubjectList = new ArrayList<String>();
+        ArrayList<String> sem2CompSubjectList = new ArrayList<String>();
         try {
             if(student == 'u'){
-                psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S1' AND student_id=?");
-                psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S2' AND student_id=?");
-                psS01.setString(1, studentIdText.getText());
-                psS02.setString(1, studentIdText.getText());
+                psSemester1 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S1' AND student_id=?");
+                psSemester2 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S2' AND student_id=?");
+                psSemester1.setString(1, studentIdText.getText());
+                psSemester2.setString(1, studentIdText.getText());
                 
-                rsS01 = psS01.executeQuery();
-                rsS02 = psS02.executeQuery();
-                while (rsS01.next()) {
-                    s01CompSubList.add(rsS01.getString("subject_name"));
-                    creditListenerBody(rsS01.getString("subject_name"), 1);
+                rsSemester1 = psSemester1.executeQuery();
+                rsSemester2 = psSemester2.executeQuery();
+                while (rsSemester1.next()) {
+                    sem1CompSubjectList.add(rsSemester1.getString("subject_name"));
+                    creditListenerBody(rsSemester1.getString("subject_name"), 1);
                 }
-                while (rsS02.next()) {
-                    s02CompSubList.add(rsS02.getString("subject_name"));
-                    creditListenerBody(rsS02.getString("subject_name"), 2);
+                while (rsSemester2.next()) {
+                    sem2CompSubjectList.add(rsSemester2.getString("subject_name"));
+                    creditListenerBody(rsSemester2.getString("subject_name"), 2);
                 }
                 
-                s01CompSubject1.setText(s01CompSubList.get(0));
-                s01CompSubject2.setText(s01CompSubList.get(1));
-                s01CompSubject3.setText(s01CompSubList.get(2));
-                s02CompSubject1.setText(s02CompSubList.get(0));
-                s02CompSubject2.setText(s02CompSubList.get(1));
-                s02CompSubject3.setText(s02CompSubList.get(2));
+                sem1CompSubject1.setText(sem1CompSubjectList.get(0));
+                sem1CompSubject2.setText(sem1CompSubjectList.get(1));
+                sem1CompSubject3.setText(sem1CompSubjectList.get(2));
+                sem2CompSubject1.setText(sem2CompSubjectList.get(0));
+                sem2CompSubject2.setText(sem2CompSubjectList.get(1));
+                sem2CompSubject3.setText(sem2CompSubjectList.get(2));
                 
             }else if(student == 'p'){
-                psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S1' AND student_id=?");
-                psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S2' AND student_id=?");
-                psS01.setString(1, studentIdText.getText());
-                psS02.setString(1, studentIdText.getText());
+                psSemester1 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S1' AND student_id=?");
+                psSemester2 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=1 AND year_semester LIKE '%S2' AND student_id=?");
+                psSemester1.setString(1, studentIdText.getText());
+                psSemester2.setString(1, studentIdText.getText());
 
-                rsS01 = psS01.executeQuery();
-                rsS02 = psS02.executeQuery();
-                while (rsS01.next()) {
-                    s01CompSubList.add(rsS01.getString("subject_name"));
-                    creditListenerBody(rsS01.getString("subject_name"), 1);
+                rsSemester1 = psSemester1.executeQuery();
+                rsSemester2 = psSemester2.executeQuery();
+                while (rsSemester1.next()) {
+                    sem1CompSubjectList.add(rsSemester1.getString("subject_name"));
+                    creditListenerBody(rsSemester1.getString("subject_name"), 1);
                 }
-                while (rsS02.next()) {
-                    s02CompSubList.add(rsS02.getString("subject_name"));
-                    creditListenerBody(rsS02.getString("subject_name"), 2);
+                while (rsSemester2.next()) {
+                    sem2CompSubjectList.add(rsSemester2.getString("subject_name"));
+                    creditListenerBody(rsSemester2.getString("subject_name"), 2);
                 }
                 
-                s01CompSubject1.setText(s01CompSubList.get(0));
-                s01CompSubject2.setText(s01CompSubList.get(1));
-                s01CompSubject3.setText(s01CompSubList.get(2));
-                s02CompSubject1.setText(s02CompSubList.get(0));
-                s02CompSubject2.setText(s02CompSubList.get(1));
-                s02CompSubject3.setText(s02CompSubList.get(2));
+                sem1CompSubject1.setText(sem1CompSubjectList.get(0));
+                sem1CompSubject2.setText(sem1CompSubjectList.get(1));
+                sem1CompSubject3.setText(sem1CompSubjectList.get(2));
+                sem2CompSubject1.setText(sem2CompSubjectList.get(0));
+                sem2CompSubject2.setText(sem2CompSubjectList.get(1));
+                sem2CompSubject3.setText(sem2CompSubjectList.get(2));
             } 
         }catch (Exception ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
+            // Error message
             alerts('E', "Message", null, "Compulsory subjects are not found");
         }
     }
     
-    // Fill optional subjects with database values
+    // Add optional subjects to combo box
     public void fillOptional(){
-        s01OpSubject1.getItems().clear();
-        s01OpSubject2.getItems().clear();
-        s01OpSubject3.getItems().clear();
-        s01OpSubject4.getItems().clear();
-        s02OpSubject1.getItems().clear();
-        s02OpSubject2.getItems().clear();
-        s02OpSubject3.getItems().clear();
-        s02OpSubject4.getItems().clear();
+        sem1OpSubject1.getItems().clear();
+        sem1OpSubject2.getItems().clear();
+        sem1OpSubject3.getItems().clear();
+        sem1OpSubject4.getItems().clear();
+        sem2OpSubject1.getItems().clear();
+        sem2OpSubject2.getItems().clear();
+        sem2OpSubject3.getItems().clear();
+        sem2OpSubject4.getItems().clear();
         
         try {
             if(student == 'u'){
-                psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S1' AND student_id=?");
-                psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S2' AND student_id=?");
-                psS01.setString(1, studentIdText.getText());
-                psS02.setString(1, studentIdText.getText());
+                psSemester1 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S1' AND student_id=?");
+                psSemester2 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN undergraduate ON subject.b_course_name = undergraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S2' AND student_id=?");
+                psSemester1.setString(1, studentIdText.getText());
+                psSemester2.setString(1, studentIdText.getText());
                 
-                rsS01 = psS01.executeQuery();
-                rsS02 = psS02.executeQuery();
-                while (rsS01.next()) {
-                    subject = rsS01.getString("subject_name");
-                    s01OpSubject1.getItems().addAll(subject);
-                    s01OpSubject2.getItems().addAll(subject);
-                    s01OpSubject3.getItems().addAll(subject);
-                    s01OpSubject4.getItems().addAll(subject);
+                rsSemester1 = psSemester1.executeQuery();
+                rsSemester2 = psSemester2.executeQuery();
+                while (rsSemester1.next()) {
+                    subject = rsSemester1.getString("subject_name");
+                    sem1OpSubject1.getItems().addAll(subject);
+                    sem1OpSubject2.getItems().addAll(subject);
+                    sem1OpSubject3.getItems().addAll(subject);
+                    sem1OpSubject4.getItems().addAll(subject);
                 }
-                while (rsS02.next()) {
-                    subject = rsS02.getString("subject_name");
-                    s02OpSubject1.getItems().addAll(subject);
-                    s02OpSubject2.getItems().addAll(subject);
-                    s02OpSubject3.getItems().addAll(subject);
-                    s02OpSubject4.getItems().addAll(subject);
+                while (rsSemester2.next()) {
+                    subject = rsSemester2.getString("subject_name");
+                    sem2OpSubject1.getItems().addAll(subject);
+                    sem2OpSubject2.getItems().addAll(subject);
+                    sem2OpSubject3.getItems().addAll(subject);
+                    sem2OpSubject4.getItems().addAll(subject);
                 }
             }else if(student == 'p'){
-                psS01 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S1' AND student_id=?");
-                psS02 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S2' AND student_id=?");
-                psS01.setString(1, studentIdText.getText());
-                psS02.setString(1, studentIdText.getText());
+                psSemester1 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S1' AND student_id=?");
+                psSemester2 = con.prepareStatement("SELECT DISTINCT subject_name FROM subject INNER JOIN postgraduate ON subject.m_course_name = postgraduate.course_name WHERE subject.compulsory=0 AND year_semester LIKE '%S2' AND student_id=?");
+                psSemester1.setString(1, studentIdText.getText());
+                psSemester2.setString(1, studentIdText.getText());
                 
-                rsS01 = psS01.executeQuery();
-                rsS02 = psS02.executeQuery();
-                while (rsS01.next()) {
-                    subject = rsS01.getString("subject_name");
-                    s01OpSubject1.getItems().addAll(subject);
-                    s01OpSubject2.getItems().addAll(subject);
-                    s01OpSubject3.getItems().addAll(subject);
-                    s01OpSubject4.getItems().addAll(subject);
+                rsSemester1 = psSemester1.executeQuery();
+                rsSemester2 = psSemester2.executeQuery();
+                while (rsSemester1.next()) {
+                    subject = rsSemester1.getString("subject_name");
+                    sem1OpSubject1.getItems().addAll(subject);
+                    sem1OpSubject2.getItems().addAll(subject);
+                    sem1OpSubject3.getItems().addAll(subject);
+                    sem1OpSubject4.getItems().addAll(subject);
                 }
-                while (rsS02.next()) {
-                    subject = rsS02.getString("subject_name");
-                    s02OpSubject1.getItems().addAll(subject);
-                    s02OpSubject2.getItems().addAll(subject);
-                    s02OpSubject3.getItems().addAll(subject);
-                    s02OpSubject4.getItems().addAll(subject);
+                while (rsSemester2.next()) {
+                    subject = rsSemester2.getString("subject_name");
+                    sem2OpSubject1.getItems().addAll(subject);
+                    sem2OpSubject2.getItems().addAll(subject);
+                    sem2OpSubject3.getItems().addAll(subject);
+                    sem2OpSubject4.getItems().addAll(subject);
                 }
             }
-        }catch (SQLException ex) {
+        }catch (Exception ex) {
             ex.printStackTrace();
-            //System.out.println("optional");
         }
     }
     
     // Listening for total credits and fees
     public void creditListenerBody(String newValue, int semester){ 
-        
-        PreparedStatement psSubCode = null;
+        PreparedStatement psSubjectCode = null;
         ResultSet rsSubCode = null;
         ResultSet rs = null;
             try { 
-                psSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
-                psSubCode.setString(1, newValue);
-                rsSubCode = psSubCode.executeQuery();
+                psSubjectCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+                psSubjectCode.setString(1, newValue);
+                rsSubCode = psSubjectCode.executeQuery();
                 
                 while(rsSubCode.next()){  
                     PreparedStatement psCredit = con.prepareStatement("SELECT credit, fee FROM subject WHERE subject_code=?");
                     psCredit.setString(1, rsSubCode.getString("subject_code"));
-                    
                     rs = psCredit.executeQuery();
                     
                     while (rs.next()) {
                         int credit = rs.getInt("credit");
                         int fee = rs.getInt("fee");
                         if(semester == 1){
-                            s01TotalCredit += credit;
-                            s01TotalFee += fee;
-                            s01TotalCreditText.setText(Integer.toString(s01TotalCredit));
-                            s01Amount.setText(Double.toString(s01TotalFee));
+                            sem1TotalCredit += credit;
+                            sem1TotalFee += fee;
+                            sem1TotalCreditText.setText(Integer.toString(sem1TotalCredit));
+                            sem1Amount.setText(Double.toString(sem1TotalFee));
                         }else if(semester == 2){
-                            s02TotalCredit += credit;
-                            s02TotalFee += fee;
-                            s02TotalCreditText.setText(Integer.toString(s02TotalCredit));
-                            s02Amount.setText(Double.toString(s02TotalFee));
+                            sem2TotalCredit += credit;
+                            sem2TotalFee += fee;
+                            sem2TotalCreditText.setText(Integer.toString(sem2TotalCredit));
+                            sem2Amount.setText(Double.toString(sem2TotalFee));
                         }  
                     }       
-                }   
-                
+                }     
             }catch (SQLException ex) {
                 Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -460,19 +450,19 @@ public class StudentController implements Initializable {
     }
     
     // Change selected subjects [semseter 1]
-    public void s01ChangeButtonPressed() throws SQLException{
+    public void sem1ChangeButtonPressed() throws SQLException{
 //        if(student == 'u'){
 //            psSubject = con.prepareStatement("DELETE FROM undergraduate_subject WHERE student_id=?");
 //            psSemester = con.prepareStatement("DELETE FROM undergraduate_semester WHERE student_id=?");
 //        }else if(student == 'p'){
 //            psSubject = con.prepareStatement("DELETE FROM undergraduate_subject WHERE student_id=?");
 //        }
-//        psS01.setString(1, studentIdText.getText());
-//        psS01.executeUpdate();
+//        psSemester1.setString(1, studentIdText.getText());
+//        psSemester1.executeUpdate();
     }
     
     // Change selected subjects [semseter 2]
-    public void s02ChangeButtonPressed() throws SQLException{
+    public void sem2ChangeButtonPressed() throws SQLException{
 
     }
     
@@ -499,7 +489,7 @@ public class StudentController implements Initializable {
         List semesters = new ArrayList();
         List fees = new ArrayList();
         
-        PreparedStatement psSubCode = null;
+        PreparedStatement psSubjectCode = null;
         PreparedStatement psInsert1 = null;
         PreparedStatement psInsert2 = null;
         PreparedStatement psDuration = null;
@@ -519,47 +509,49 @@ public class StudentController implements Initializable {
             }
             
             // Store selected subject names in a list
-            if(event.getTarget() == s01ConfirmButton && s01TotalCredit >= getMinimumCredit(courseDuration)){
+            if(event.getTarget() == sem1ConfirmButton && sem1TotalCredit >= getMinimumCredit(courseDuration)){
                 if(semIdComboBox1.getValue() != null){
                     semesters.add(semIdComboBox1.getValue().toString());
-                    fees.add(s01Amount.getText());
-                    subjects.add(s01CompSubject1.getText());
-                    subjects.add(s01CompSubject2.getText());
-                    subjects.add(s01CompSubject3.getText());
-                    subjects.add(s01OpSubject1.getValue().toString());
-                    subjects.add(s01OpSubject2.getValue().toString());
-                    subjects.add(s01OpSubject3.getValue().toString());
+                    fees.add(sem1Amount.getText());
+                    subjects.add(sem1CompSubject1.getText());
+                    subjects.add(sem1CompSubject2.getText());
+                    subjects.add(sem1CompSubject3.getText());
+                    subjects.add(sem1OpSubject1.getValue().toString());
+                    subjects.add(sem1OpSubject2.getValue().toString());
+                    subjects.add(sem1OpSubject3.getValue().toString());
                     try{
-                        subjects.add(s01OpSubject4.getValue().toString());
+                        subjects.add(sem1OpSubject4.getValue().toString());
                     }catch(NullPointerException ex){}
                 }else{
+                    // Error message
                     alerts('E', "Message", null, "Please select a semester");
                 }
-            }else if(event.getTarget() == s02ConfirmButton && s02TotalCredit >= getMinimumCredit(courseDuration)){  
+            }else if(event.getTarget() == sem2ConfirmButton && sem2TotalCredit >= getMinimumCredit(courseDuration)){  
                 if(semIdComboBox2.getValue() != null){
                     semesters.add(semIdComboBox2.getValue().toString());
-                    fees.add(s02Amount.getText());
-                    subjects.add(s02CompSubject1.getText());
-                    subjects.add(s02CompSubject2.getText());
-                    subjects.add(s02CompSubject3.getText());
-                    subjects.add(s02OpSubject1.getValue().toString());
-                    subjects.add(s02OpSubject2.getValue().toString());
-                    subjects.add(s02OpSubject3.getValue().toString());
+                    fees.add(sem2Amount.getText());
+                    subjects.add(sem2CompSubject1.getText());
+                    subjects.add(sem2CompSubject2.getText());
+                    subjects.add(sem2CompSubject3.getText());
+                    subjects.add(sem2OpSubject1.getValue().toString());
+                    subjects.add(sem2OpSubject2.getValue().toString());
+                    subjects.add(sem2OpSubject3.getValue().toString());
                     try{
-                        subjects.add(s02OpSubject4.getValue().toString());
+                        subjects.add(sem2OpSubject4.getValue().toString());
                     }catch(NullPointerException ex){}
                 }else{
+                    // Error message
                     alerts('E', "Message", null, "Please select a semester");
                 }
             }else{
-                System.out.println("message");
+                // Error message
                 alerts('I', "Message", null, "You must select at least " + getMinimumCredit(courseDuration) + " credits");
             }
 
-            psSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+            psSubjectCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
             for(int i=0; i<subjects.size(); i++){
-                psSubCode.setString(1, subjects.get(i).toString());
-                ResultSet rs = psSubCode.executeQuery();
+                psSubjectCode.setString(1, subjects.get(i).toString());
+                ResultSet rs = psSubjectCode.executeQuery();
 
                 while(rs.next()){
                     subjectCode = rs.getString("subject_code");
@@ -585,17 +577,16 @@ public class StudentController implements Initializable {
                 psInsert2.setDouble(3, Double.parseDouble(fees.get(i).toString()));
                 psInsert2.executeUpdate();
                 
+                // Information message
                 alerts('I', "Messsage", null, "Successfully updated");
-                
-//                studentHomeAnchorPane.setVisible(true);
-//                chooseSubjectsAnchorPane.setVisible(false);
             }
         } catch (NullPointerException ex) {
-             // Error message
             ex.printStackTrace();
+             // Error message
             alerts('E', "Message", null, "Please fill all the fields correctly");
         } catch (SQLException ex) {
             ex.printStackTrace();
+            // Error message
             alerts('E', "Message", null, "Subjects are already selected for this student");
         }
     }
@@ -632,51 +623,48 @@ public class StudentController implements Initializable {
         
         while(rs1.next()){
             subjectCodes1.add(rs1.getString("subject_name"));
-            //System.out.println(rs1.getString("subject_name"));
         }
         while(rs2.next()){
             subjectCodes2.add(rs2.getString("subject_name"));
-            //System.out.println(rs1.getString("subject_name"));
         }
         while(rs3.next()){
             semesters.add(rs3.getString("semester_id"));
-            //System.out.println(rs2.getString("semester_id"));
         }
         try{
             semIdComboBox1.setValue(semesters.get(0));
-            s01OpSubject1.setValue(subjectCodes1.get(0));
-            s01OpSubject2.setValue(subjectCodes1.get(1));
-            s01OpSubject3.setValue(subjectCodes1.get(2));
-            s01OpSubject4.setValue(subjectCodes1.get(3));
+            sem1OpSubject1.setValue(subjectCodes1.get(0));
+            sem1OpSubject2.setValue(subjectCodes1.get(1));
+            sem1OpSubject3.setValue(subjectCodes1.get(2));
+            sem1OpSubject4.setValue(subjectCodes1.get(3));
         }catch(Exception ex){
             //ex.printStackTrace();
         }
         try{
             semIdComboBox2.setValue(semesters.get(1));
-            s02OpSubject1.setValue(subjectCodes2.get(0));
-            s02OpSubject2.setValue(subjectCodes2.get(1));
-            s02OpSubject3.setValue(subjectCodes2.get(2));
-            s02OpSubject4.setValue(subjectCodes2.get(3));
+            sem2OpSubject1.setValue(subjectCodes2.get(0));
+            sem2OpSubject2.setValue(subjectCodes2.get(1));
+            sem2OpSubject3.setValue(subjectCodes2.get(2));
+            sem2OpSubject4.setValue(subjectCodes2.get(3));
         }catch(Exception ex){
             //ex.printStackTrace();
         }
     }
     
-    // Delete a record
+    // Remove student from the system
     public void deleteButtonPressed(ActionEvent event) throws SQLException{
         PreparedStatement ps = null;
-        String student_id = null;
+        String studentId = null;
         try{
             // Check whether student who going to be deleted is an undergraduate or postgraduate
             if(ugAnchorPane.isVisible()){
                 ps = con.prepareStatement("DELETE FROM undergraduate WHERE student_id = ?");
-                student_id = idColumn.getCellData(undergraduateTable.getSelectionModel().getSelectedItem());
+                studentId = idColumn.getCellData(undergraduateTable.getSelectionModel().getSelectedItem());
             }else if(pgAnchorPane.isVisible()){
                 ps = con.prepareStatement("DELETE FROM postgraduate WHERE student_id = ?");
-                student_id = pIdColumn.getCellData(postgraduateTable.getSelectionModel().getSelectedItem());
+                studentId = pIdColumn.getCellData(postgraduateTable.getSelectionModel().getSelectedItem());
             }
             
-            if(student_id == null){
+            if(studentId == null){
                 // Information message
                 alerts('I', "Message", null, "Please Select a Record");
             }else{
@@ -688,7 +676,7 @@ public class StudentController implements Initializable {
                 alert.showAndWait();
                 
                 if(alert.getResult().getText().equals("OK")){
-                    ps.setString(1, student_id);
+                    ps.setString(1, studentId);
                     ps.executeUpdate();
                 }else{
                     ps.setString(1, null);
@@ -702,7 +690,7 @@ public class StudentController implements Initializable {
         }
     }
     
-    // Switch to the more details/update pane
+    // Switch to the more details/update view
     public void moreDetails(){
         PreparedStatement ps;
         ResultSet rs;
@@ -744,8 +732,8 @@ public class StudentController implements Initializable {
                 qualificationsAnchorPane.setVisible(false);
             
                 fillTextFields();
-            }catch(Exception e){
-                e.printStackTrace();
+            }catch(SQLException e){
+                // Error message
                 alerts('E', "Message", null, "Please select a student");
             }
             
@@ -780,7 +768,8 @@ public class StudentController implements Initializable {
                 alResultAnchorPane.setVisible(false);
 
                 fillTextFields();
-            }catch(Exception e){
+            }catch(SQLException e){
+                // Error message
                 alerts('E', "Message", null, "Please select a student");
             }
         }  
@@ -788,7 +777,6 @@ public class StudentController implements Initializable {
   
     // Fill text fields
     public void fillTextFields(){
-
         studentIdText2.setText(id);
         nameTextField.setText(name);
         addressLine1TextField.setText(addressLine1);
@@ -837,7 +825,6 @@ public class StudentController implements Initializable {
 
     // Update students' details
     public void updateStudentsDetails() throws SQLException{
-        
         PreparedStatement ps;
         String query = null;
         
@@ -859,6 +846,7 @@ public class StudentController implements Initializable {
             ps.executeUpdate();
 
             editbuttonClicked = 0;
+            // Information message
             alerts('I', "Message", null, "Details updated successfully");
         }
         studentHomeAnchorPane.setVisible(true);
@@ -866,7 +854,7 @@ public class StudentController implements Initializable {
         enableOrDisableTextFields(false);  
     }
     
-    // Back to student pane
+    // Back to student view
     public void backToStudent(MouseEvent event){
         studentHomeAnchorPane.setVisible(true);
         
@@ -880,7 +868,6 @@ public class StudentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         try {
             con = dbConnection.getConnection();
         } catch (ClassNotFoundException ex) {
@@ -890,63 +877,62 @@ public class StudentController implements Initializable {
         // Default view is undergraduate
         selectTabU();
 
-        s01OpSubject1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        sem1OpSubject1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 creditListenerBody(newValue, 1);
-                s01OpSubject1.setMouseTransparent(true);
+                sem1OpSubject1.setMouseTransparent(true);
             } 
         });
-        s01OpSubject2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        sem1OpSubject2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 creditListenerBody(newValue, 1);
-                s01OpSubject2.setMouseTransparent(true);
+                sem1OpSubject2.setMouseTransparent(true);
             } 
         });
-        s01OpSubject3.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        sem1OpSubject3.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 creditListenerBody(newValue, 1);
-                s01OpSubject3.setMouseTransparent(true);
+                sem1OpSubject3.setMouseTransparent(true);
             } 
         });
-        s01OpSubject4.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        sem1OpSubject4.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 creditListenerBody(newValue, 1);
-                s01OpSubject4.setMouseTransparent(true);
+                sem1OpSubject4.setMouseTransparent(true);
             } 
         });
         
-        s02OpSubject1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        sem2OpSubject1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 creditListenerBody(newValue, 2);
-                s02OpSubject1.setMouseTransparent(true);
+                sem2OpSubject1.setMouseTransparent(true);
             } 
         });
-        s02OpSubject2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        sem2OpSubject2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 creditListenerBody(newValue, 2);
-                s02OpSubject2.setMouseTransparent(true);
+                sem2OpSubject2.setMouseTransparent(true);
             } 
         });
-        s02OpSubject3.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        sem2OpSubject3.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 creditListenerBody(newValue, 2);
-                s02OpSubject3.setMouseTransparent(true);
+                sem2OpSubject3.setMouseTransparent(true);
             } 
         });
-        s02OpSubject4.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        sem2OpSubject4.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 creditListenerBody(newValue, 2);
-                s02OpSubject4.setMouseTransparent(true);
+                sem2OpSubject4.setMouseTransparent(true);
             } 
-        });
-        
+        }); 
     }
 }

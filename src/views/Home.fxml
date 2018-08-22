@@ -110,7 +110,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="minimizeButton" layoutX="935.0" layoutY="2.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#minimizeWindow" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #E2E6EF;" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="2.0">
+      <Pane fx:id="minimizeButtonPane" layoutX="935.0" layoutY="2.0" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMousePressed="#minimizeWindow" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #E2E6EF;" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="2.0">
          <children>
             <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                <image>

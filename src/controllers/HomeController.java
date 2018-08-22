@@ -16,7 +16,7 @@ import nsbm.NSBM;
 
 public class HomeController implements Initializable {
     
-    @FXML Pane minimizeButton;
+    @FXML Pane minimizeButtonPane;
     
     NSBM nsbm = new NSBM();
     // This function called when mouse entered to the pane
@@ -36,11 +36,11 @@ public class HomeController implements Initializable {
     
     // Minimize the window
     public void minimizeWindow(MouseEvent event){
-        Stage stage = (Stage)minimizeButton.getScene().getWindow();
+        Stage stage = (Stage)minimizeButtonPane.getScene().getWindow();
         stage.setIconified(true);
     }
     
-    // Go to the student interface
+    // Go to the student view
     public void goToStudentInterface() throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("/views/Student.fxml"));
         Stage stage = new Stage();
@@ -50,7 +50,7 @@ public class HomeController implements Initializable {
         stage.show();
     }
     
-    // Go to the staff interface
+    // Go to the staff view
     public void goToStaffInterface() throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("/views/Staff.fxml"));
         Stage stage = new Stage();
@@ -60,7 +60,7 @@ public class HomeController implements Initializable {
         stage.show();
     }
     
-    // Go to the course interface
+    // Go to the course view
     public void goToCourseInterface() throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("/views/Course.fxml"));
         Stage stage = new Stage();
@@ -70,7 +70,7 @@ public class HomeController implements Initializable {
         stage.show();
     }
     
-    // Go to the subject interface
+    // Go to the subject view
     public void goToSubjectInterface() throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("/views/Subject.fxml"));
         Stage stage = new Stage();
@@ -80,7 +80,7 @@ public class HomeController implements Initializable {
         stage.show();
     }
     
-    // Go to the result interface
+    // Go to the result view
     public void goToResultInterface() throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("/views/Result.fxml"));
         Stage stage = new Stage();
@@ -90,7 +90,7 @@ public class HomeController implements Initializable {
         stage.show();
     }
     
-    // Go to the payment interface
+    // Go to the payment view
     public void goToPaymentInterface() throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("/views/Payment.fxml"));
         Stage stage = new Stage();

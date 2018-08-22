@@ -58,17 +58,17 @@ public class ResultController implements Initializable {
     @FXML TableColumn<Postgraduate_Assesment, Integer> pgMarkColumn;
     @FXML TableColumn<Postgraduate_Assesment, String> pgATypeColumn;
     
-    // Undergraduate final result table components
+    // Undergraduate grade table components
     @FXML TableView<Undergraduate_Subjects> ugGradeTable;
     @FXML TableColumn<Undergraduate_Subjects, String> ugStudentIdColumn2;
     @FXML TableColumn<Undergraduate_Subjects, String> ugGradeColumn;
     
-    // Postgraduate final table components
+    // Postgraduate grade table components
     @FXML TableView<Postgraduate_Subjects> pgGradeTable;
     @FXML TableColumn<Postgraduate_Subjects, String> pgStudentIdColumn2;
     @FXML TableColumn<Postgraduate_Subjects, String> pgGradeColumn;
     
-    // This method will return an ObservableList of results(undergraduate)
+    // This method will return an ObservableList of assesments results[undergraduate]
     public ObservableList<Undergraduate_Assesment> getUgResults(String assignmentId){
         ObservableList<Undergraduate_Assesment> results = FXCollections.observableArrayList();
         String query;
@@ -90,7 +90,7 @@ public class ResultController implements Initializable {
         return results;
     }
     
-    // This method will return an ObservableList of results(postgraduate)
+    // This method will return an ObservableList of assesments results[postgraduate]
     public ObservableList<Postgraduate_Assesment> getPgResults(String assignmentId){
         ObservableList<Postgraduate_Assesment> results = FXCollections.observableArrayList();
         String query;
@@ -112,7 +112,7 @@ public class ResultController implements Initializable {
         return results;
     }
     
-    // This method will return an ObservableList of grades(undergraduate)
+    // This method will return an ObservableList of grades[undergraduate]
     public ObservableList<Undergraduate_Subjects> getUgFinalGrades(String subjectCode){
         ObservableList<Undergraduate_Subjects> gradeList = FXCollections.observableArrayList();
         try{
@@ -132,7 +132,7 @@ public class ResultController implements Initializable {
         return gradeList;
     }
     
-    // This method will return an ObservableList of grades(undergraduate)
+    // This method will return an ObservableList of grades[postgraduate]
     public ObservableList<Postgraduate_Subjects> getPgFinalGrades(String subjectCode){
         ObservableList<Postgraduate_Subjects> gradeList = FXCollections.observableArrayList();
         try{
@@ -152,7 +152,7 @@ public class ResultController implements Initializable {
         return gradeList;
     }
     
-    // Handle results tab of school of business
+    // View results of school of business
     public void selectBusinessResultTab(){
         faculty = 'b';
         goToComboBox.getSelectionModel().clearSelection();
@@ -161,7 +161,7 @@ public class ResultController implements Initializable {
         changeTabColors(businessResultPane, computingResultPane, engineeringResultPane, businessResultText, computingResultText, engineeringResultText);
     }
     
-    // Handle results tab of school of computing
+    // View results of school of computing
     public void selectComputingResultTab(){
         faculty = 'c';
         goToComboBox.getSelectionModel().clearSelection();
@@ -170,7 +170,7 @@ public class ResultController implements Initializable {
         changeTabColors(computingResultPane, engineeringResultPane, businessResultPane, computingResultText, engineeringResultText, businessResultText);
     }
     
-    // Handle results tab of school of engineering
+    // View results of school of engineering
     public void selectEngineeringResultTab(){
         faculty = 'e';
         goToComboBox.getSelectionModel().clearSelection();
@@ -180,18 +180,22 @@ public class ResultController implements Initializable {
     }
     
     // This method gets subject codes related to subject names
-    public void getSubjectCode() throws SQLException{
-        PreparedStatement getSubCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
-        getSubCode.setString(1, subjectComboBox.getSelectionModel().getSelectedItem().toString());
-        ResultSet subjectCodes = getSubCode.executeQuery();
-            
-        while(subjectCodes.next()){
-            subjectCode = subjectCodes.getString("subject_code");
+    public void getSubjectCode(){
+        try{
+            PreparedStatement getSubjectCode = con.prepareStatement("SELECT subject_code FROM subject WHERE subject_name=?");
+            getSubjectCode.setString(1, subjectComboBox.getSelectionModel().getSelectedItem().toString());
+            ResultSet subjectCodes = getSubjectCode.executeQuery();
+
+            while(subjectCodes.next()){
+                subjectCode = subjectCodes.getString("subject_code");
+            }
+        }catch(Exception e){
+            //e.printStackTrace();
         }
     }
     
-    // Assignment button
-    public void loadAssesmentList() throws SQLException{
+    // Load assesments
+    public void loadAssesmentList(){
         assignmentListView.getItems().clear();
         try{
             getSubjectCode();
@@ -211,45 +215,46 @@ public class ResultController implements Initializable {
                 assignmentListView.getItems().add(assignmentId);
             }
         }catch(Exception ex){
-            System.out.println("Assesment list empty");         
+            //ex.printStackTrace();        
         }
     }
     
-    // This method updates assesment tables
+    // Update assesment tables
     public void updateAssesmentTables(String newValue, char table){
         if(table == 'u'){
-            // setup columns in the undergraduate result table
+            // setup columns in the undergraduate assesment table
             ugStudentIdColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, String> ("studentId"));
             ugMarkColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, Integer> ("mark"));
             ugATypeColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Assesment, String> ("type"));
         
-            // load the data into the undergraduate result table
+            // load the data into the undergraduate assesment table
             ugAssesmentTable.setItems(getUgResults(newValue));
         }else if(table == 'p'){
-            // setup columns in the postgraduate result table
+            // setup columns in the postgraduate assesment table
             pgStudentIdColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Assesment, String> ("studentId"));
             pgMarkColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Assesment, Integer> ("mark"));
             pgATypeColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Assesment, String> ("type"));
         
-            // load the data into the postgraduate result table
+            // load the data into the postgraduate assesment table
             pgAssesmentTable.setItems(getPgResults(newValue));
         } 
     }
     
+    // Update grade tables
     public void updateGradeTables(char table){
         if(table == 'u'){
-        // Setup columns in the undergraduate grades table
+        // Setup columns in the undergraduate grade table
             ugStudentIdColumn2.setCellValueFactory(new PropertyValueFactory<Undergraduate_Subjects, String> ("subjectCode"));
             ugGradeColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Subjects, String> ("grade"));
         
-            // load the data into the undergraduate result table
+            // load the data into the undergraduate grade table
             ugGradeTable.setItems(getUgFinalGrades(subjectCode));
         }else if(table == 'p'){
-            // Setup columns in the postgraduate grades table
+            // Setup columns in the postgraduate grade table
             pgStudentIdColumn2.setCellValueFactory(new PropertyValueFactory<Postgraduate_Subjects, String> ("subjectCode"));
             pgGradeColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Subjects, String> ("grade"));
         
-            // load the data into the postgraduate result table
+            // load the data into the postgraduate grade table
             pgGradeTable.setItems(getPgFinalGrades(subjectCode));
         }     
     }
@@ -276,6 +281,7 @@ public class ResultController implements Initializable {
         String filePath = null;
         
         if(goToComboBox.getValue() == null){
+            // Information message
             alerts('I', "Message", null, "Before upload a new result sheet, you must select the related Result Center");
         }else{
             try{
@@ -291,13 +297,14 @@ public class ResultController implements Initializable {
                 if(file != null){
                     filePath = file.getAbsolutePath().replace("\\", "/");
                 }else{
-                    System.out.println("No file selected");
+                    //System.out.println("No file selected");
                     return;
                 }
 
                 if(goToComboBox.getValue() == "UNDERGRADUATE RESULT CENTER"){
                     if(event.getTarget() == gradeButton){
                         if(updateGrades("undergraduate_subject", filePath) == 0){
+                            // Error message
                             alerts('E', "Message", null, "Wrong file");
                             return;
                         }
@@ -311,6 +318,7 @@ public class ResultController implements Initializable {
                 }else if(goToComboBox.getValue() == "POSTGRADUATE RESULT CENTER"){
                     if(event.getTarget() == gradeButton){
                         if(updateGrades("postgraduate_subject", filePath) == 0){
+                            // Error message
                             alerts('E', "Message", null, "Wrong file");
                             return;
                         }
@@ -322,11 +330,12 @@ public class ResultController implements Initializable {
                         loadAssesmentList();
                     } 
                 }
+                // Information message
                 alerts('I', "Message", null, "New Result Sheet Uploaded");
   
             }catch(SQLException ex){
                 ex.printStackTrace();
-                System.out.println(ex.getErrorCode());
+                //System.out.println(ex.getErrorCode());
                 if(ex.getErrorCode() == 1062){
                     alerts('E', "Message", null, "This result sheet consist with already uploaded marks");
                 }else if(ex.getErrorCode() == 1452 || ex.getErrorCode() == 1261){
@@ -429,8 +438,8 @@ public class ResultController implements Initializable {
                         pgGradeTable.setVisible(true);
                         ugGradeTable.setVisible(false);
                     }
-                }catch(SQLException ex){
-                    //ex.printStackTrace();
+                }catch(Exception ex){
+                    ex.printStackTrace();
                 }
             }
         });
@@ -451,34 +460,25 @@ public class ResultController implements Initializable {
                         subjectComboBox.getItems().addAll(subjectName);
                     } 
                 } catch (Exception ex) {
-                    System.out.println("Error: Caused by null value");
-                    //Logger.getLogger(ResultController.class.getName()).log(Level.SEVERE, null, ex);
+                    //ex.printStackTrace();
                 } 
             } 
         });
         
-        // Listening to Subejct Combo Box
+        // Listening to Subject Combo Box
         subjectComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    assignmentListView.getItems().clear();
-                    loadAssesmentList();
-
-                    if(goToComboBox.getSelectionModel().getSelectedItem() == "UNDERGRADUATE RESULT CENTER"){
-                        updateGradeTables('u');
-                    }else if(goToComboBox.getSelectionModel().getSelectedItem() == "POSTGRADUATE RESULT CENTER"){
-                        updateGradeTables('p');
-                    }           
-                    
-                    ugAssesmentTable.getItems().clear();
-                    pgAssesmentTable.getItems().clear();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ResultController.class.getName()).log(Level.SEVERE, null, ex);
+                assignmentListView.getItems().clear();
+                loadAssesmentList();
+                if(goToComboBox.getSelectionModel().getSelectedItem() == "UNDERGRADUATE RESULT CENTER"){
+                    updateGradeTables('u');
+                }else if(goToComboBox.getSelectionModel().getSelectedItem() == "POSTGRADUATE RESULT CENTER"){
+                    updateGradeTables('p');
                 }
-            }
-             
+                ugAssesmentTable.getItems().clear();
+                pgAssesmentTable.getItems().clear();
+            }           
         });
-
     } 
 }

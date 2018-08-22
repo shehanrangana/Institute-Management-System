@@ -28,7 +28,6 @@ import static nsbm.NSBM.alerts;
 
 public class StudentRegistrationController implements Initializable {
     
-    // Initialize variable for connection
     private Connection con;
 
     @FXML AnchorPane stdRegAnchorPane;
@@ -84,7 +83,7 @@ public class StudentRegistrationController implements Initializable {
         }
     }
     
-    // check the inputs
+    // Check the inputs
     public boolean checkInputs(){
         if(studentIdTextField.getText().isEmpty() || initialsTextField.getText().isEmpty() || firstNameTextField.getText().isEmpty() || lastNameTextField.getText().isEmpty()
                 || addressLine1TextField.getText().isEmpty() || addressLine2TextField.getText().isEmpty() || birthdayDatePicker == null || genderComboBox == null || emailTextField.getText().isEmpty()
@@ -107,7 +106,7 @@ public class StudentRegistrationController implements Initializable {
         }
     }
     
-    // Upload newly student's details into the database
+    // Insert newly student's details into the database
     public void registerButtonPressed(ActionEvent event) throws IOException{
         if(checkInputs()){
             try {
@@ -135,8 +134,7 @@ public class StudentRegistrationController implements Initializable {
                     qualifications_ps = con.prepareStatement("INSERT INTO qualifications(student_id, qualification_type, institute, completion_year)"
                             + "VALUES(?,?,?,?)");
                 }
-                
-                // Get values for graduate table
+
                 ps.setString(1, studentIdTextField.getText());
                 ps.setString(2, initialsTextField.getText());
                 ps.setString(3, firstNameTextField.getText());
@@ -158,52 +156,51 @@ public class StudentRegistrationController implements Initializable {
 
                 ps.executeUpdate();
                 
-                // Get values for a/l result table
                 if(stdTypeComboBox.getValue().toString() == "Undergraduate"){
-                alResult_ps.setString(1, studentIdTextField.getText());
-                alResult_ps.setString(2, streamComboBox.getValue().toString());
-                alResult_ps.setString(3, subject1TextField.getText());
-                alResult_ps.setString(4, result1TextField.getText());
-                alResult_ps.setString(5, subject2TextField.getText());
-                alResult_ps.setString(6, result2TextField.getText());
-                alResult_ps.setString(7, subject3TextField.getText());
-                alResult_ps.setString(8, result3TextField.getText());
-                alResult_ps.setString(9, rankTextField.getText());
-                alResult_ps.setString(10, zScoreTextField.getText());
+                    alResult_ps.setString(1, studentIdTextField.getText());
+                    alResult_ps.setString(2, streamComboBox.getValue().toString());
+                    alResult_ps.setString(3, subject1TextField.getText());
+                    alResult_ps.setString(4, result1TextField.getText());
+                    alResult_ps.setString(5, subject2TextField.getText());
+                    alResult_ps.setString(6, result2TextField.getText());
+                    alResult_ps.setString(7, subject3TextField.getText());
+                    alResult_ps.setString(8, result3TextField.getText());
+                    alResult_ps.setString(9, rankTextField.getText());
+                    alResult_ps.setString(10, zScoreTextField.getText());
                     
-                alResult_ps.executeUpdate();
+                    alResult_ps.executeUpdate();
                 }
-                
-                // Get values for qualifications table
+
                 if(stdTypeComboBox.getValue().toString() == "Postgraduate"){
-                qualifications_ps.setString(1, studentIdTextField.getText());
-                qualifications_ps.setString(2, qualificationTextField.getText());
-                qualifications_ps.setString(3, instituteTextField.getText());
-                qualifications_ps.setString(4, compYearTextField.getText());
-                
-                qualifications_ps.executeUpdate();
+                    qualifications_ps.setString(1, studentIdTextField.getText());
+                    qualifications_ps.setString(2, qualificationTextField.getText());
+                    qualifications_ps.setString(3, instituteTextField.getText());
+                    qualifications_ps.setString(4, compYearTextField.getText());
+
+                    qualifications_ps.executeUpdate();
                 }
                 
-                // Successfully data entered message
+                // Information message
                 alerts('I', "Message", null, "Data inserted");   
                 backToStudent();
                 
             } catch (SQLException ex) {
+                // Information message
                 alerts('I', "Message", null, "Entered ID already in database");   
             }
-            
         }else{
+            // Information message
             alerts('I', "Message", null, "One or more fields are empty");
         }
     }
     
-    // Back to student pane
+    // Back to student view
     public void backToStudent() throws IOException{
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/views/Student.fxml"));
         stdRegAnchorPane.getChildren().setAll(pane);
     }
     
-    // Fill faculty ComboBox with database values
+    // Add faculty names to combo box
     public void fillComboBoxWithFacultyNames(){
         //facultyComboBox.getItems().clear();
         try {
@@ -214,19 +211,16 @@ public class StudentRegistrationController implements Initializable {
             while (rs.next()) {
                 String fName = rs.getString("faculty_name");
                 facultyComboBox.getItems().addAll(fName);
-                System.out.println(fName);
-            }
-            
+            } 
         }catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
     
-    // Fill courses ComboBox with database values
+    // Add courses names to combo box
     private String coursesQuery = "";
     private int stdTypeIndex = 0;
     public void fillComboBoxWithCoursesNames(){
-        
         // Check the student type using stdTypeComboBox
         stdTypeComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -240,7 +234,6 @@ public class StudentRegistrationController implements Initializable {
                     stdTypeIndex = 1;
                 }
             }
-            
         });
 
         // Check the faculty using facultyComboBox

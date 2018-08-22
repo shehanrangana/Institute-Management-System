@@ -56,9 +56,9 @@ public class PaymentController implements Initializable {
     @FXML Text studentIdText, semIdText, amountText;
    
     
-    // This method will return an ObservableList of payment details
+    // This method will return an ObservableList of payment details[undergraduate]
     public ObservableList<Undergraduate_Semester> getUgPaymentDetails(){
-        ObservableList<Undergraduate_Semester> pendingList = FXCollections.observableArrayList();
+        ObservableList<Undergraduate_Semester> paymentList = FXCollections.observableArrayList();
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -69,18 +69,18 @@ public class PaymentController implements Initializable {
             
             while(rs.next()){
                 payment = new Undergraduate_Semester(rs.getString("semester_id"), rs.getString("student_id"), rs.getDouble("amount"), rs.getString("status"), rs.getString("pay_date"));
-                pendingList.add(payment);
+                paymentList.add(payment);
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(PaymentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return pendingList;
+        return paymentList;
     }
     
-    // This method will return an ObservableList of payment details
+    // This method will return an ObservableList of payment details[postgraduate]
     public ObservableList<Postgraduate_Semester> getPgPaymentDetails(){
-        ObservableList<Postgraduate_Semester> pendingList = FXCollections.observableArrayList();
+        ObservableList<Postgraduate_Semester> paymentList = FXCollections.observableArrayList();
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -91,15 +91,16 @@ public class PaymentController implements Initializable {
             
             while(rs.next()){
                 payment = new Postgraduate_Semester(rs.getString("semester_id"), rs.getString("student_id"), rs.getDouble("amount"), rs.getString("status"), rs.getString("pay_date"));
-                pendingList.add(payment);
+                paymentList.add(payment);
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(PaymentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return pendingList;
+        return paymentList;
     }
     
+    // Load undergraduate payment table
     public void fillUgTable(){
         // setup columns in the uTable
         uSemIdColumn.setCellValueFactory(new PropertyValueFactory<Undergraduate_Semester, String> ("semesterId"));
@@ -112,6 +113,7 @@ public class PaymentController implements Initializable {
         uTable.setItems(getUgPaymentDetails());
     }
     
+    // Load postgraduate payment table
     public void fillPgTable(){
         // setup columns in the uTable
         pSemIdColumn.setCellValueFactory(new PropertyValueFactory<Postgraduate_Semester, String> ("semesterId"));
@@ -157,7 +159,7 @@ public class PaymentController implements Initializable {
         }catch(Exception ex){}
     }
     
-    // Doing payments
+    // Accept payments
     public void payButtonPressed() throws SQLException{
         PreparedStatement ps = null;
         if(table == 'u'){
@@ -173,6 +175,7 @@ public class PaymentController implements Initializable {
         ps.setString(3, studentIdText.getText());
         ps.executeUpdate();
         
+        // Information message
         alerts('I', "Message", null, "Database Updated");
         fillUgTable();
         fillPgTable();
@@ -219,7 +222,7 @@ public class PaymentController implements Initializable {
                     return true;
                 }
 
-                // Compare student id of every undergraduate student with filter text.
+                // Compare student id of every postgraduate student with filter text.
                 String upperCaseFilter = newValue.toUpperCase();
 
                 if (student.getStudentId().contains(upperCaseFilter)) {

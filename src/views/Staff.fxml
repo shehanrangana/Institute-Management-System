@@ -74,7 +74,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <JFXButton fx:id="addMemberButton" layoutX="273.0" layoutY="610.0" onAction="#addMemberButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="Add new member" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="273.0">
+            <JFXButton fx:id="addMemberButton" layoutX="273.0" layoutY="610.0" onAction="#addMemberButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="Add New Member" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="273.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -84,7 +84,7 @@
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="moreDetailsButton" layoutX="695.0" layoutY="610.0" onMousePressed="#moreDetailsButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="More details" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="273.0">
+            <JFXButton fx:id="moreDetailsButton" layoutX="695.0" layoutY="610.0" onMousePressed="#moreDetailsButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="More Details" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="273.0">
                <font>
                   <Font size="15.0" />
                </font>

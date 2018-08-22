@@ -27,7 +27,7 @@ public class StaffRegistrationController implements Initializable {
     @FXML JFXComboBox memberTypeComboBox;
     @FXML JFXTextField staffIdTextField, nameTextField, mobileTextField, emailTextField, addressLine1TextField, addressLine2TextField, addressLine3TextField, roomTextField;
             
-    // check the inputs
+    // Check inputs
     public boolean checkInputs(){
         if(memberTypeComboBox.getValue() != null){
             if(staffIdTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || mobileTextField.getText().isEmpty() || emailTextField.getText().isEmpty()
@@ -54,7 +54,6 @@ public class StaffRegistrationController implements Initializable {
                     ps = con.prepareStatement("INSERT INTO instructor(instructor_id, name, mobile, email, address_line_1, address_line_2, address_line_3, room)" + "VALUES(?,?,?,?,?,?,?,?)");  
                 }
                 
-                // Get values for graduate table
                 ps.setString(1, staffIdTextField.getText());
                 ps.setString(2, nameTextField.getText());
                 ps.setString(3, mobileTextField.getText());
@@ -66,19 +65,21 @@ public class StaffRegistrationController implements Initializable {
 
                 ps.executeUpdate();
                 
-                // Successfully data entered message
+                // Information message
                 alerts('I', "Message", null, "Data inserted");   
                 backToStaffButtonPressed();
                 
             } catch (SQLException ex) {
+                // Information message
                 alerts('I', "Message", null, "Entered ID already in database");   
             }      
         }else{
+            // Information message
             alerts('I', "Message", null, "One or more fields are empty");
         }
     }
     
-    // Back to student pane
+    // Back to student view
     public void backToStaffButtonPressed() throws IOException{
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/views/Staff.fxml"));
         addMemberAnchorPane.getChildren().setAll(pane);

@@ -34,7 +34,6 @@ import static nsbm.NSBM.changeTabColors;
 
 public class CourseController implements Initializable {
     
-    // Initialize variable for connection
     private Connection con;
 
     @FXML AnchorPane bachelorAnchorPane, masterAnchorPane, courseHomeAnchorPane, addNewCourseAnchorPane;
@@ -55,7 +54,7 @@ public class CourseController implements Initializable {
     @FXML TableColumn<MasterCourses, Integer> mCreditLimitColumn;
     @FXML TableColumn<MasterCourses, String> mFacultyColumn;
     
-    // Add new course components
+    // Add new course view components
     @FXML JFXTextField courseNameTextField, durationTextField, creditLimitTextField;
     @FXML JFXComboBox facultyComboBox;
     @FXML JFXButton saveCourseButton;
@@ -82,7 +81,6 @@ public class CourseController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(CourseController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return coursesList;
     }
     
@@ -111,35 +109,35 @@ public class CourseController implements Initializable {
         return coursesList;
     }
 
-    // Handle bachelor tab
+    // View bachelor courses
     public void selectBachelorTab(){
-        // setup columns in the postgraduate table
+        // setup columns in the bachelor table
         bCourseNameColumn.setCellValueFactory(new PropertyValueFactory<BachelorCourses, String> ("courseName"));
         bDurationColumn.setCellValueFactory(new PropertyValueFactory<BachelorCourses, Integer> ("duration"));
         bCreditLimitColumn.setCellValueFactory(new PropertyValueFactory<BachelorCourses, Integer> ("creditLimit"));
         bFacultyColumn.setCellValueFactory(new PropertyValueFactory<BachelorCourses, String> ("facultyName"));
         
-        // load the data into the postgraduate table
+        // load data into the bachelor table
         bachelorTable.setItems(getBachelorCourses());
         
         changeTabColors(bachelorPane, masterPane, bachelorText, masterText, bachelorAnchorPane, masterAnchorPane);
     }
     
-    // Handle master tab
+    // View master courses
     public void selectMasterTab(){
-        // setup columns in the postgraduate table
+        // setup columns in the master table
         mCourseNameColumn.setCellValueFactory(new PropertyValueFactory<MasterCourses, String> ("courseName"));
         mDurationColumn.setCellValueFactory(new PropertyValueFactory<MasterCourses, Integer> ("duration"));
         mCreditLimitColumn.setCellValueFactory(new PropertyValueFactory<MasterCourses, Integer> ("creditLimit"));
         mFacultyColumn.setCellValueFactory(new PropertyValueFactory<MasterCourses, String> ("facultyName"));
         
-        // load the data into the postgraduate table
+        // load data into the master table
         masterTable.setItems(getMasterCourses());
         
         changeTabColors(masterPane, bachelorPane, masterText, bachelorText, masterAnchorPane, bachelorAnchorPane);
     }
     
-    // Fill faculty ComboBox with database values
+    // Add faculty names to combo box
     public void fillComboBoxWithFacultyNames(){
         //facultyComboBox.getItems().clear();
         try {
@@ -156,7 +154,7 @@ public class CourseController implements Initializable {
         }
     }
     
-    // Switch to the add new course pane
+    // Switch to the add new course
     public void addCourseButtonPressed(){
         courseNameTextField.clear();
         durationTextField.clear();
@@ -166,13 +164,9 @@ public class CourseController implements Initializable {
         addNewCourseAnchorPane.setVisible(true);
         courseHomeAnchorPane.setVisible(false);
         fillComboBoxWithFacultyNames();
-        
-        // Fill faculty combo box
-//        StudentRegistrationController src = new StudentRegistrationController();
-//        src.fillComboBoxWithFacultyNames(facultyComboBox);
     }
     
-    // Update tables
+    // Synchronize tables
     public void updateTables(){
         bachelorTable.setItems(null);
         bachelorTable.setItems(getBachelorCourses());
@@ -193,7 +187,6 @@ public class CourseController implements Initializable {
             }else if(toogleValue.equals("Master")){
                 ps = con.prepareStatement("INSERT INTO master(course_name, duration, credit_limit, faculty)" + "VALUES(?,?,?,?)");
             }
-            // Get values for graduate table
             ps.setString(1, courseNameTextField.getText());
             ps.setInt(2, Integer.parseInt(durationTextField.getText()));
             ps.setInt(3, Integer.parseInt(creditLimitTextField.getText()));
@@ -204,29 +197,29 @@ public class CourseController implements Initializable {
             
             // Back to courses view
             backToCourseButtonPressed();
-        }catch(Exception e){
+        }catch(NumberFormatException | SQLException e){
              // Error message
-            alerts('E', "Message", null, "Please fill all the fields");
+            alerts('E', "Message", null, "Please fill all the fields correctly");
         } 
     }
     
     // Delete a record
     public void removeCourseButtonPressed() throws SQLException{
         PreparedStatement ps = null;
-        String course_name = null;
+        String courseName = null;
         try{
             // Check whether course which is going to be deleted is a bachelor or master
             if(bachelorAnchorPane.isVisible()){
                 ps = con.prepareStatement("DELETE FROM bachelor WHERE course_name = ?");
-                course_name = bCourseNameColumn.getCellData(bachelorTable.getSelectionModel().getSelectedItem());
+                courseName = bCourseNameColumn.getCellData(bachelorTable.getSelectionModel().getSelectedItem());
             }else if(masterAnchorPane.isVisible()){
                 ps = con.prepareStatement("DELETE FROM master WHERE course_name = ?");
-                course_name = mCourseNameColumn.getCellData(masterTable.getSelectionModel().getSelectedItem());
+                courseName = mCourseNameColumn.getCellData(masterTable.getSelectionModel().getSelectedItem());
             }
             
-            if(course_name == null){
+            if(courseName == null){
                 // Inform message
-                alerts('I', "Message", null, "Please select a record");
+                alerts('I', "Message", null, "Please select a course");
             }else{
                  // Confirmation message
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -236,7 +229,7 @@ public class CourseController implements Initializable {
                 alert.showAndWait();
                 
                 if(alert.getResult().getText().equals("OK")){
-                    ps.setString(1, course_name);
+                    ps.setString(1, courseName);
                     ps.executeUpdate();
                 }else{
                     ps.setString(1, null);
@@ -246,11 +239,12 @@ public class CourseController implements Initializable {
             updateTables();
 
         }catch(SQLException e){
+            // Error message
             alerts('E', "Message", null, "Cannot remove selected course.\nSome students are currently following this course.");
         }
     }
     
-    // Back to courses pane
+    // Back to courses view
     public void backToCourseButtonPressed(){
         courseHomeAnchorPane.setVisible(true);
         addNewCourseAnchorPane.setVisible(false);

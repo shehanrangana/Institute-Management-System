@@ -36,8 +36,7 @@ import static nsbm.NSBM.alerts;
 import static nsbm.NSBM.changeTabColors;
 
 public class StaffController implements Initializable {
-    
-    // Initialize variable for connection
+
     private Connection con;
     
     @FXML Pane lecturerPane, instructorPane;
@@ -67,7 +66,7 @@ public class StaffController implements Initializable {
     @FXML TableColumn<Instructor, String> iAddressLine2Column;
     @FXML TableColumn<Instructor, String> iAddressLine3Column;
     
-    // More details view componenets
+    // More details view components
     @FXML AnchorPane assignAnchorPane;
     @FXML JFXComboBox courseComboBox, subjectComboBox;
     @FXML JFXTextField idTextField, nameTextField, mobileTextField, emailTextField, addressLine1TextField, addressLine2TextField, addressLine3TextField, roomTextField;
@@ -125,7 +124,7 @@ public class StaffController implements Initializable {
         return instructorList;
     }
     
-    // Handle lecturer tab
+    // View lecturer table
     public void selectLecturerTab(){  
         // setup columns in the lecturer table
         lecturerIdColumn.setCellValueFactory(new PropertyValueFactory<Lecturer, String> ("staffId"));
@@ -144,7 +143,7 @@ public class StaffController implements Initializable {
         
     }
     
-    // Handle instructor tab
+    // View instructor table
     public void selectInstructorTab(){
         // setup columns in the instructor table
         instructorIdColumn.setCellValueFactory(new PropertyValueFactory<Instructor, String> ("staffId"));
@@ -162,7 +161,7 @@ public class StaffController implements Initializable {
         changeTabColors(instructorPane, lecturerPane, instructorText, lecturerText, instructorAnchorPane, lecturerAnchorPane);
     }
     
-    // Switch to add new staff member pane
+    // Switch to add new staff member view
     public void addMemberButtonPressed() throws IOException{
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/views/StaffRegistration.fxml"));
         staffAnchorPane.getChildren().setAll(pane); 
@@ -192,8 +191,8 @@ public class StaffController implements Initializable {
             }
             
             if(memberId == null){
-                // Inform message
-                alerts('I', "Message", null, "Please select a record");
+                // Information message
+                alerts('I', "Message", null, "Please select a member");
             }else{
                  // Confirmation message
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -217,7 +216,7 @@ public class StaffController implements Initializable {
         }
     }
     
-    // Switch to the more details/update pane
+    // Switch to the more details/update view
     public void moreDetailsButtonPressed(){
         subjectListView.getItems().clear();   
         PreparedStatement ps = null;
@@ -258,8 +257,9 @@ public class StaffController implements Initializable {
 
             detailsAndUpdateAnchorPane.setVisible(true);
             staffHomeAnchorPane.setVisible(false);
-        }catch(Exception ex){
-            //ex.printStackTrace();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            // Error message
             alerts('E', "Message", null, "Please select a member");
         }
     }
@@ -286,7 +286,7 @@ public class StaffController implements Initializable {
         roomTextField.setEditable(value);
     }
     
-    // Set combo box with courses names
+    // Add courses names to combo box
     public void getSubjectList(){
         ArrayList<String> courseList = new ArrayList<String>();
         
@@ -334,7 +334,7 @@ public class StaffController implements Initializable {
         }
     }
     
-    // Assign subjects
+    // Visible subject assign pane
     public void assignSubjectButtonPressed(){
         assignAnchorPane.setVisible(true);
         getSubjectList();
@@ -369,13 +369,13 @@ public class StaffController implements Initializable {
         }
     }
     
-    // Cancel assign process
+    // Cancel assigning process
     public void cancelButtonPressed(){
         assignAnchorPane.setVisible(false);
     }
     
     
-    // Back to staff pane
+    // Back to staff view
     public void backToStaffButtonPressed(){
         enableOrDisableTextFields(false);
         assignAnchorPane.setVisible(false);
@@ -413,6 +413,7 @@ public class StaffController implements Initializable {
             ps.executeUpdate();
             
             editbuttonClicked = 0;
+            // Information message
             alerts('I', "Message", null, "Details updated successfully");
         }
         enableOrDisableTextFields(false);

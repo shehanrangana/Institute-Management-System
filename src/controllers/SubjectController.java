@@ -36,8 +36,7 @@ import static nsbm.NSBM.alerts;
 import static nsbm.NSBM.changeTabColors;
 
 public class SubjectController implements Initializable {
-    
-    // Initialize variable for
+
     private Connection con;
     
     // These variables for check the faculty and courses types
@@ -69,7 +68,7 @@ public class SubjectController implements Initializable {
     @FXML JFXComboBox subTypeComboBox, courseComboBox, lecturerComboBox, instructorComboBox;
     @FXML JFXCheckBox compulsoryCheckBox;
     
-    // This method will return an ObservableList lecturers
+    // This method will return an ObservableList of subjects
     public ObservableList<Subjects> getSubjectList(){
         String query = null;
         ObservableList<Subjects> subjectList = FXCollections.observableArrayList();
@@ -99,8 +98,7 @@ public class SubjectController implements Initializable {
             default:
                 break;
         }
-        
-        
+
         Statement st;
         ResultSet rs;
         
@@ -118,7 +116,6 @@ public class SubjectController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return subjectList;
     }
     
@@ -139,7 +136,7 @@ public class SubjectController implements Initializable {
         subjectTable.setItems(getSubjectList());
     }
     
-    // Handle school of business tab
+    // View business faculty subjects
     public void selectBusinessTab(){
         school = 'b';
         fillColumns();
@@ -147,7 +144,7 @@ public class SubjectController implements Initializable {
         changeTabColors(businessPane, computingPane, engineeringPane, businessText, computingText, engineeringText);
     }
     
-    // Handle school of computing tab
+    // View computing faculty subjects
     public void selectComputingTab(){
         school = 'c';
         fillColumns();
@@ -155,7 +152,7 @@ public class SubjectController implements Initializable {
         changeTabColors(computingPane, businessPane, engineeringPane, computingText, businessText, engineeringText);
     }
     
-    // Handle school of engineering tab
+    // View engineering faculty subjects
     public void selectEngineeringTab(){
         school = 'e';
         fillColumns();
@@ -163,7 +160,7 @@ public class SubjectController implements Initializable {
         changeTabColors(engineeringPane, businessPane, computingPane, engineeringText, businessText, computingText);
     }
     
-    // Fill course ComboBox with database values
+    // Add courses names to combo box
     public void fillComboBoxWithCoursesNames(){
         // Check the subject type using subTypeComboBox
         subTypeComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -188,11 +185,10 @@ public class SubjectController implements Initializable {
                     Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
         }); 
     }
     
-    // Fill lecture ComboBox with database values
+    // Add lecturer id to combo box
     public void loadLecturers(){
         lecturerComboBox.getItems().clear();
         try {
@@ -208,7 +204,7 @@ public class SubjectController implements Initializable {
         }
     }
     
-    // Switch to the add new subject pane
+    // Switch to the add new subject view
     public void addNewSubjectButtonPressed(){
         loadLecturers();
         
@@ -230,7 +226,6 @@ public class SubjectController implements Initializable {
             }else if(subTypeComboBox.getValue().toString() == "Master Subject"){
                 ps = con.prepareStatement("INSERT INTO subject(subject_code, subject_name, compulsory, allocated_time, fee, credit, duration, location, year_semester, m_course_name, lecturer_id)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             }
-            // Get values for subject table
             ps.setString(1, subCodeTextField.getText());
             ps.setString(2, subNameTextField.getText());
             ps.setByte(3, compulsory);
@@ -257,11 +252,11 @@ public class SubjectController implements Initializable {
         }
     }
     
-    // Switch to the time allocate pane
-    public void timeAllocateButtonPressed(){
-        timeAllocationAnchorPane.setVisible(true);
-        subjectHomeAnchorPane.setVisible(false);
-    }
+//    // Switch to the time allocate view
+//    public void timeAllocateButtonPressed(){
+//        timeAllocationAnchorPane.setVisible(true);
+//        subjectHomeAnchorPane.setVisible(false);
+//    }
     
     // Remove a subject from the system
     public void subjectRemoveButtonPressed(){
@@ -273,7 +268,7 @@ public class SubjectController implements Initializable {
             subjectCode = subjectCodeColumn.getCellData(subjectTable.getSelectionModel().getSelectedItem());
 
             if(subjectCode == null){
-                // Inform message
+                // Information message
                 alerts('I', "Message", null, "Please select a record");
             }else{
                  // Confirmation message
@@ -292,13 +287,12 @@ public class SubjectController implements Initializable {
                     ps.executeUpdate();
                 }
             }
-
         }catch(SQLException e){
             alerts('E', "Message", null, "Cannot remove selected subject.\nSome students are currently studying this subject.");
         }
     }
     
-    // Back to subjects pane
+    // Back to subjects view
     public void backToSubjectButtonPressed(MouseEvent event){
         subjectHomeAnchorPane.setVisible(true);
         
@@ -337,7 +331,5 @@ public class SubjectController implements Initializable {
         // Initialize items for combo boxes
         subTypeComboBox.getItems().addAll("Bachelor Subject", "Master Subject");
         fillComboBoxWithCoursesNames();
-        
     }    
-    
 }

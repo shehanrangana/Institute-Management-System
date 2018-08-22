@@ -48,12 +48,12 @@
             </Pane>
             <AnchorPane fx:id="subjectTableAnchorPane" prefHeight="550.0" prefWidth="1156.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <TableView fx:id="subjectTable" editable="true" layoutY="28.0" prefHeight="522.0" prefWidth="1156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="subjectTable" editable="true" layoutY="28.0" prefHeight="522.0" prefWidth="1156.0" stylesheets="@../res/modena.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="subjectCodeColumn" prefWidth="100.0" resizable="false" text="Subject Code" />
-                        <TableColumn fx:id="subjectNameColumn" prefWidth="180.0" text="Subject Name" />
-                        <TableColumn fx:id="alloTimeColumn" prefWidth="112.15164184570312" text="Allocated Time (H)" />
-                        <TableColumn fx:id="feeColumn" prefWidth="82.14022827148438" text="Fee" />
+                        <TableColumn fx:id="subjectNameColumn" prefWidth="174.0" text="Subject Name" />
+                        <TableColumn fx:id="alloTimeColumn" prefWidth="110.0" text="Allocated Time (H)" />
+                        <TableColumn fx:id="feeColumn" prefWidth="92.0" text="Fee" />
                         <TableColumn fx:id="creditColumn" prefWidth="58.55059814453125" text="Credit" />
                         <TableColumn fx:id="complusoryColumn" prefWidth="93.0" text="Compulsory" />
                         <TableColumn fx:id="durationColumn" prefWidth="94.0" text="Duration (H)" />
@@ -76,7 +76,7 @@
                   <Font size="16.0" />
                </font>
             </JFXRadioButton>
-            <JFXButton fx:id="addSubjectButton" layoutX="362.0" layoutY="610.0" onAction="#addNewSubjectButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="Add a New Subject" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="362.0">
+            <JFXButton fx:id="addSubjectButton" layoutX="362.0" layoutY="610.0" onAction="#addNewSubjectButtonPressed" prefHeight="31.0" prefWidth="190.0" style="-fx-background-color: #468AC9; -fx-background-radius: 0;" text="Add New Subject" textFill="WHITE" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="362.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -92,7 +92,7 @@
          <children>
             <Pane prefHeight="50.0" prefWidth="1156.0" style="-fx-background-color: #EBEBEB;">
                <children>
-                  <Text fill="#505050" layoutX="457.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a New Subject">
+                  <Text fill="#505050" layoutX="468.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Subject">
                      <font>
                         <Font name="Segoe UI Semibold" size="28.0" />
                      </font>
